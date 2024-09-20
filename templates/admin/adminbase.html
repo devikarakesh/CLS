@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <style>
+    * {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+   body {
+        background: url("D:\ssk.png") no-repeat;
+    background-size: cover;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.navbar .logo {
+  display: flex;
+  align-items: center;
+  height: auto;
+}
+
+.navbar .logo img {
+  height: 30px; 
+  width: 30px; 
+  border-radius: 50%; 
+  border: 2px solid white; 
+  object-fit: cover; 
+}
+
+.navbar .logo h1 {
+  margin: 10px;
+  font-size: 20px;
+}
+
+.navbar .logout {
+  font-size: 18px;
+  cursor: pointer;
+  color: white;
+  background-color: #444;
+  border: none;
+  padding: 10px 50px;
+  margin-right: 60px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.navbar .logout:hover {
+  background-color: #555;
+}
+
+.sidebar {
+  height: calc(100vh - 50px); 
+  width: 250px;
+  background-color: #333;
+  position: fixed;
+  top: 50px; 
+  padding-top: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+}
+
+.sidebar .menu-item {
+  width: 80%;
+  background-color: #444;
+  margin: 10px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: background-color 0.3s;
+  text-align: center;
+}
+
+.sidebar .menu-item:hover {
+  background-color: #575757;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.sidebar .icon {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  width: 300px;
+  text-align: center;
+  border-radius: 8px;
+  max-height: 80vh; 
+}
+
+.popup h2 {
+  margin-top: 0;
+}
+
+.popup textarea {
+  width: 100%;
+  height: 100px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.popup button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px; 
+  border-radius: 4px;
+}
+
+.popup button:hover {
+  background-color: #45a049;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.r{
+
+    margin-top: 200px;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <div class="logo">
+      <img src="https://www.devagiricollege.org/uploads/btn/496704330_575023089.png" alt="CollegeLogo"> <!-- Replace with your logo image -->
+      <h1>St.Joseph's College(AUTONOMOUS)Devagiri</h1>
+    </div>
+    <a href="{% url 'logout' %}"><button class="logout" onclick="logout()">Logout</button></a>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="menu-item" id="notificationBtn">
+      <i class="material-icons icon">notifications</i>
+      <a href="/viewnotifications/">Notifications</a>
+    </div>
+    <div class="menu-item" id="timeTableBtn">
+      <i class="material-icons icon">schedule</i>
+      <a href="#"> Generate Time Table</a>
+    </div>
+    <div class="menu-item" id="viewBookingBtn">
+      <i class="material-icons icon">view_list</i>
+      <a href="#">lab schedule</a>
+    </div>
+    <div class="menu-item" id="addSlotBtn">
+      <i class="material-icons icon">add</i>
+      <a href="/viewstudent/">Student</a>
+    </div>
+    
+    <div class="menu-item" id="addSemesterBtn">
+      <i class="material-icons icon">add</i>
+      <a href="/viewstaff/">Staff</a>
+    </div>
+   
+    
+
+  </div>
+  <div class="r">
+    {% block body %}
+    {% endblock %}
+
+  </div>
+   
+  
+ 
+  
+</body>
+</html>

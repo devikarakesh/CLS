@@ -1,0 +1,78 @@
+
+
+
+{% extends 'admin/adminbase.html' %}
+{%block body%}
+
+
+<style>
+        
+       
+
+        #table1{
+          width: 50%;
+            border-collapse: collapse;
+            background-color: rgba(4, 46, 37, 0.53);
+            border:1px solid black;
+            margin-left: 520px;
+            
+            
+            
+            
+        }
+        th,td{
+           padding: 10px;
+           text-align: center;
+        }
+
+        tr{
+          border:1px solid white;
+        }
+        * {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .plusbutton{
+      margin-left: 1100px;
+      border-radius: 5px;
+    color: black;
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 50px;
+     
+    }
+
+  </style>
+
+  <div class="plusbutton">
+    <a href="/Staffreg/"><button type="button">ADD LabStaff</button></a>
+  </div>
+
+    <div>
+      <table id="table1">
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Phone number</th>
+            <th>Username</th>
+            <th>Password</th>
+            <tr>
+                <td>Anu</td>
+                <td>ABC</td>
+                <td>abc@gmail.com</td>
+                <td>5555445</td>
+                <td>anu</td>
+                <td>123</td>
+                
+            </tr>
+        </tr>
+    </table>
+  
+    </div>
+
+  
+{% endblock %}
+ 
