@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Form Fields</title>
+    
+    <style>
+        
+        
+        body{
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    background-size: cover;
+}
+      
+.sch{
+     margin-bottom: 15px;
+     color: white;
+    
+}
+.sch input{
+    width: 90%;
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: rgba(37, 36, 38, 0.858);
+    margin-top: 5px;
+    cursor: pointer;
+    color: white;
+}
+.lab button{
+    background-color: rgba(54, 53, 56, 0.858);
+    padding: 2px;
+    width: 35%;
+    text-align: center;
+    color: white;
+}
+.sch button:hover{
+    background-color: rgb(109, 112, 114);
+}
+
+
+.sc input{
+    
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: rgba(37, 36, 38, 0.858);
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+    </style>
+</head>
+<body>
+    <div >
+        <form >
+            <div id="form-fields">
+            
+                    <label for="name">Name</label>
+                    <input type="text" id="name" value="" name="name[]">
+                    <label for="contact-hours">Contact Hours</label>
+                    <input type="text" id="contact-hours" value="" name="contactHours[]">
+                    <button type="button" id="addMore">Add More</button>
+                <button type="submit">Proceed</button>
+            </div>
+            
+        </form>
+    </div>
+
+    <script>
+        
+        const addMoreButton = document.getElementById('addMore');
+        const formFields = document.getElementById('form-fields');
+
+        // Add event listener to handle "Add More" button click
+        addMoreButton.addEventListener('click', function() {
+            // Create a new div element to hold the new input fields
+            const newFieldRow = document.createElement('div');
+            newFieldRow.classList.add('field-row');
+            
+            // Add the new "Name" and "Contact Hours" fields to the div
+            newFieldRow.innerHTML = `
+                <label for="name">Name</label>
+                <input type="text" name="name[]" value="">
+                <label for="contact-hours">Contact Hours</label>
+                <input type="text" name="contactHours[]" value="">
+                <button class="rmv">REMOVE</button>
+            `;
+            
+            // Append the new field row to the form
+            formFields.appendChild(newFieldRow);
+            const removeButton=newFieldRow.querySelector('.rmv');
+            removeButton.addEventListener('click',function(){
+                newFieldRow.remove()
+
+
+            })
+
+        });
+    </script>
+</body>
+</html>

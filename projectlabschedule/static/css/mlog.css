@@ -1,0 +1,60 @@
+body{
+    background-image: url("https://5.imimg.com/data5/SELLER/Default/2024/3/401978527/KR/PN/UH/108836434/computer-lab-setup.jpg");
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    background-size: cover;
+}
+.lab{
+    padding: 50px;
+    max-width: 350px;
+    background-color: rgba(46, 47, 48, 0.858);
+    border-radius: 10px;
+    box-shadow:0 0 50px rgba(5,2, 1, 0.1);
+   
+}        
+.sch{
+     margin-bottom: 15px;
+     color: white;
+    
+}
+.sch input{
+    width: 90%;
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: rgba(37, 36, 38, 0.858);
+    margin-top: 5px;
+    cursor: pointer;
+    color: white;
+}
+.sch button{
+    background-color: rgba(54, 53, 56, 0.858);
+    padding: 5px;
+    width: 75%;
+    text-align: center;
+    color: white;
+}
+.sch button:hover{
+    background-color: rgb(109, 112, 114);
+}
+.sc a{
+    color: rgb(124, 122, 122);
+    text-decoration: none;
+}
+.sch input::placeholder{
+    color: rgb(142, 139, 139);
+    text-align: center;
+}
+
+.sc input{
+    
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: rgba(37, 36, 38, 0.858);
+    margin-top: 5px;
+    cursor: pointer;
+}
