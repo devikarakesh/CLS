@@ -4,13 +4,15 @@ from django.contrib.auth import authenticate
 from .models import Userprofile,Token
 from django.contrib import messages
 import json
+from administrator.models import notifications
 
 
 # Create your views here.
 
 class Homepageview(View):
  def get(self,request):
-  return render(request,'mainhome.html')
+  n=notifications.objects.all()
+  return render(request,'mainhome.html',{'n':n})
  
 class Loginpageview(View):
   def get(self,request):
@@ -96,9 +98,12 @@ class ViewStaff(View):
   
 class Viewnotifications(View):
   def get(self,request):
-    return render(request,'admin/viewnotifications.html')
+    notificationobject=notifications.objects.all()
+    return render(request,'admin/viewnotifications.html',{'notificationobject':notificationobject})
+
 class Addnotifications(View):
   def get(self,request):
+ 
     return render(request,'admin/addnotification.html')
 
 

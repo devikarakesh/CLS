@@ -154,6 +154,26 @@
             font-size: 1.2em;
             font-weight: bold;
         }
+        .marquee-container {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.scroll-text {
+    display: inline-block;
+    padding-left: 20%;
+    animation: scroll 10s linear infinite;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
     </style>
 </head>
 <body>
@@ -172,7 +192,11 @@
     </header>
 
     <div class="marquee-container">
-        <marquee behavior="scroll"  direction="right">Welcome to our website! Stay tuned for updates and new features.</marquee>
+        <div class="scroll-text">
+            {% for i in n %}
+                <span>{{ i.notification }} {{ i.notificationdate }}</span>
+            {% endfor %}
+        </div>
     </div>
 
     <div class="bgimg visible" id="bgimg1" style="background-image: url('https://www.w3schools.com/w3images/coffeehouse.jpg');"></div>

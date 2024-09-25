@@ -54,20 +54,20 @@ font-size: 16px;
 
 
 <div class="lab">
-<form method="post" action="/administrator/addnotification/">
+<form method="post" action="/administrator/updatenotification/{{n.id}}/">
   {% csrf_token %}
 <div style="font-size: 25px;text-align: center;">POST NOTIFICATIONS</div>
 <div class="sch">
 <label for="">POST</label>
-<textarea name="notification" id="" rows="2" cols="20"></textarea>
+<textarea name="notification" id="" rows="2" cols="20" >{{n.notification}}</textarea>
 
 </div>
 <div class="sch">
 <label for="">Date</label>
-<input type="date" name="notificationdate">
+<input type="date" name="notificationdate" value="{{n.notificationdate}}">
 </div>
 <div class="sch">
-<input type="submit">
+<input type="submit" value="UPDATE">
 </div>
 
 

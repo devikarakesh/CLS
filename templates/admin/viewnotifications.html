@@ -56,13 +56,16 @@
             <th>Notifications</th>
             <th>Date</th>
             </tr>
+            {% for i in notificationobject %}
             <tr>
-                <td>Abdd</td>
-                <td>12-5-24</td>
-                <td><a href=""><button >EDIT</button></a></td>
-                <td><a href=""><button >DELETE</button></a></td>
+
+                <td>{{i.notification}}</td>
+                <td>{{i.notificationdate}}</td>
+                <td><a href="/administrator/updatenotification/{{i.id}}"><button >EDIT</button></a></td>
+                <td><a href="/administrator/Deletenotification/{{i.id}}/"><button >DELETE</button></a></td>
                 
         </tr>
+        {% endfor %} 
     </table>
   
     </div>
