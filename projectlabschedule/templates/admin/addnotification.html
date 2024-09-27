@@ -1,0 +1,76 @@
+
+{% extends 'admin/adminbase.html' %}
+{% block body %}
+
+<style>
+  .lab{
+       padding: 62px;
+       max-width: 500px;
+      background-color: rgba(46, 47, 48, 0.858);
+      border-radius: 5px;
+      box-shadow:0 0 50px rgba(5,2, 1, 0.1);
+      overflow: auto;
+      margin-left: 600px;
+      margin-top: -52px;
+     
+  }        
+  .sch{
+       margin-bottom: 15px;
+       color: rgb(241, 236, 236);
+      
+  }
+  .sch input{
+      width: 100%;
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid black;
+      background-color: white;
+      margin-top: 5px;
+      color: rgb(2, 2, 2);
+  }
+  .sch button{
+      background-color: rgba(54, 53, 56, 0.858);
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 15px;
+  }
+  .sch textarea{
+width: 100%;
+padding: 8px;
+border-radius: 4px;
+background-color: white;
+font-size: 16px;
+
+}
+.sch label{
+  font-size: 15px;
+  font-style: normal;
+  color: whitesmoke;
+  margin-bottom: 10px;
+}
+</style>
+
+
+<div class="lab">
+<form method="post" action="/administrator/addnotification/">
+  {% csrf_token %}
+<div style="font-size: 25px;text-align: center;">POST NOTIFICATIONS</div>
+<div class="sch">
+<label for="">POST</label>
+<textarea name="notification" id="" rows="2" cols="20"></textarea>
+
+</div>
+<div class="sch">
+<label for="">Date</label>
+<input type="date" name="notificationdate">
+</div>
+<div class="sch">
+<input type="submit">
+</div>
+
+
+  
+
+{% endblock %}

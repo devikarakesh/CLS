@@ -1,19 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
+
+
+
+{% extends 'admin/adminbase.html' %}
+{%block body%}
+
+
+<style>
         
        
 
-        table{
+        #table1{
           width: 50%;
             border-collapse: collapse;
             background-color: rgba(4, 46, 37, 0.53);
             border:1px solid black;
-            padding: 25px;
+            margin-left: 520px;
+            
+            
+            
             
         }
         th,td{
@@ -30,17 +34,24 @@
       padding: 0;
       box-sizing: border-box;
     }
-   body {
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-    align-items: center;
-}
+    .plusbutton{
+      margin-left: 1100px;
+      border-radius: 5px;
+    color: black;
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 50px;
+     
+    }
+
   </style>
-  <body>
-    
- 
-    <table>
+
+  <div class="plusbutton">
+    <a href="/Staffreg/"><button type="button">ADD LabStaff</button></a>
+  </div>
+
+    <div>
+      <table id="table1">
         <tr>
             <th>Name</th>
             <th>Address</th>
@@ -60,13 +71,8 @@
         </tr>
     </table>
   
-  
-  <!-- Notification Popup -->
- 
-  
+    </div>
 
   
-
+{% endblock %}
  
-</body>
-</html>

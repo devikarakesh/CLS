@@ -44,30 +44,14 @@
     padding: 15px;
     border-radius: 5px;
     border: 1px solid black;
-    background-color: white;
+    background-color: rgb(248, 246, 246);
     margin-top: 5px;
     cursor: pointer;
-    color: white;
-}
-.sch button{
-    background-color: rgba(54, 53, 56, 0.858);
-    padding: 10px;
-    width: 100%;
-    text-align: center;
-    color: white;
-    font-size: 15px;
+    color: rgb(5, 5, 5);
 }
 
 
-.sc input{
-    
-    padding: 15px;
-    border-radius: 5px;
-    border: 1px solid black;
-    background-color: rgba(37, 36, 38, 0.858);
-    margin-top: 10px;
-   
-}
+
 .sch textarea{
   width: 100%;
   padding: 8px;
@@ -83,49 +67,7 @@
     margin-bottom: 10px;
 }
 
-#subject-list {
-      margin-bottom: 10px;
-    }
-    .subject-input {
-      margin-bottom: 10px;
-      width: 100%;
-    }
-    .subject-input input {
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-      outline: none;
-    }
-    .add-btn {
-      background-color: #f12711;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      cursor: pointer;
-      border-radius: 8px;
-      font-size: 14px;
-      transition: background-color 0.3s ease;
-      margin-bottom: 10px;
-    }
-    .add-btn:hover {
-      background-color: #f5af19;
-    }
-    .submit-btn {
-      width: 100%;
-      background-color: #f12711;
-      color: white;
-      padding: 12px 0;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .submit-btn:hover {
-      background-color: #f5af19;
-    }
+
 
 
 
@@ -143,23 +85,23 @@
   
   
   <div class="lab">
-  <form action="">
+  <form action="administrator/addfaculty/" method="post">
     <div style="font-size: 25px;text-align: center;">Register Teacher</div>
     <div class="sch">
     <label for="">Name</label>
-    <input type="text" name="" id="">
+    <input type="text" name="name" id="">
 </div>
 <div class="sch">
     <label for="">Address</label>
-    <textarea name="" id="" rows="2" cols="20"></textarea>
+    <textarea name="address" id="" rows="2" cols="20" ></textarea>
 </div>
 <div class="sch">
     <label for="">Email</label>
-    <input type="text" name="" id="">
+    <input type="text" name="email" id="">
 </div>
 <div class="sch">
     <label for="">Phone number</label>
-    <input type="text"name="" id="" >
+    <input type="text"name="phone" id="" >
 </div>
 <div class="sch">
     <label for="">Username</label>
@@ -170,18 +112,8 @@
     <input type="password" name="" id="">
 </div>
 
-<div id="subject-list">
-    <!-- Initial subject input -->
-    <div class="subject-input">
-      <label for="subject-1">Subjects</label>
-      <input type="text" id="subject-1" name="subjects[]" placeholder="Enter subject">
-    </div>
-  </div>
-  <div>
-  <button type="button" class="add-btn" onclick="addSubject()">Add Another Subject</button>
-</div>
-<div class="sch">
-   <button type="submit">Register </button>
+<div class="sch" >
+  <input type="submit" name="" id="" value="Register">
 </div>
 
 
@@ -197,35 +129,6 @@
       // Add your logout logic here
       alert('Logged out');
     }
-
-    // Add subject to list
-    function addSubject() {
-      var subjectList = document.getElementById('subject-list');
-      var subjectCount = subjectList.getElementsByClassName('subject-input').length + 1;
-      var newSubject = document.createElement('div');
-      newSubject.classList.add('subject-input');
-      newSubject.innerHTML = `
-        <label for="subject-${subjectCount}">Subject ${subjectCount}</label>
-        <input type="text" id="subject-${subjectCount}" name="subjects[]" placeholder="Enter subject">
-        <button class='rmv'>Remove</button>
-
-      `;
-      subjectList.appendChild(newSubject);
-            
-      const removeButton=newFieldRow.querySelector('.rmv');
-            removeButton.addEventListener('click',function(){
-                newFieldRow.remove();
-            })
-      
-    }
-    
-
-    // Handle form submission
-    document.getElementById('teacherForm').onsubmit = function(event) {
-      event.preventDefault();
-      // Add your form submission logic here
-      alert('Teacher registered successfully');
-    };
   </script>
     
 

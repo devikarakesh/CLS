@@ -47,30 +47,25 @@
   </style>
 
   <div class="plusbutton">
-    <a href="/Studentreg/"><button type="button">ADD  Student</button></a>
+    <a href="/Addnotifications/"><button type="button">ADD Notifications</button></a>
   </div>
 
     <div>
       <table id="table1">
         <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Email</th>
-            <th>Phone number</th>
-            <th>Semester</th>
-            <th>Username</th>
-            <th>Password</th>
-            <tr>
-                <td>Anu</td>
-                <td>ABC</td>
-                <td>abc@gmail.com</td>
-                <td>5555445</td>
-                <td>3</td>
-                <td>anu</td>
-                <td>123</td>
-                
+            <th>Notifications</th>
+            <th>Date</th>
             </tr>
+            {% for i in notificationobject %}
+            <tr>
+
+                <td>{{i.notification}}</td>
+                <td>{{i.notificationdate}}</td>
+                <td><a href="/administrator/updatenotification/{{i.id}}"><button >EDIT</button></a></td>
+                <td><a href="/administrator/Deletenotification/{{i.id}}/"><button >DELETE</button></a></td>
+                
         </tr>
+        {% endfor %} 
     </table>
   
     </div>

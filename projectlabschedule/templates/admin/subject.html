@@ -57,51 +57,32 @@
     </style>
 </head>
 <body>
-    <div >
+    <div class="lab">
         <form >
-            <div id="form-fields">
+            <div class="sch">
             
-                    <label for="name">Name</label>
-                    <input type="text" id="name" value="" name="name[]">
+                    <label for="name">Subject Name</label>
+                    <input type="text" id="" value="" name="name">
+                </div>
+                <div class="sch">
                     <label for="contact-hours">Contact Hours</label>
-                    <input type="text" id="contact-hours" value="" name="contactHours[]">
-                    <button type="button" id="addMore">Add More</button>
-                <button type="submit">Proceed</button>
+                    <input type="number" id="" value="" name="contactHours">
+                </div>
+                <div class="sch">
+                    <label for="teacher">Assign Teacher:</label>
+                    <select id="teacher" name="teacher">
+                      {% for teacher in teachers %}
+                    <option value="{{ teacher.id }}">{{ teacher.name }}</option>
+                     {% endfor %}
+                    </select><br><br>
+                </div>
+                <div class="sch">
+                <input type="submit" value="Proceed"></button>
             </div>
             
         </form>
     </div>
 
-    <script>
-        
-        const addMoreButton = document.getElementById('addMore');
-        const formFields = document.getElementById('form-fields');
-
-        // Add event listener to handle "Add More" button click
-        addMoreButton.addEventListener('click', function() {
-            // Create a new div element to hold the new input fields
-            const newFieldRow = document.createElement('div');
-            newFieldRow.classList.add('field-row');
-            
-            // Add the new "Name" and "Contact Hours" fields to the div
-            newFieldRow.innerHTML = `
-                <label for="name">Name</label>
-                <input type="text" name="name[]" value="">
-                <label for="contact-hours">Contact Hours</label>
-                <input type="text" name="contactHours[]" value="">
-                <button class="rmv">REMOVE</button>
-            `;
-            
-            // Append the new field row to the form
-            formFields.appendChild(newFieldRow);
-            const removeButton=newFieldRow.querySelector('.rmv');
-            removeButton.addEventListener('click',function(){
-                newFieldRow.remove()
-
-
-            })
-
-        });
-    </script>
+    
 </body>
 </html>

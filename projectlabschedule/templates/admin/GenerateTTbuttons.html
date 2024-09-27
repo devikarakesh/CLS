@@ -1,0 +1,44 @@
+{% extends 'admin/adminbase.html' %}
+{% block body %}
+<style>
+
+
+    .btn{
+        margin-top: 200px;
+       
+    }
+    .sub{
+    padding: 50px;
+     width: 250px;
+    background-color: rgba(46, 47, 48, 0.858);
+    text-align: center;
+    border-radius: 5px;
+    overflow: auto;
+    margin-left: 150px;
+    margin-top: 52px;
+    color: white;
+    }
+    .btn1{
+        display:flex;
+        margin-left: 400px;
+        
+    }
+    .btn2{
+        display: flex;
+        margin-left:400px ;
+    }
+
+
+</style>
+
+<div class="btn">
+<div class="btn1">
+    <a href="subject.html"></a><button class="sub">SUBJECT</button>
+    <a href="Faculty.html"></a><button class="sub">FACULTY</button>
+</div>
+<div class="btn2">
+    <a href="class.html"></a><button class="sub" >CLASS</button>
+    <button class="sub">GENERATE</button>
+</div>
+</div>
+{% endblock %}

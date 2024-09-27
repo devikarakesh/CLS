@@ -12,7 +12,8 @@ urlpatterns = [
     path('adminbase/',AdminBasepage.as_view(),name='adminbase'),
     path('viewstudent/',ViewStudent.as_view(),name='viewstudent'),
     path('viewstaff/',ViewStaff.as_view(),name='viewstaff'),
-    
+    path('viewnotifications/',Viewnotifications.as_view(),name='viewnotifications'),
+    path('Addnotifications/',Addnotifications.as_view(),name='Addnotifications'),
 
    
 ]
