@@ -5,7 +5,7 @@ class notifications(models.Model):
     notification=models.CharField(max_length=200,null=True,blank=True)
     notificationdate=models.CharField(max_length=100,null=True,blank=True)
 
-class Teacher1(models.Model):
+class Faculty1(models.Model):
     name = models.CharField(max_length=100)
     address=models.CharField(max_length=100)
     email=models.CharField(max_length=100)
@@ -16,7 +16,7 @@ class Teacher1(models.Model):
 class Subject1(models.Model):
     name = models.CharField(max_length=100)
     contact_hours = models.IntegerField()
-    teacher = models.ForeignKey(Teacher1, on_delete=models.CASCADE)
+    faculty = models.ForeignKey(Faculty1, on_delete=models.CASCADE)
     def _str_(self):
         return self.name
 
@@ -29,4 +29,4 @@ class TimetableEntry1(models.Model):
     period = models.IntegerField()
     cls = models.ForeignKey(Class1, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject1, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher1, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Faculty1, on_delete=models.CASCADE)

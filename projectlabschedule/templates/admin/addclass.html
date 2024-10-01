@@ -1,21 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Form Fields</title>
-    
+{% extends 'admin/adminbase.html' %}
+{% block body %}
     <style>
         
+        .lab{
+  margin-left: 520px;
+     padding: 50px;
+     max-width: 450px;
+    background-color: rgba(46, 47, 48, 0.858);
+    border-radius: 5px;
+    box-shadow:0 0 50px rgba(5,2, 1, 0.1);
+    overflow: auto;
+        }   
         
-        body{
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-    align-items: center;
-    backdrop-filter: blur(5px);
-    background-size: cover;
-}
       
 .sch{
      margin-bottom: 15px;
@@ -55,26 +51,24 @@
 }
 
     </style>
-</head>
-<body>
+
     <div class="lab">
-        <form >
+        <form action="" method="post">
             <div class="sch">
-            
-                    <label for="name">Subject Name</label>
-                    <input type="text" id="" value="" name="name">
+                <label for="class_name">Class Name:</label>
+                <input type="text" id="class_name" name="class_name" required> 
                 </div>
                 <div class="sch">
                     <label for="contact-hours">Contact Hours</label>
-                    <input type="number" id="" value="" name="contactHours">
+                    <input type="number" id="" value="" name="contact_hours">
                 </div>
                 <div class="sch">
-                    <label for="teacher">Assign Teacher:</label>
-                    <select id="teacher" name="teacher">
-                      {% for teacher in teachers %}
-                    <option value="{{ teacher.id }}">{{ teacher.name }}</option>
-                     {% endfor %}
-                    </select><br><br>
+                    <label for="subjects">Assign Subjects:</label>
+                    <select id="subjects" name="subjects" multiple>
+                   {% for s in subjects %}
+                    <option value="{{ s.id }}">{{ s.name }}</option>
+                   {% endfor %}
+                </select>
                 </div>
                 <div class="sch">
                 <input type="submit" value="Proceed"></button>
@@ -82,7 +76,8 @@
             
         </form>
     </div>
-
+    {% endblock %}
     
-</body>
-</html>
+
+
+

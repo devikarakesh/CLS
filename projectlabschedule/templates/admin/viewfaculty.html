@@ -1,19 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
+
+
+
+{% extends 'admin/adminbase.html' %}
+{%block body%}
+
+
+<style>
         
        
 
-        table{
+        #table1{
           width: 50%;
             border-collapse: collapse;
             background-color: rgba(4, 46, 37, 0.53);
             border:1px solid black;
-            padding: 25px;
+            margin-left: 520px;
+            
+            
+            
             
         }
         th,td{
@@ -30,43 +34,46 @@
       padding: 0;
       box-sizing: border-box;
     }
-   body {
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-    align-items: center;
-}
+    .plusbutton{
+      margin-left: 1100px;
+      border-radius: 5px;
+    color: black;
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 50px;
+     
+    }
+
   </style>
-  <body>
-    
- 
-    <table>
+
+  <div class="plusbutton">
+    <a href="/administrator/addfaculty/"><button type="button">ADD Faculty</button></a>
+  </div>
+
+    <div>
+      <table id="table1">
         <tr>
             <th>Name</th>
             <th>Address</th>
-            <th>Email</th>
+            <th>Email address</th>
             <th>Phone number</th>
-            <th>Username</th>
-            <th>Password</th>
-            <tr>
-                <td>Anu</td>
-                <td>ABC</td>
-                <td>abc@gmail.com</td>
-                <td>5555445</td>
-                <td>anu</td>
-                <td>123</td>
-                
             </tr>
+           
+            <tr>
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><a href=""><button >EDIT</button></a></td>
+                <td><a href=""><button >DELETE</button></a></td>
+                
         </tr>
+       
     </table>
   
-  
-  <!-- Notification Popup -->
- 
-  
+    </div>
 
   
-
+{% endblock %}
  
-</body>
-</html>

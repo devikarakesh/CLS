@@ -31,19 +31,46 @@ class Deletenotification(View):
         n.delete()
         return redirect('viewnotifications')
 
-class Teacher(View):
+class Addfaculty(View):
     def get(self,request):
-        return render(request,'admin/faculty.html')
+        return render(request,'admin/addfaculty.html')
     def post(self,request):
-        form=Teacherform(request.POST)
+        form=Addfacultyform(request.POST)
         if form.is_valid():
             form.save()
             return redirect('viewfaculty')
 
-class ViewTeacher(View):
+class Viewfaculty(View):
     def get(self,request):
-        return render(request,'admin/viewteacher.html')
+        return render(request,'admin/viewfaculty.html')
 
 class GenerateTTbutton(View):
     def get(self,request):
         return render(request,'admin/GenerateTTbuttons.html')
+
+class Viewsubjects(View):
+    def get(self,request):
+        return render(request,'admin/viewsubjects.html')
+
+
+class Addsubjects(View):
+    def get(self,request):
+        c=Faculty1.objects.all()
+        return render(request,'admin/addsubject.html',{'faculties':c})
+        
+    def post(self,request):
+        form=AddSubjectform(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('viewsubjects')
+
+class Addclass(View):
+    def get(self,request):
+        o=Subject1.objects.all()
+        return render(request,'admin/addclass.html',{'subjects':o})
+        
+    def post(self,request):
+        form=Addclassform(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('viewclass')

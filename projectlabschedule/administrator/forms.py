@@ -11,13 +11,18 @@ class Updatenotificationform(forms.ModelForm):
         model=notifications
         fields=['notification','notificationdate']
 
-class Teacherform(forms.ModelForm):
+class Addfacultyform(forms.ModelForm):
     class Meta:
-        model=Teacher1
+        model=Faculty1
         fields=['name','address','email','phone']
 
 
-# class Subjectform(forms.ModelForm):
-#     class Meta:
-#         model=Subject1
-#         fields=['name','contacthour','teacher']
+class Addsubjectform(forms.ModelForm):
+    class Meta:
+        model=Subject1
+        fields=['name','contact_hours','faculty']
+
+class Addclassform(forms.ModelForm):
+    class Meta:
+        model=Subject1
+        fields=['name','subject']
