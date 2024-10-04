@@ -56,10 +56,6 @@ class Loginpageview(View):
     return redirect(request.GET.get("from") or  loadlogin)
       
     
-
-     
-
-
   
  
 class Adminpage(View):

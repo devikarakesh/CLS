@@ -47,30 +47,29 @@
   </style>
 
   <div class="plusbutton">
-    <a href="/administrator/addfaculty/"><button type="button">ADD Faculty</button></a>
+    <a href="/administrator/addclass/"><button type="button">ADD Class</button></a>
   </div>
 
     <div>
       <table id="table1">
         <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Email address</th>
-            <th>Phone number</th>
+            <th>Semester</th>
+            <th>Assigned Subjects</th>
+            
+            
             </tr>
-           {% for i in faculties %}
+           {% for i in C %}
             <tr>
 
-                <td>{{i.name}}</td>
-                <td>{{i.address}}</td>
-                <td>{{i.email}}</td>
-                <td>{{i.phone}}</td>
-                <td><a href="/administrator/updatefaculty/{{i.id}}"><button >EDIT</button></a></td>
-                <td><a href="/administrator/Deletefaculty/{{i.id}}"><button >DELETE</button></a></td>
+                
+                <td>{{i.Semester}}</td>
+                <td>{{i.subjects}}</td>
+                
+                <td><a href="/administrator/updateclass/{{i.id}}/"><button >EDIT</button></a></td>
+                <td><a href="/administrator/Deleteclass/{{i.id}}/"><button >DELETE</button></a></td>
                 
         </tr>
-        {% endfor %}
-       
+       {% endfor %}
     </table>
   
     </div>

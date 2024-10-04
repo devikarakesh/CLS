@@ -1,0 +1,80 @@
+{% extends 'admin/adminbase.html' %}
+{% block body %}
+    <style>
+        
+        .lab{
+  margin-left: 520px;
+     padding: 50px;
+     max-width: 450px;
+    background-color: rgba(46, 47, 48, 0.858);
+    border-radius: 5px;
+    box-shadow:0 0 50px rgba(5,2, 1, 0.1);
+    overflow: auto;
+        }   
+        
+      
+.sch{
+     margin-bottom: 15px;
+     color: white;
+    
+}
+.sch input{
+    width: 90%;
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: rgba(37, 36, 38, 0.858);
+    margin-top: 5px;
+    cursor: pointer;
+    color: white;
+}
+.lab button{
+    background-color: rgba(54, 53, 56, 0.858);
+    padding: 2px;
+    width: 35%;
+    text-align: center;
+    color: white;
+}
+.sch button:hover{
+    background-color: rgb(109, 112, 114);
+}
+
+
+.sc input{
+    
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: rgba(37, 36, 38, 0.858);
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+    </style>
+
+    <div class="lab">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="sch">
+                <label for="class_name">Semester:</label>
+                <input type="text" id="class_name" name="Semester" required value="{{o.Semester}}"> 
+                </div>
+                <div class="sch">
+                    <label for="subjects">Assign Subjects:</label>
+                    <select id="subjects" name="subjects" multiple>
+                   {% for s in subjects %}
+                    <option value="{{ s.id }}" {% if s.id==o.subjects.id %} selected {% endif %}>{{ s.name }}</option>
+                   {% endfor %}
+                </select>
+                </div>
+                <div class="sch">
+                <input type="submit" value="Add"></button>
+            </div>
+            
+        </form>
+    </div>
+    {% endblock %}
+    
+
+
+
