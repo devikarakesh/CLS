@@ -56,25 +56,34 @@
         <form action="" method="post">
             {% csrf_token %}
             <div class="sch">
-                <label for="class_name">Semester:</label>
-                <input type="text" id="class_name" name="Semester" required> 
+            
+                    <label for="name">Subject Name</label>
+                    <input type="text" id="" value="{{s.name}}" name="name">
                 </div>
                 <div class="sch">
-                    <label for="subjects">Assign Subjects:</label>
-                    <select id="subjects" name="subjects" multiple>
-                   {% for s in subjects %}
-                    <option value="{{ s.id }}">{{ s.name }}</option>
-                   {% endfor %}
-                </select>
+                    <label for="contact-hours">Contact Hours</label>
+                    <input type="number" id="" value="{{s.contact_hours}}" name="contact_hours">
                 </div>
                 <div class="sch">
-                <input type="submit" value="Add"></button>
+                    <label for="teacher">Assign Faculty:</label>
+                    <!-- <label for="">abc{{f.id}}</label> -->
+                    <!-- <label for="">nnn{{s.faculty.id}}</label> -->
+                    <select id="teacher" name="faculty" >
+                      {% for f in faculties %}
+                      
+
+                      <option value="{{ f.id }}" {% if f.id == s.faculty.id %} selected {% endif %}>
+                        {{ f.name }}
+                    </option>
+                    
+                     {% endfor %}
+                    </select><br><br>
+                </div>
+                <div class="sch">
+                <input type="submit" value="Proceed"></button>
             </div>
             
         </form>
     </div>
     {% endblock %}
     
-
-
-

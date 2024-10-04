@@ -21,7 +21,7 @@ class Subject1(models.Model):
         return self.name
 
 class Class1(models.Model):
-    name = models.CharField(max_length=100)
+    Semester = models.CharField(max_length=100)
     subjects = models.ManyToManyField(Subject1)
 
 class TimetableEntry1(models.Model):

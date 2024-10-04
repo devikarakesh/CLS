@@ -1,0 +1,115 @@
+{% extends 'admin/adminbase.html' %}
+{%block body%}
+  <style>
+
+.lab{
+  margin-left: 520px;
+     padding: 50px;
+     max-width: 450px;
+    background-color: rgba(46, 47, 48, 0.858);
+    border-radius: 5px;
+    box-shadow:0 0 50px rgba(5,2, 1, 0.1);
+    overflow: auto;
+   
+}        
+.sch{
+     margin-bottom: 15px;
+     color: white;
+    
+}
+.sch input{
+    width: 100%;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: rgb(248, 246, 246);
+    margin-top: 5px;
+    cursor: pointer;
+    color: rgb(5, 5, 5);
+}
+
+
+
+.sch textarea{
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 16px;
+  
+}
+.sch label{
+    font-size: 15px;
+    font-style: normal;
+    color: whitesmoke;
+    margin-bottom: 10px;
+}
+
+
+
+
+
+
+     
+    
+  </style>
+
+
+
+  
+  
+  <div class="lab">
+  <form action="/administrator/updatefaculty/{{n.id}}/" method="post">
+    {% csrf_token %}
+    <div style="font-size: 25px;text-align: center;">Update Faculty</div>
+    <div class="sch">
+    <label for="">Name</label>
+    <input type="text" name="name" id="" value="{{n.name}}">
+</div>
+<div class="sch">
+    <label for="">Address</label>
+    <textarea name="address" id="" rows="2" cols="20" >{{n.address}}</textarea>
+</div>
+<div class="sch">
+    <label for="">Email</label>
+    <input type="text" name="email" id="" value="{{n.email}}">
+</div>
+<div class="sch">
+    <label for="">Phone number</label>
+    <input type="text"name="phone" id="" value="{{n.phone}}" >
+</div>
+<div class="sch">
+    <label for="">Username</label>
+    <input type="text" name="" id="">
+</div>
+<div class="sch">
+    <label for="">Password</label>
+    <input type="password" name="" id="">
+</div>
+
+<div class="sch" >
+  <input type="submit" name="" id="" value="Register">
+</div>
+
+
+
+</form>
+</div>
+
+
+
+<!-- <script>
+    // Function to handle logout
+    function logout() {
+      // Add your logout logic here
+      alert('Logged out');
+    }
+  </script>
+     -->
+
+    
+     {% endblock %}
+
+  
+
+ 

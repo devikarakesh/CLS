@@ -24,5 +24,20 @@ class Addsubjectform(forms.ModelForm):
 
 class Addclassform(forms.ModelForm):
     class Meta:
+        model=Class1
+        fields=['Semester','subjects']
+
+class Updatefacultyform(forms.ModelForm):
+    class Meta:
+        model=Faculty1
+        fields=['name','address','email','phone']
+
+class Updatesubjectsform(forms.ModelForm):
+    class Meta:
         model=Subject1
-        fields=['name','subject']
+        fields=['name','contact_hours','faculty']
+
+class Updateclassform(forms.ModelForm):
+    class Meta:
+        model=Class1
+        fields=['Semester','subjects']
