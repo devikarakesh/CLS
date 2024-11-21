@@ -19,4 +19,5 @@ urlpatterns = [
     path('Deletesubjects/<int:id>/',Deletesubjects.as_view(),name='Deletesubjects'),
     path('updateclass/<int:id>/',UpdateClass.as_view(),name='updateclass'),
     path('Deleteclass/<int:id>/',Deleteclass.as_view(),name='Deleteclass'),
+    path ('Generatetimetable/', generate_timetable,name='Generate timetable'),
 ]

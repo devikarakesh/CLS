@@ -7,19 +7,35 @@
 
 <style>
         
-       
+       body{
+        background-color: rgb(211, 227, 244);
+        
+       }
 
         #table1{
           width: 50%;
             border-collapse: collapse;
-            background-color: rgba(4, 46, 37, 0.53);
+            background-color: #2f5b8d;
             border:1px solid black;
-            margin-left: 520px;
+            
+            margin-left: 470px;
             
             
             
             
         }
+
+        .lab{
+    padding: 50px;
+    max-width: 250px;
+    margin-left: 1100px;
+    /* background-color: rgb(59, 127, 165); */
+    border-radius: 10px;
+    /* box-shadow:0 0 50px rgba(5,2, 1, 0.1); */
+   position: relative;
+   top: 40px;
+   left: 80px;
+}    
         th,td{
            padding: 10px;
            text-align: center;
@@ -45,13 +61,13 @@
     }
 
   </style>
-
-  <div class="plusbutton">
-    <a href="/Addnotifications/"><button type="button">ADD Notifications</button></a>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <div class="lab">
+    <a href="/Addnotifications/"><i class="material-icons" style="font-size: 35px;">add</i></a>
   </div>
 
     <div>
-      <table id="table1">
+      <table id="table1" >
         <tr>
             <th>Notifications</th>
             <th>Date</th>
@@ -61,8 +77,8 @@
 
                 <td>{{i.notification}}</td>
                 <td>{{i.notificationdate}}</td>
-                <td><a href="/administrator/updatenotification/{{i.id}}"><button >EDIT</button></a></td>
-                <td><a href="/administrator/Deletenotification/{{i.id}}/"><button >DELETE</button></a></td>
+                <td><a href="/administrator/updatenotification/{{i.id}}"><i class="material-icons" style="color: black;">edit</i></a></td>
+                <td><a href="/administrator/Deletenotification/{{i.id}}/"><i class="material-icons" style="color: black;">delete</i></a></td>
                 
         </tr>
         {% endfor %} 

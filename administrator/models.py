@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 
 # Create your models here.
 class notifications(models.Model):
@@ -24,6 +26,10 @@ class Class1(models.Model):
     Semester = models.CharField(max_length=100)
     subjects = models.ManyToManyField(Subject1)
 
+@receiver(post_delete, sender=Subject1)
+def delete_classes_with_subject(sender, instance, **kwargs):
+    for class_instance in Class1.objects.filter(subjects=instance):
+        class_instance.delete()
 class TimetableEntry1(models.Model):
     day = models.CharField(max_length=10)
     period = models.IntegerField()

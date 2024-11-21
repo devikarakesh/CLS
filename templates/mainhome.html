@@ -20,7 +20,7 @@
         }
 
         .navbar {
-            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+            background-color: whitesmoke; /* Semi-transparent background */
             color: white;
             padding: 0 20px;
             display:flex;
@@ -44,7 +44,7 @@
         }
 
         .logo-text {
-            color: white;
+            color: rgb(20, 16, 16);
             margin-left: 15px;
             font-size: 24px;
             font-weight: bold;
@@ -56,6 +56,7 @@
             margin: 0;
             display: flex;
             align-items: center;
+            
         }
 
         .nav-links li {
@@ -73,8 +74,8 @@
         }
 
         .nav-links a:hover {
-            background-color: #ddd;
-            color: black;
+            background-color: #4b95b7;
+            color: rgb(106, 122, 210);
             transform: scale(1.1); /* Zoom-in effect */
         }
 
@@ -140,7 +141,7 @@
 
         /* Marquee Styling */
         .marquee-container {
-            background-color: #333;
+            background-color: #2f5b8d;
             color: white;
             padding: 10px 0;
             text-align: center;
@@ -180,12 +181,12 @@
     <header>
         <nav class="navbar">
             <div class="logo">
-                <img src="https://via.placeholder.com/150" alt="Logo">
-                <span class="logo-text">Your Company</span>
+                <img src="https://devagiricollege.net/sjc/asset/demo/logo.jpg" alt="CollegeLogo">
+                <span class="logo-text"><h3 style="color: black;">St Joseph's College (AUTONOMOUS) Devagiri,Calicut</h3></span>
             </div>
             <ul class="nav-links">
     
-                <li><a href="/login/">Login</a></li> 
+                <li><a href="/login/" style="color: black;background-color: #2f5b8d;">Login</a></li> 
                 
             </ul>
         </nav>
@@ -199,7 +200,7 @@
         </div>
     </div>
 
-    <div class="bgimg visible" id="bgimg1" style="background-image: url('https://www.w3schools.com/w3images/coffeehouse.jpg');"></div>
+    <div class="bgimg" id="bgimg1" style="background-image: url('../static/jk.jpg');"></div>
     <div class="bgimg" id="bgimg2" style="background-image: url('https://www.w3schools.com/w3images/forest.jpg');"></div>
     <div class="bgimg" id="bgimg3" style="background-image: url('https://www.w3schools.com/w3images/mountains.jpg');"></div>
     <div class="bgimg" id="bgimg4" style="background-image: url('https://www.w3schools.com/w3images/paris.jpg');"></div>
@@ -217,6 +218,7 @@
         <span class="dot" onclick="selectImage(3)"></span>
         <span class="dot" onclick="selectImage(4)"></span>
     </div>
+    
 
     <script>
         const images = document.querySelectorAll('.bgimg');

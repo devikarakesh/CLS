@@ -6,7 +6,7 @@
   margin-left: 520px;
      padding: 50px;
      max-width: 450px;
-    background-color: rgba(46, 47, 48, 0.858);
+     background-color: #2f5b8d;
     border-radius: 5px;
     box-shadow:0 0 50px rgba(5,2, 1, 0.1);
     overflow: auto;
@@ -62,10 +62,12 @@
                 <div class="sch">
                     <label for="subjects">Assign Subjects:</label>
                     <select id="subjects" name="subjects" multiple>
-                   {% for s in subjects %}
-                    <option value="{{ s.id }}" {% if s.id==o.subjects.id %} selected {% endif %}>{{ s.name }}</option>
-                   {% endfor %}
-                </select>
+                        {% for s in subjects %}
+                        <option value="{{ s.id }}" {% if s in o.subjects.all %} selected {% endif %}>
+                            {{ s.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="sch">
                 <input type="submit" value="Add"></button>

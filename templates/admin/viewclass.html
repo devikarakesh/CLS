@@ -12,7 +12,7 @@
         #table1{
           width: 50%;
             border-collapse: collapse;
-            background-color: rgba(4, 46, 37, 0.53);
+            background-color: #2f5b8d;
             border:1px solid black;
             margin-left: 520px;
             
@@ -35,19 +35,20 @@
       box-sizing: border-box;
     }
     .plusbutton{
-      margin-left: 1100px;
+      margin-left: 1012px;
       border-radius: 5px;
     color: black;
     text-align: center;
     font-size: 25px;
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
+    margin-top:209px;
      
     }
 
   </style>
 
   <div class="plusbutton">
-    <a href="/administrator/addclass/"><button type="button">ADD Class</button></a>
+    <a href="/administrator/addclass/"><i class="material-icons" style="font-size: 35px;">add</i></a>
   </div>
 
     <div>
@@ -63,10 +64,13 @@
 
                 
                 <td>{{i.Semester}}</td>
-                <td>{{i.subjects}}</td>
+                <td>{% for subject in i.subjects.all %}
+                {{ subject.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+            </td>
                 
-                <td><a href="/administrator/updateclass/{{i.id}}/"><button >EDIT</button></a></td>
-                <td><a href="/administrator/Deleteclass/{{i.id}}/"><button >DELETE</button></a></td>
+                <td><a href="/administrator/updateclass/{{i.id}}/"><i class="material-icons" style="color: black;">edit</i></a></td>
+                <td><a href="/administrator/Deleteclass/{{i.id}}/"><i class="material-icons" style="color: black;">delete</i></a></td>
                 
         </tr>
        {% endfor %}

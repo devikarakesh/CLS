@@ -8,11 +8,11 @@ body{
     background-size: cover;
 }
 .lab{
-    padding: 50px;
+    padding: 100px;
     max-width: 350px;
-    background-color: rgba(46, 47, 48, 0.858);
+    background-color: #2f5b8d;
     border-radius: 10px;
-    box-shadow:0 0 50px rgba(5,2, 1, 0.1);
+    box-shadow:0 0 50px rgba(163, 188, 223, 0.1);
    
 }        
 .sch{
@@ -24,37 +24,37 @@ body{
     width: 90%;
     padding: 6px;
     border-radius: 5px;
-    border: 1px solid black;
-    background-color: rgba(37, 36, 38, 0.858);
+    border: 1px solid rgb(21, 20, 20);
+    background-color: rgba(187, 193, 203, 0.858);
     margin-top: 5px;
     cursor: pointer;
     color: white;
 }
 .sch button{
-    background-color: rgba(54, 53, 56, 0.858);
+    background-color: rgba(13, 35, 67, 0.858);
     padding: 5px;
     width: 75%;
     text-align: center;
     color: white;
 }
 .sch button:hover{
-    background-color: rgb(109, 112, 114);
+    background-color: rgb(41, 54, 63);
 }
 .sc a{
-    color: rgb(124, 122, 122);
+    color: rgb(241, 233, 233);
     text-decoration: none;
 }
 .sch input::placeholder{
-    color: rgb(142, 139, 139);
+    color: rgb(255, 254, 254);
     text-align: center;
 }
 
 .sc input{
     
-    padding: 6px;
+    padding: 15px;
     border-radius: 5px;
     border: 1px solid black;
-    background-color: rgba(37, 36, 38, 0.858);
+    background-color: rgba(253, 253, 253, 0.858);
     margin-top: 5px;
     cursor: pointer;
 }
