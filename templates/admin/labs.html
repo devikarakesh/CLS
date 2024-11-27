@@ -1,0 +1,79 @@
+{% extends 'admin/adminbase.html' %}
+{% block body %}
+<style>
+
+
+    .btn{
+        margin-top: 200px;
+       
+    }
+    .sub{
+    padding: 50px;
+     width: 250px;
+     background-color: #2f5b8d;
+    text-align: center;
+    border-radius: 5px;
+    overflow: auto;
+    margin-left: 150px;
+    margin-top: 52px;
+    color: white;
+    }
+    .btn1{
+        background-color: rgb(0, 0, 0);
+            color: aliceblue;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.385);
+            margin: 15px;
+            width: 450px;
+            border-radius: 100px;
+            text-align: center;
+    }
+    .btn2{
+        display: flex;
+        margin-left:400px ;
+        flex-direction: row;
+    }
+    .card {
+      display: flex;
+      justify-content: space-evenly;
+      margin-top: 100px;
+      background-color: rgba(3, 3, 69, 0.129);
+      height: 300px;
+    }
+
+    .car {
+      height: 50px;
+      width: 50px;
+      background-color: #0B0421;
+      margin-top: 20px;
+      border-radius: 20px;
+      box-shadow: 10px 20px 5px rgba(0, 0, 0, 0.503);
+      padding: 100px;
+      display: flex;
+      justify-content: center;
+      transition: 0.5s ease;
+    }
+
+</style>
+
+<div class="btn">
+    {% for i in labs %}
+    <!-- <div class="cardcontainer">
+<div class="btn1">
+    <a href="/administrator/viewfaculty/"><button class="sub">{{i.name}}</button></a>
+    <label for="">{{i.capacity}}</label>
+</div>
+     -->
+
+     <div class="card">
+        <div class="car"> 
+            <a href="login.html"><div class="blah"><i class="fa-solid fa-user-tie icon" style="color: #fcfcfc; font-size: 50px;"></i></div><center><p class="cent">AUTHORITY</p></center></a></div>
+        
+      </div>
+</div>
+{% endfor %}
+<div class="btn2">
+    <a href="/administrator/viewclass/"><button class="sub" >Lab 3(44)</button></a>
+    <a href="/administrator/Generatetimetable/"><button class="sub">Lab 4(44)</button></a>
+</div>
+</div>
+{% endblock %}

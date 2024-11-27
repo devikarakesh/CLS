@@ -19,10 +19,12 @@
             
             
             
+            
         }
         th,td{
            padding: 10px;
            text-align: center;
+           color: whitesmoke;
         }
 
         tr{
@@ -37,7 +39,6 @@
     .plusbutton{
       margin-left: 1012px;
       border-radius: 5px;
-    color: black;
     text-align: center;
     font-size: 25px;
     /* margin-bottom: 50px; */
@@ -54,7 +55,7 @@
     <div>
       <table id="table1">
         <tr>
-            <th>Semester</th>
+            <th >Semester</th>
             <th>Assigned Subjects</th>
             
             
@@ -69,8 +70,8 @@
             {% endfor %}
             </td>
                 
-                <td><a href="/administrator/updateclass/{{i.id}}/"><i class="material-icons" style="color: black;">edit</i></a></td>
-                <td><a href="/administrator/Deleteclass/{{i.id}}/"><i class="material-icons" style="color: black;">delete</i></a></td>
+                <td><a href="/administrator/updateclass/{{i.id}}/"><i class="material-icons" style="color: whitesmoke;">edit</i></a></td>
+                <td><a href="/administrator/Deleteclass/{{i.id}}/"><i class="material-icons" style="color: whitesmoke;">delete</i></a></td>
                 
         </tr>
        {% endfor %}

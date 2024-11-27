@@ -20,4 +20,9 @@ urlpatterns = [
     path('updateclass/<int:id>/',UpdateClass.as_view(),name='updateclass'),
     path('Deleteclass/<int:id>/',Deleteclass.as_view(),name='Deleteclass'),
     path ('Generatetimetable/', generate_timetable,name='Generate timetable'),
+    path('viewtimetable/',TimetableView1.as_view(),name='viewtimetable'),
+    path('viewlab/',LabView.as_view(),name='lab_list'),
+    path('labdetailview/<int:pk>/',Editlab.as_view(),name='lab_detail'),
+    path('labdelete/<int:pk>/',LabDeleteView.as_view(),name='lab_delete'),
+    path('ViewAddedlabs/',ViewAddedlabs.as_view(),name='ViewAddedlabs'),
 ]

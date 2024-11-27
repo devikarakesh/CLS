@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Labs</title>
+</head>
+<body>
+    <h1>Labs</h1>
+    <form method="POST" action="{% url 'lab_list' %}">
+        {% csrf_token %}
+        <label for="name">Lab Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="capacity">Capacity:</label>
+        <input type="text" id="capacity" name="capacity" required>
+        <button type="submit">Add Lab</button>
+    </form>
+
+    <h2>Existing Labs</h2>
+    <ul>
+        {% for lab in labs %}
+            <li>
+                {{ lab.name }} - {{ lab.capacity }}
+                <a href="{% url 'lab_detail' lab.id %}">Edit</a>
+                <form method="POST" action="{% url 'lab_delete' lab.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

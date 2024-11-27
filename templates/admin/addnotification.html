@@ -15,9 +15,9 @@
       box-shadow:0 0 50px rgba(5,2, 1, 0.1);
       overflow: auto;
       margin-left: 600px;
-      /* margin-top: -1px; */
+     margin-top: 150px;
      
-      margin-bottom:50px;
+     
   }        
   .sch{
        margin-bottom: 15px;
@@ -34,7 +34,7 @@
       color: rgb(2, 2, 2);
   }
   .sch button{
-      background-color: rgba(54, 53, 56, 0.858);
+      background-color:rgb(1, 13, 39);
       padding: 10px;
       width: 100%;
       text-align: center;
@@ -55,13 +55,22 @@ font-size: 16px;
   color: whitesmoke;
   margin-bottom: 10px;
 }
+.inp input{
+    background-color:rgb(1, 13, 39);
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 15px;
+
+  }
 </style>
 
 
 <div class="lab">
 <form method="post" action="/administrator/addnotification/">
   {% csrf_token %}
-<div style="font-size: 25px;text-align: center;">POST NOTIFICATIONS</div>
+<div style="font-size: 25px;text-align: center;"><b>POST NOTIFICATIONS</b></div>
 <div class="sch">
 <label for="">POST</label>
 <textarea name="notification" id="" rows="2" cols="20"></textarea>
@@ -71,8 +80,8 @@ font-size: 16px;
 <label for="">Date</label>
 <input type="date" name="notificationdate">
 </div>
-<div class="sch">
-<input type="submit">
+<div class="inp">
+<b><input type="submit" value="SUBMIT"></b>
 </div>
 
 

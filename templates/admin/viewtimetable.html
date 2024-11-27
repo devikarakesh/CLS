@@ -1,0 +1,106 @@
+{% extends 'admin/adminbase.html' %}
+{% block body %}
+{% load custom_filters %}
+
+
+    <style>
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-left: 280px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .filter{
+            margin-left: 300px;
+            margin-top: 35px;
+            margin-bottom: 25px;
+        }
+    </style>
+
+
+<h2>Timetable</h2>
+<div class="filter">
+    <!-- Dropdown for faculty filtering -->
+<label for="facultyFilter">Filter by faculty:</label>
+<select id="facultyFilter">
+    <option value="all">All faculties</option>
+    {% for faculty in faculties %}
+        <option value="{{ faculty.id }}">{{ faculty.name }}</option>
+    {% endfor %}
+</select>
+</div>
+
+
+{% for cls, days_data in timetable_data.items %}
+    <h3>Class: {{ cls.Semester }}</h3>
+    <table class="timetable">
+        <thead>
+            <tr>
+                <th>Day/Period</th>
+                {% for period in periods %}
+                    <th>Period {{ period }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for day in days %}
+                <tr>
+                    <td>{{ day }}</td>
+                    {% for period in periods %}
+                        <td class="entry" data-faculty-id="{% with days_data|get_item:day|get_item:period as entry %}{% if entry %}{{ entry.faculty.id }}{% else %}none{% endif %}{% endwith %}">
+                            {% with days_data|get_item:day|get_item:period as entry %}
+                                {% if entry %}
+                                    {{ entry.subject.name }}<br>
+                                    (faculty: {{ entry.faculty.name }})
+                                {% else %}
+                                    Free
+                                {% endif %}
+                            {% endwith %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endfor %}
+
+<script>
+    document.getElementById('facultyFilter').addEventListener('change', function () {
+    const selectedFacultyId = this.value;
+    const tables = document.querySelectorAll('.timetable');
+
+    tables.forEach(table => {
+        const rows = table.querySelectorAll('tbody tr');
+
+        rows.forEach(row => {
+            const entries = row.querySelectorAll('.entry');
+
+            entries.forEach(entry => {
+                const facultyId = entry.getAttribute('data-faculty-id');
+                const content = entry.innerHTML.trim(); // Save the content
+                
+                // Check if the entry is associated with the selected faculty
+                if (selectedFacultyId === "all" || facultyId === selectedFacultyId) {
+                    entry.innerHTML = content; // Restore the content if it matches
+                } else {
+                    entry.innerHTML = ""; // Clear the content if it does not match
+                }
+            });
+        });
+    });
+});
+
+</script>
+
+
+
+{% endblock %}

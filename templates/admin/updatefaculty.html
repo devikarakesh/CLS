@@ -3,13 +3,14 @@
   <style>
 
 .lab{
-  margin-left: 520px;
+  margin-left: 620px;
      padding: 50px;
      max-width: 450px;
      background-color: #2f5b8d;
     border-radius: 5px;
     box-shadow:0 0 50px rgba(5,2, 1, 0.1);
     overflow: auto;
+    margin-bottom: -1px;
    
 }        
 .sch{
@@ -45,6 +46,16 @@
     margin-bottom: 10px;
 }
 
+  .inp input{
+    background-color:rgb(1, 13, 39);
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 15px;
+
+  }
+
 
 
 
@@ -59,24 +70,24 @@
   
   
   <div class="lab">
-  <form action="/administrator/updatefaculty/{{n.id}}/" method="post">
+  <form action="/administrator/addfaculty/" method="post">
     {% csrf_token %}
-    <div style="font-size: 25px;text-align: center;">Update Faculty</div>
+    <div style="font-size: 25px;text-align: center;"><b>Register Teacher</b></div>
     <div class="sch">
     <label for="">Name</label>
-    <input type="text" name="name" id="" value="{{n.name}}-">
+    <input type="text" name="name" id="">
 </div>
 <div class="sch">
     <label for="">Address</label>
-    <textarea name="address" id="" rows="2" cols="20" >{{n.address}}</textarea>
+    <textarea name="address" id="" rows="2" cols="20" ></textarea>
 </div>
 <div class="sch">
     <label for="">Email</label>
-    <input type="text" name="email" id="" value="{{n.email}}">
+    <input type="text" name="email" id="">
 </div>
 <div class="sch">
     <label for="">Phone number</label>
-    <input type="text"name="phone" id="" value="{{n.phone}}" >
+    <input type="text"name="phone" id="" >
 </div>
 <div class="sch">
     <label for="">Username</label>
@@ -87,8 +98,8 @@
     <input type="password" name="" id="">
 </div>
 
-<div class="sch" >
-  <input type="submit" name="" id="" value="Register">
+<div class="inp" >
+ <b><input type="submit" name="" id="" value="UPDATE"></b>
 </div>
 
 
