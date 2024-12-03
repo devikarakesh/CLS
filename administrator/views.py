@@ -498,17 +498,17 @@ from django.views import View
 from .models import Lab, WorkingDay, TimeSlot
 
 # Lab Views
-class LabView(View):
+class AddLab(View):
     def get(self, request):
         labs = Lab.objects.all()
-        return render(request, 'admin/viewlabs.html', {'labs': labs})
+        return render(request, 'admin/addlabs.html', {'labs': labs})
 
     def post(self, request):
         # Create a new lab
         name = request.POST.get('name')
         capacity = request.POST.get('capacity')
         Lab.objects.create(name=name, capacity=capacity)
-        return redirect('lab_list')
+        return redirect('viewlabs')
 
 class Editlab(View):
     def get(self, request, pk):
@@ -521,15 +521,20 @@ class Editlab(View):
         lab.name = request.POST.get('name')
         lab.capacity = request.POST.get('capacity')
         lab.save()
-        return redirect('lab_list')
+        return redirect('viewlabs')
 
 class LabDeleteView(View):
-    def post(self, request, pk):
+    def get(self, request, pk):
         lab = Lab.objects.get(pk=pk)
         lab.delete()
-        return redirect('lab_list')
+        return redirect('viewlabs')
 
 class ViewAddedlabs(View):
     def get(self,request):
         lab=Lab.objects.all()
         return render(request,'admin/labs.html',{'labs':lab})
+
+class ViewLabs(View):
+    def get(self,request):
+        l=Lab.objects.all()
+        return render(request,'admin/viewlabs.html',{'labs':l})

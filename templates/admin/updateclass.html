@@ -58,13 +58,14 @@
             {% csrf_token %}
             <div class="sch">
                 <label for="class_name">Semester:</label>
-                <input type="text" id="class_name" name="Semester" required> 
+                <input type="text" id="class_name" name="Semester" required value="{{o.Semester}}"> 
                 </div>
                 <div class="sch">
                     <label for="subjects">Assign Subjects:</label>
                     <select id="subjects" name="subjects" multiple>
+                       
                    {% for s in subjects %}
-                    <option value="{{ s.id }}">{{ s.name }}</option>
+                    <option value="{{ s.id }}" {% if s.id in  o.subjects %}selected {% endif %}>{{ s.name }}</option>
                    {% endfor %}
                 </select>
                 </div>

@@ -72,22 +72,22 @@
   <div class="lab">
   <form action="/administrator/addfaculty/" method="post">
     {% csrf_token %}
-    <div style="font-size: 25px;text-align: center;"><b>Register Teacher</b></div>
+    <div style="font-size: 25px;text-align: center;"><b>Update Faculty</b></div>
     <div class="sch">
     <label for="">Name</label>
-    <input type="text" name="name" id="">
+    <input type="text" name="name" id="" value="{{n.name}}">
 </div>
 <div class="sch">
     <label for="">Address</label>
-    <textarea name="address" id="" rows="2" cols="20" ></textarea>
+    <textarea name="address" id="" rows="2" cols="20" >{{n.address}}</textarea>
 </div>
 <div class="sch">
     <label for="">Email</label>
-    <input type="text" name="email" id="">
+    <input type="text" name="email" id="" value="{{n.email}}">
 </div>
 <div class="sch">
     <label for="">Phone number</label>
-    <input type="text"name="phone" id="" >
+    <input type="text"name="phone" id="" value="{{n.phone}}" >
 </div>
 <div class="sch">
     <label for="">Username</label>

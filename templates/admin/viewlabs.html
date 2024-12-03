@@ -1,31 +1,84 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Labs</title>
-</head>
-<body>
-    <h1>Labs</h1>
-    <form method="POST" action="{% url 'lab_list' %}">
-        {% csrf_token %}
-        <label for="name">Lab Name:</label>
-        <input type="text" id="name" name="name" required>
-        <label for="capacity">Capacity:</label>
-        <input type="text" id="capacity" name="capacity" required>
-        <button type="submit">Add Lab</button>
-    </form>
 
-    <h2>Existing Labs</h2>
-    <ul>
-        {% for lab in labs %}
-            <li>
-                {{ lab.name }} - {{ lab.capacity }}
-                <a href="{% url 'lab_detail' lab.id %}">Edit</a>
-                <form method="POST" action="{% url 'lab_delete' lab.id %}" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+
+
+{% extends 'admin/adminbase.html' %}
+{%block body%}
+
+
+<style>
+        
+       
+
+        #table1{
+          width: 50%;
+            border-collapse: collapse;
+            background-color: #2f5b8d;
+            border:1px solid black;
+            margin-left: 520px;
+            
+            
+            
+            
+            
+        }
+        th,td{
+           padding: 10px;
+           text-align: center;
+           color: whitesmoke;
+        }
+
+        tr{
+          border:1px solid white;
+        }
+        * {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .plusbutton{
+      margin-left: 1012px;
+      border-radius: 5px;
+    text-align: center;
+    font-size: 25px;
+    /* margin-bottom: 50px; */
+    margin-top:109px;
+     
+    }
+
+  </style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=calendar_add_on" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=calendar_add_on" />
+  <div class="plusbutton">
+    <a href="/administrator/Addlabs/"><i class="material-icons" style="font-size: 35px;">add</i></a>
+  </div>
+
+    <div>
+      <table id="table1">
+        <tr>
+            <th >LAB Name</th>
+            <th>Capacity</th>
+            
+            
+            </tr>
+           {% for i in labs %}
+            <tr>
+
+                
+                <td>{{i.name}}</td>
+                <td>{{i.capacity}}
+            </td>
+                
+                <td><a href="/administrator/Editlab/{{i.id}}/"><i class="material-icons" style="color: whitesmoke;">edit</i></a></td>
+                <td><a href="/administrator/Deletelab/{{i.id}}/"><i class="material-icons" style="color: whitesmoke;">delete</i></a></td>
+                <td><a href="/administrator/Deletelab/{{i.id}}/"><i class="material-symbols-outlined" style="color: whitesmoke;">calendar_add_on</i></a></td>
+                
+        </tr>
+       {% endfor %}
+    </table>
+  
+    </div>
+
+  
+{% endblock %}
+ 

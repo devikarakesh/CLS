@@ -3,7 +3,7 @@
 <style>
 
 
-    .btn{
+    /* /* .btn{
         margin-top: 200px;
        
     }
@@ -31,49 +31,46 @@
         display: flex;
         margin-left:400px ;
         flex-direction: row;
-    }
+    } */
+    
     .card {
       display: flex;
       justify-content: space-evenly;
       margin-top: 100px;
       background-color: rgba(3, 3, 69, 0.129);
       height: 300px;
-    }
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+    } 
 
-    .car {
-      height: 50px;
-      width: 50px;
-      background-color: #0B0421;
-      margin-top: 20px;
-      border-radius: 20px;
-      box-shadow: 10px 20px 5px rgba(0, 0, 0, 0.503);
-      padding: 100px;
-      display: flex;
-      justify-content: center;
-      transition: 0.5s ease;
-    }
+   
 
+/* card styles */
+.cards{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    width: 650px;
+    margin: auto;
+    gap: 20px;
+}
+/* .card{
+    padding: 20px;
+    margin: 10px auto;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+} */
 </style>
 
-<div class="btn">
-    {% for i in labs %}
-    <!-- <div class="cardcontainer">
-<div class="btn1">
-    <a href="/administrator/viewfaculty/"><button class="sub">{{i.name}}</button></a>
-    <label for="">{{i.capacity}}</label>
-</div>
-     -->
+    <div class="cards">
+        {% for i in labs %}
+        <div class="card">
+            <h3>Lab name: </h3>
+             <h3>Lab capacity: 44</h3>
+        </div>
+        {% endfor %}
 
-     <div class="card">
-        <div class="car"> 
-            <a href="login.html"><div class="blah"><i class="fa-solid fa-user-tie icon" style="color: #fcfcfc; font-size: 50px;"></i></div><center><p class="cent">AUTHORITY</p></center></a></div>
-        
-      </div>
-</div>
-{% endfor %}
-<div class="btn2">
-    <a href="/administrator/viewclass/"><button class="sub" >Lab 3(44)</button></a>
-    <a href="/administrator/Generatetimetable/"><button class="sub">Lab 4(44)</button></a>
-</div>
-</div>
+    </div>
+
 {% endblock %}

@@ -69,6 +69,10 @@ class Student(View):
 class Labstaff(View):
   def get(self,request):
    return render(request,'staff/staffdashboard.html')
+
+class Faculty(View):
+  def get(self,request):
+    return render(request,'faculty/facultydashboard.html')
   
 
 

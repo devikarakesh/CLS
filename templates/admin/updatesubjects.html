@@ -70,17 +70,17 @@
             <div class="sch">
             
                     <label for="name">Subject Name</label>
-                    <input type="text" id="" value="" name="name">
+                    <input type="text" id=""  name="name" value="{{s.name}}">
                 </div>
                 <div class="sch">
                     <label for="contact-hours">Contact Hours</label>
-                    <input type="number" id="" value="" name="contact_hours">
+                    <input type="number" id="" value="{{s.contact_hours}}" name="contact_hours" >
                 </div>
                 <div class="sch">
                     <label for="teacher">Assign Faculty:</label>
                     <select id="teacher" name="faculty">
                       {% for f in faculties %}
-                    <option value="{{ f.id }}">{{ f.name }}</option>
+                    <option value="{{ f.id }}" {% if s.faculty.id == f.id %}selected {% endif %}>{{ f.name }}</option>
                      {% endfor %}
                     </select><br><br>
                 </div>
