@@ -3,15 +3,20 @@
 {% block body %}
 
 <style>
+  body{
+        background-color: rgb(211, 227, 244);
+        background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.kozhikode.directory%2Fst-josephs-college-autonomous-devagiri%2Fi%2F344&psig=AOvVaw3LYg9m0knQJvFidsrfLJen&ust=1731576530062000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOi07LL_2IkDFQAAAAAdAAAAABAJ');
+       }
   .lab{
        padding: 62px;
        max-width: 500px;
-      background-color: rgba(46, 47, 48, 0.858);
+       background-color: #2f5b8d;
       border-radius: 5px;
       box-shadow:0 0 50px rgba(5,2, 1, 0.1);
       overflow: auto;
       margin-left: 600px;
-      margin-top: -52px;
+     margin-top: 150px;
+     
      
   }        
   .sch{
@@ -29,7 +34,7 @@
       color: rgb(2, 2, 2);
   }
   .sch button{
-      background-color: rgba(54, 53, 56, 0.858);
+      background-color:rgb(1, 13, 39);
       padding: 10px;
       width: 100%;
       text-align: center;
@@ -50,23 +55,32 @@ font-size: 16px;
   color: whitesmoke;
   margin-bottom: 10px;
 }
+.inp input{
+    background-color:rgb(1, 13, 39);
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 15px;
+
+  }
 </style>
 
 
 <div class="lab">
-<form method="post" action="/administrator/updatenotification/{{n.id}}/">
+<form method="post" action="/administrator/addnotification/">
   {% csrf_token %}
-<div style="font-size: 25px;text-align: center;">POST NOTIFICATIONS</div>
+<div style="font-size: 25px;text-align: center;"><b>POST NOTIFICATIONS</b></div>
 <div class="sch">
 <label for="">POST</label>
-<textarea name="notification" id="" rows="2" cols="20" >{{n.notification}}</textarea>
+<textarea name="notification" id="" rows="2" cols="20"></textarea>
 
 </div>
 <div class="sch">
 <label for="">Date</label>
-<input type="date" name="notificationdate" value="{{n.notificationdate}}">
+<input type="date" name="notificationdate">
 </div>
-<div class="sch">
+<div class="inp">
 <input type="submit" value="UPDATE">
 </div>
 

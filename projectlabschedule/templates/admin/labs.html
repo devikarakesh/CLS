@@ -1,0 +1,76 @@
+{% extends 'admin/adminbase.html' %}
+{% block body %}
+<style>
+
+
+    /* /* .btn{
+        margin-top: 200px;
+       
+    }
+    .sub{
+    padding: 50px;
+     width: 250px;
+     background-color: #2f5b8d;
+    text-align: center;
+    border-radius: 5px;
+    overflow: auto;
+    margin-left: 150px;
+    margin-top: 52px;
+    color: white;
+    }
+    .btn1{
+        background-color: rgb(0, 0, 0);
+            color: aliceblue;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.385);
+            margin: 15px;
+            width: 450px;
+            border-radius: 100px;
+            text-align: center;
+    }
+    .btn2{
+        display: flex;
+        margin-left:400px ;
+        flex-direction: row;
+    } */
+    
+    .card {
+      display: flex;
+      justify-content: space-evenly;
+      margin-top: 100px;
+      background-color: rgba(3, 3, 69, 0.129);
+      height: 300px;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+    } 
+
+   
+
+/* card styles */
+.cards{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    width: 650px;
+    margin: auto;
+    gap: 20px;
+}
+/* .card{
+    padding: 20px;
+    margin: 10px auto;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+} */
+</style>
+
+    <div class="cards">
+        {% for i in labs %}
+        <div class="card">
+            <h3>Lab name: </h3>
+             <h3>Lab capacity: 44</h3>
+        </div>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
