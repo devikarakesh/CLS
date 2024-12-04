@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.views import View
 from .forms import *
+from django.urls import reverse
 
 
 # Create your views here.
@@ -538,3 +539,99 @@ class ViewLabs(View):
     def get(self,request):
         l=Lab.objects.all()
         return render(request,'admin/viewlabs.html',{'labs':l})
+
+class Viewworkingday(View):
+    def get(self,request,id):
+        d=WorkingDay.objects.filter(lab=id).all()
+        print(d)
+        e=Lab.objects.filter(id=id).first()
+        return render(request,'admin/viewworkingday.html',{'d':d,'e':e})
+
+class Addworkingday(View):
+    def get(self,request,id):
+        a=Lab.objects.filter(id=id).first()
+        return render(request,'admin/addworkingday.html',{'lab':a})
+
+    def post(self,request,id):
+        a=Lab.objects.filter(id=id).first()
+        c=Addworkingdayform(request.POST)
+        if c.is_valid():
+            e=c.save(commit=False)
+            e.lab=a
+            e.save()
+            return redirect(reverse('viewworkingday', kwargs={'id': id}))
+
+
+class Editworkingday(View):
+    def get(self,request,id):
+        a=WorkingDay.objects.filter(id=id).first()
+        return render(request,'admin/updateworkingday.html',{'a':a})
+
+
+    def post(self,request,id):
+        a=WorkingDay.objects.filter(id=id).first()
+        c=Addworkingdayform(request.POST,instance=a)
+        print(a.lab.id)
+        if c.is_valid():
+            c.save()
+            return redirect(reverse('viewworkingday', kwargs={'id': a.lab.id}))
+
+class Deleteworkingday(View):
+    def get(self,request,id):
+        a=WorkingDay.objects.filter(id=id).first()
+        a.delete()
+        return redirect(reverse('viewworkingday', kwargs={'id': a.lab.id}))
+    
+
+
+class Viewtimeslot(View):
+    def get(self,request,id):
+        t=TimeSlot.objects.filter(working_day__lab__id=id)
+        e=WorkingDay.objects.filter(id=id).first()
+        # print(e.lab.name)
+        # print(e.lab.capacity)
+        print(t)
+        return render(request,'admin/viewtimeslot.html',{'t':t,'e':e})
+
+
+class Addtimeslot(View):
+    def get(self,request,id):
+        a=WorkingDay.objects.filter(id=id).first()
+        return render(request,'admin/addslot.html',{'day':a})
+
+    def post(self,request,id):
+        a=WorkingDay.objects.filter(id=id).first()
+        c=Addslotform(request.POST)
+        if c.is_valid():
+            e=c.save(commit=False)
+            e.working_day=a
+            e.save()
+            return redirect(reverse('viewtimeslot', kwargs={'id': id}))
+
+
+
+class Edittimeslot(View):
+    def get(self,request,id):
+        a=TimeSlot.objects.filter(id=id).first()
+        return render(request,'admin/updateslot.html',{'a':a})
+
+
+    def post(self,request,id):
+        a=TimeSlot.objects.filter(id=id).first()
+        c=Addslotform(request.POST,instance=a)
+        print(a.working_day.lab.id)
+        if c.is_valid():
+            print("ggg")
+            c.save()
+            return redirect(reverse('viewtimeslot', kwargs={'id': a.working_day.lab.id}))
+
+class Deletetimeslot(View):
+    def get(self,request,id):
+        a=TimeSlot.objects.filter(id=id).first()
+        a.delete()
+        return redirect(reverse('viewtimeslot', kwargs={'id': a.working_day.lab.id}))
+
+
+
+
+

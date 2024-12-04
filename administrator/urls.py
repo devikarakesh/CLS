@@ -27,5 +27,20 @@ urlpatterns = [
     path('Editlab/<int:pk>/',Editlab.as_view(),name='lab_detail'),
     path('Deletelab/<int:pk>/',LabDeleteView.as_view(),name='lab_delete'),
     path('ViewAddedlabs/',ViewAddedlabs.as_view(),name='ViewAddedlabs'),
-    path('viewlabs/',ViewLabs.as_view(),name='viewlabs')
+    path('viewlabs/',ViewLabs.as_view(),name='viewlabs'),
+
+    path('viewworkingday/<int:id>/',Viewworkingday.as_view(),name='viewworkingday'),
+    path('addworkingday/<int:id>/',Addworkingday.as_view(),name='addwworkingday'),
+    path('editworkingday/<int:id>/',Editworkingday.as_view(),name='editworkingday'),
+    path('Deleteworkingday/<int:id>/',Deleteworkingday.as_view(),name='deleteworkingday'),
+
+    path('viewtimeslot/<int:id>',Viewtimeslot.as_view(),name='viewtimeslot'),
+    path('addtimeslot/<int:id>',Addtimeslot.as_view(),name='addtimeslot'),
+    path('edittimeslot/<int:id>/',Edittimeslot.as_view(),name='editworkingday'),
+    path('Deletetimeslot/<int:id>/',Deletetimeslot.as_view(),name='deleteworkingday'),
+
+
+
+
+
 ]

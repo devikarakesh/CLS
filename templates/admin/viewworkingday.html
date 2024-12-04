@@ -1,0 +1,89 @@
+
+{% extends 'admin/adminbase.html' %}
+{%block body%}
+
+
+<style>
+        
+       
+
+        #table1{
+          width: 50%;
+            border-collapse: collapse;
+            background-color: #2f5b8d;
+            border:1px solid black;
+            margin-left: 520px;
+            
+            
+            
+            
+            
+        }
+        th,td{
+           padding: 10px;
+           text-align: center;
+           color: whitesmoke;
+        }
+
+        tr{
+          border:1px solid white;
+        }
+        * {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .plusbutton{
+      margin-left: 1012px;
+      border-radius: 5px;
+    text-align: center;
+    font-size: 25px;
+    /* margin-bottom: 50px; */
+    margin-top:109px;
+     
+    }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <div class="plusbutton">
+      <a href="/administrator/addworkingday/{{e.id}}"><i class="material-icons" style="font-size: 35px;">add</i></a>
+    </div>
+  
+<div>
+    <table id="table1">
+        
+            <tr>
+                <th colspan="6">Working Day</th>
+            </tr>
+            <tr>
+                <th colspan="3">Lab Name {{e.name}}</th>
+                <th colspan="3">Capacity{{e.capacity}}</th>
+                
+                
+                
+            </tr>
+        
+        
+            <tr>
+                <td>Working Day</td>
+                <td>Start Time</td>
+                <td>End Time</td>
+                
+            </tr>
+            {% for i in d %}
+            
+            <tr>
+                <td>{{i.day}}</td>
+                <td>{{ i.start_time|time:'H:i' }}</td>
+                <td>{{ i.end_time|time:'H:i' }}</td>
+
+                <td><a href="/administrator/editworkingday/{{i.id}}"><i class="material-icons" style="color: whitesmoke;">edit</i></a></td>
+                <td><a href="/administrator/Deleteworkingday/{{i.id}}"><i class="material-icons" style="color: whitesmoke;">delete</i></a></td>
+                <td><a href="/administrator/viewtimeslot/{{i.id}}"><i class="material-symbols-outlined" style="color: whitesmoke;">schedule</i></a></td>
+            </tr>
+            {% endfor %}
+            
+        
+    </table>
+</div>
+{% endblock %}

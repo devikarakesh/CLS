@@ -137,3 +137,28 @@ class TimeSlot(models.Model):
 #         [instance.user.email],
 #         fail_silently=False,
 #     )
+
+class Staffnotification(models.Model):
+    notification=models.CharField(max_length=20)
+    date=models.CharField(max_length=20)
+
+class Feedback(models.Model):
+    user_id=models.CharField(max_length=20)
+    Feedback=models.CharField(max_length=20)
+
+
+class Staff(models.Model):
+    
+    name = models.CharField(max_length=100)
+    address=models.CharField(max_length=100)
+    email=models.CharField(max_length=100)
+    phone=models.CharField(max_length=100)
+    def _str_(self):
+        return self.name
+class Student(models.Model):
+    name = models.CharField(max_length=100)
+    address=models.CharField(max_length=100)
+    email=models.CharField(max_length=100)
+    phone=models.CharField(max_length=100)
+    def _str_(self):
+        return self.name

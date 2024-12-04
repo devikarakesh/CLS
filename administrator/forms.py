@@ -41,3 +41,14 @@ class Updateclassform(forms.ModelForm):
     class Meta:
         model=Class1
         fields=['Semester','subjects']
+
+class Addworkingdayform(forms.ModelForm):
+    class Meta:
+        model=WorkingDay
+        fields=['day','start_time','end_time']
+
+class Addslotform(forms.ModelForm):
+    class Meta:
+        model=TimeSlot
+        fields=['slot_start_time','slot_end_time']
+        
