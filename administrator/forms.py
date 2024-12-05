@@ -51,4 +51,30 @@ class Addslotform(forms.ModelForm):
     class Meta:
         model=TimeSlot
         fields=['slot_start_time','slot_end_time']
+
+
+class AddStudentform(forms.ModelForm):
+    class Meta:
+        model=Student
+        fields=['name','address','email','semester','phone']
+
+class AddLabstaffform(forms.ModelForm):
+    class Meta:
+        model=Staff
+        fields=['name','address','email','phone']
+
+
+class Addnotificationbystaffform(forms.ModelForm):
+    class Meta:
+        model= Staffnotification
+        fields=['notification','notificationdate']
+
+
+class Addfeedbackform(forms.ModelForm):
+    class Meta:
+        model= Feedback
+        fields=['Feedback']
+
+
         
+

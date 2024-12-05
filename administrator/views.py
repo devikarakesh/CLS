@@ -586,7 +586,7 @@ class Deleteworkingday(View):
 
 class Viewtimeslot(View):
     def get(self,request,id):
-        t=TimeSlot.objects.filter(working_day__lab__id=id)
+        t=TimeSlot.objects.filter(working_day__id=id)
         e=WorkingDay.objects.filter(id=id).first()
         # print(e.lab.name)
         # print(e.lab.capacity)
@@ -623,15 +623,54 @@ class Edittimeslot(View):
         if c.is_valid():
             print("ggg")
             c.save()
-            return redirect(reverse('viewtimeslot', kwargs={'id': a.working_day.lab.id}))
+            return redirect(reverse('viewtimeslot', kwargs={'id': a.working_day.id}))
 
 class Deletetimeslot(View):
     def get(self,request,id):
         a=TimeSlot.objects.filter(id=id).first()
         a.delete()
-        return redirect(reverse('viewtimeslot', kwargs={'id': a.working_day.lab.id}))
+        return redirect(reverse('viewtimeslot', kwargs={'id': a.working_day.id}))
 
 
 
+class notificationbystaff(View):
+    def get(self,request):
+        return render(request,'staff/notificationstaff.html')
+    def post(self,request):
+        form=Addnotificationbystaffform(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('viewnotifications')
 
+class Updatenotification(View):
+    def get(self,request,id):
+        n=notifications.objects.get(id=id)
+        return render(request,'admin/updatenotification.html',{'n':n})
+    def post(self,request,id):
+        n=notifications.objects.get(id=id)
+        form=Updatenotificationform(request.POST,instance=n)
+        if form.is_valid():
+            form.save()
+            return redirect('viewnotifications')
+
+
+class Deletenotification(View):
+    def get(self,request,id):
+        n=notifications.objects.get(id=id)
+        n.delete()
+        return redirect('viewnotifications')
+
+class Addfaculty(View):
+    def get(self,request):
+        return render(request,'admin/addfaculty.html')
+    def post(self,request):
+        form=Addfacultyform(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('viewfaculty')
+
+class Viewfaculty(View):
+    def get(self,request):
+        f=Faculty1.objects.all()
+        return render(request,'admin/viewfaculty.html',{'faculties':f})
 

@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
+from loginapp.models import Userprofile
 
 # Create your models here.
 class notifications(models.Model):
@@ -138,13 +139,14 @@ class TimeSlot(models.Model):
 #         fail_silently=False,
 #     )
 
+
 class Staffnotification(models.Model):
     notification=models.CharField(max_length=20)
-    date=models.CharField(max_length=20)
+    notificationdate=models.CharField(max_length=100)
 
 class Feedback(models.Model):
-    user_id=models.CharField(max_length=20)
-    Feedback=models.CharField(max_length=20)
+    user_id=models.ForeignKey(Userprofile,on_delete=models.CASCADE,null=True,blank=True)
+    Feedback=models.CharField(max_length=100)
 
 
 class Staff(models.Model):
@@ -155,9 +157,11 @@ class Staff(models.Model):
     phone=models.CharField(max_length=100)
     def _str_(self):
         return self.name
+
 class Student(models.Model):
     name = models.CharField(max_length=100)
     address=models.CharField(max_length=100)
+    semester=models.ForeignKey(Class1,on_delete=models.CASCADE,null=True,blank=True)
     email=models.CharField(max_length=100)
     phone=models.CharField(max_length=100)
     def _str_(self):

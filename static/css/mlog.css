@@ -1,11 +1,14 @@
 body{
-    background-image: url("https://5.imimg.com/data5/SELLER/Default/2024/3/401978527/KR/PN/UH/108836434/computer-lab-setup.jpg");
+    background-image:url('/static/WhatsApp Image 2024-12-05 at 16.54.31.jpeg');
     display: flex;
     justify-content: center;
     height: 100vh;
     align-items: center;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(1px);
     background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    /* background-attachment: fixed; */
 }
 .lab{
     padding: 100px;
@@ -25,7 +28,7 @@ body{
     padding: 6px;
     border-radius: 5px;
     border: 1px solid rgb(21, 20, 20);
-    background-color: rgba(187, 193, 203, 0.858);
+    background-color: whitesmoke;
     margin-top: 5px;
     cursor: pointer;
     color: white;
