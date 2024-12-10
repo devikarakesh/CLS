@@ -7,7 +7,7 @@ from django.urls import reverse
 # Create your views here.
 class notification(View):
     def get(self,request):
-        return render(request,'addnotidication.html')
+        return render(request,'admin/addnotification.html')
     def post(self,request):
         form=Addnotificationform(request.POST)
         if form.is_valid():
@@ -17,13 +17,15 @@ class notification(View):
 class Updatenotification(View):
     def get(self,request,id):
         n=notifications.objects.get(id=id)
-        return render(request,'admin/updatenotification.html',{'n':n})
+        return render(request,'admin/updatenotification.html',{'notificationobject':n})
     def post(self,request,id):
         n=notifications.objects.get(id=id)
         form=Updatenotificationform(request.POST,instance=n)
         if form.is_valid():
             form.save()
             return redirect('viewnotifications')
+        else:
+            print(form.errors) 
 
 
 class Deletenotification(View):
@@ -32,19 +34,47 @@ class Deletenotification(View):
         n.delete()
         return redirect('viewnotifications')
 
-class Addfaculty(View):
-    def get(self,request):
-        return render(request,'admin/addfaculty.html')
-    def post(self,request):
-        form=Addfacultyform(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('viewfaculty')
+class Viewnotifications(View):
+  def get(self,request):
+    notificationobject=notifications.objects.all()
+    return render(request,'admin/viewnotifications.html',{'notificationobject':notificationobject})
 
 class Viewfaculty(View):
     def get(self,request):
         f=Faculty1.objects.all()
         return render(request,'admin/viewfaculty.html',{'faculties':f})
+
+class Addfaculty(View):
+    def get(self,request):
+        return render(request,'admin/addfaculty.html')
+    def post(self,request):
+        form=Addfacultyform(request.POST)
+    
+        if form.is_valid():
+            reg_form=form.save(commit=False)
+            login_instance=Userprofile.objects.create_user(username=request.POST['username'],password=request.POST['password'],user_type='FACULTY')
+            reg_form.loginid=login_instance
+            reg_form.save()
+            form.save()
+            return redirect('viewfaculty')
+
+class UpdateFaculty(View):
+    def get(self,request,id):
+        n=Faculty1.objects.get(id=id)
+        return render(request,'admin/updatefaculty.html',{'n':n})
+    def post(self,request,id):
+        n=Faculty1.objects.get(id=id)
+        form=Updatefacultyform(request.POST,instance=n)
+        if form.is_valid():
+            form.save()
+            return redirect('viewfaculty')
+
+
+class DeleteFaculty(View):
+    def get(self,request,id):
+        n=Faculty1.objects.get(id=id)
+        n.delete()
+        return redirect('viewfaculty')
 
 class GenerateTTbutton(View):
     def get(self,request):
@@ -633,44 +663,186 @@ class Deletetimeslot(View):
 
 
 
+
+class Staffdashboard(View):
+ def get(self,request):
+  return render(request,'staff/staffdashboard.html')
+
+
+class StaffViewnotifications(View):
+  def get(self,request):
+    o=Staffnotification.objects.all()
+    return render(request,'staff/staffviewnotification.html',{'notificationobject':o})
+
+
 class notificationbystaff(View):
     def get(self,request):
+
         return render(request,'staff/notificationstaff.html')
     def post(self,request):
         form=Addnotificationbystaffform(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('viewnotifications')
+            return redirect('staffviewnotification')
 
-class Updatenotification(View):
+class Updatenotificationbystaff(View):
     def get(self,request,id):
-        n=notifications.objects.get(id=id)
-        return render(request,'admin/updatenotification.html',{'n':n})
+        n=Staffnotification.objects.get(id=id)
+        return render(request,'staff/updatenotifications.html',{'n':n})
     def post(self,request,id):
-        n=notifications.objects.get(id=id)
+        n=Staffnotification.objects.get(id=id)
         form=Updatenotificationform(request.POST,instance=n)
         if form.is_valid():
             form.save()
-            return redirect('viewnotifications')
+            return redirect('staffviewnotification')
 
 
-class Deletenotification(View):
+class Deletenotificationbystaff(View):
     def get(self,request,id):
-        n=notifications.objects.get(id=id)
+        n=Staffnotification.objects.get(id=id)
         n.delete()
-        return redirect('viewnotifications')
+        return redirect('staffviewnotification')
 
-class Addfaculty(View):
-    def get(self,request):
-        return render(request,'admin/addfaculty.html')
-    def post(self,request):
-        form=Addfacultyform(request.POST)
+
+class TimetableView2(View):
+    template_name = 'staff/viewtimetablebystaff.html'  # Specify your template name here
+
+    def get(self, request, *args, **kwargs):
+        # Get all classes
+        classes = Class1.objects.all()
+        faculties= Faculty1.objects.all()
+        
+        # Define the days and periods
+        days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+        periods = [1, 2, 3, 4, 5]  # Assuming 5 periods per day
+
+        # Initialize a dictionary to hold timetable data
+        timetable_data = {cls: {day: {period: None for period in periods} for day in days} for cls in classes}
+
+        # Populate the timetable dictionary with entries
+        entries = TimetableEntry1.objects.all()
+        for entry in entries:
+            timetable_data[entry.cls][entry.day][entry.period] = entry
+
+        # Create a context dictionary for the template
+        context = {
+            'timetable_data': timetable_data,
+            'days': days,
+            'periods': periods,
+            'faculties':faculties
+        }
+        
+        return render(request, self.template_name, context)
+
+
+class Viewnotificationsaddedbystaff(View):
+  def get(self,request):
+    notificationobject=Staffnotification.objects.all()
+    return render(request,'faculty/viewnotificationsbystaff.html',{'notificationobject':notificationobject})
+
+class TimetableView3(View):
+    template_name = 'faculty/viewtimetablebyfaculty.html'  # Specify your template name here
+
+    def get(self, request, *args, **kwargs):
+        # Get all classes
+        classes = Class1.objects.all()
+        faculties= Faculty1.objects.all()
+        
+        # Define the days and periods
+        days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+        periods = [1, 2, 3, 4, 5]  # Assuming 5 periods per day
+
+        # Initialize a dictionary to hold timetable data
+        timetable_data = {cls: {day: {period: None for period in periods} for day in days} for cls in classes}
+
+        # Populate the timetable dictionary with entries
+        entries = TimetableEntry1.objects.all()
+        for entry in entries:
+            timetable_data[entry.cls][entry.day][entry.period] = entry
+
+        # Create a context dictionary for the template
+        context = {
+            'timetable_data': timetable_data,
+            'days': days,
+            'periods': periods,
+            'faculties':faculties
+        }
+        
+        return render(request, self.template_name, context)
+
+class Editprofilebyfaculty(View):
+    def get(self,request,id):
+        n=Faculty1.objects.get(loginid__id=id)
+        return render(request,'faculty/editprofile.html',{'n':n})
+    def post(self,request,id):
+        n=Faculty1.objects.get(loginid__id=id)
+        form=Updatefacultyform(request.POST,instance=n)
         if form.is_valid():
             form.save()
-            return redirect('viewfaculty')
+            return redirect('faculty')
+class ViewStudent(View):
+  def get(self,request):
+    st=Student.objects.all()
+    print(st)
+    return render(request,'admin/viewstudent.html',{'st':st})
+class Studentreg(View):
+  def get(self,request):
+    sem=Class1.objects.all()
+    print(sem)
+    return render(request,'admin/Student.html',{'sem':sem})
 
-class Viewfaculty(View):
-    def get(self,request):
-        f=Faculty1.objects.all()
-        return render(request,'admin/viewfaculty.html',{'faculties':f})
+  def post(self,request):
+        print('addstudent')
+        form=AddStudentform(request.POST)
+        if form.is_valid():
+            reg_form=form.save(commit=False)
+            rf=Userprofile.objects.create_user(user_type='STUDENT',username=request.POST['username'],password=request.POST['password'])
+            reg_form.loginid=rf
+            rf.save()
+            reg_form.save()
+        return HttpResponse('''<script>alert("added");window.location="/administrator/viewstudent/"</script>''')
+            
 
+class Updatestudent(View):
+    def get(self,request,id):
+        n=Student.objects.get(id=id)
+        s=Class1.objects.all()
+        return render(request,'admin/updatestudent.html',{'s':n,'r':s})
+    def post(self,request,id):
+        print("sss")
+        n=Student.objects.get(id=id)
+        form=UpdateStudentform(request.POST,instance=n)
+        if form.is_valid():
+            form.save()
+            return redirect('viewstudent')
+
+class Deletestudent(View):
+    def get(self,request,id):
+        n=Student.objects.get(id=id)
+        n.delete()
+        return redirect('viewstudent')
+
+class ViewStaff(View):
+  def get(self,request):
+    return render(request,'admin/viewstaff.html')
+
+class Staffreg(View):
+  def get(self,request):
+    return render(request,'admin/staffregister.html')
+  def post(self,request,id):
+        s=Student.objects.get(id=id)
+        form=UpdateStudentform(request.POST,instance=n)
+        if form.is_valid():
+            form.save()
+            return redirect('viewstudent')
+  
+class Updatestaff(View):
+    def get(self,request,id):
+        n=Student.objects.get(id=id)
+        return render(request,'admin/updatestudent.html',{'n':n})
+    def post(self,request,id):
+        n=Student.objects.get(id=id)
+        form=UpdateLabstaffform(request.POST,instance=n)
+        if form.is_valid():
+            form.save()
+            return redirect('viewstudent')

@@ -82,7 +82,8 @@
 .sidebar .menu-item {
   width: 80%;
   background-color: #2f5b8d;
-  margin: 10px 0;
+  /* margin: 10px 0; */
+  margin-top: 50px;
   border-radius: 8px;
   overflow: hidden;
   transition: background-color 0.3s;
@@ -97,19 +98,25 @@
   text-decoration: none;
   color: white;
   display: block;
-  padding: 15px;
+  padding: 35px;
   font-size: 18px;
 }
 
 .sidebar .icon {
   display: block;
   margin-bottom: 10px;
-  font-size: 24px;
+  font-size: 30px;
 }
 body{
         background-color: rgb(211, 227, 244);
         
        }
+
+       .r{
+
+margin-top: 100px;
+}
+
   </style>
 </head>
 <body>
@@ -126,11 +133,11 @@ body{
   <div class="sidebar">
     <div class="menu-item" id="notificationBtn">
       <i class="material-icons icon">notifications</i>
-      <a href="#">Notifications</a>
+      <a href="/administrator/staffviewnotification/">Notifications</a>
     </div>
     <div class="menu-item" id="timeTableBtn">
       <i class="material-icons icon">schedule</i>
-      <a href="#">Time Table</a>
+      <a href="/administrator/viewtimetablebystaff/">Time Table</a>
     </div>
     <div class="menu-item" id="viewBookingBtn">
       <i class="material-icons icon">view_list</i>

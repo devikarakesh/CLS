@@ -56,7 +56,7 @@
   </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <div class="plusbutton">
-    <a href="/Addnotifications/"><i class="material-icons" style="font-size: 35px;">add</i></a>
+    <a href="/administrator/addnotificationbystaff/"><i class="material-icons" style="font-size: 35px;">add</i></a>
   </div>
 
     <div>
@@ -70,8 +70,8 @@
 
                 <td>{{i.notification}}</td>
                 <td>{{i.notificationdate}}</td>
-                <td><a href="/administrator/updatenotification/{{i.id}}"><i class="material-icons" style="color: whitesmoke;">edit</i></a></td>
-                <td><a href="/administrator/Deletenotification/{{i.id}}/"><i class="material-icons" style="color: whitesmoke;">delete</i></a></td>
+                <td><a href="/administrator/updatenotificationbystaff/{{i.id}}/"><i class="material-icons" style="color: whitesmoke;">edit</i></a></td>
+                <td><a href="/administrator/Deletenotificationbysatff/{{i.id}}/"><i class="material-icons" style="color: whitesmoke;">delete</i></a></td>
                 
         </tr>
         {% endfor %} 

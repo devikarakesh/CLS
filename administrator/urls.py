@@ -6,21 +6,28 @@ urlpatterns = [
     path('addnotification/',notification.as_view(),name='notification'),
     path('updatenotification/<int:id>/',Updatenotification.as_view(),name='updatenotification'),
     path('Deletenotification/<int:id>/',Deletenotification.as_view(),name='Deletenotification'),
+    path('viewnotifications/',Viewnotifications.as_view(),name='viewnotifications'),
 
-    path('addfaculty/',Addfaculty.as_view(),name='addfaculty'),    
-    path('viewfaculty/',Viewfaculty.as_view(),name='viewfaculty'),  
+
     
     path('Generate/',GenerateTTbutton.as_view(),name='Generate'),
+    
     path('viewsubjects/',Viewsubjects.as_view(),name='viewsubjects'), 
     path('addsubjects/',Addsubjects.as_view(),name='addsubjects'), 
     path('addclass/',Addclass.as_view(),name='addclass'), 
     path('viewclass/',Viewclass.as_view(),name='viewclass'), 
-    path('updatefaculty/<int:id>/',UpdateFaculty.as_view(),name='updatefaculty'),
-    path('Deletefaculty/<int:id>/',DeleteFaculty.as_view(),name='Deletefaculty'),
-    path('updatesubjects/<int:id>/',Updatesubjects.as_view(),name='updatesubjects'),
-    path('Deletesubjects/<int:id>/',Deletesubjects.as_view(),name='Deletesubjects'),
+
+    path('addfaculty/',Addfaculty.as_view(),name='addfaculty'),    
+    path('viewfaculty/',Viewfaculty.as_view(),name='viewfaculty'),
+    path('updatefaculty/<int:id>',UpdateFaculty.as_view(),name='updatefaculty'),
+    path('Deletefaculty/<int:id>',DeleteFaculty.as_view(),name='Deletefaculty'),
+
+    path('updatesubjects/<int:id>',Updatesubjects.as_view(),name='updatesubjects'),
+    path('Deletesubjects/<int:id>',Deletesubjects.as_view(),name='Deletesubjects'),
+
     path('updateclass/<int:id>/',UpdateClass.as_view(),name='updateclass'),
     path('Deleteclass/<int:id>/',Deleteclass.as_view(),name='Deleteclass'),
+
     path ('Generatetimetable/', generate_timetable,name='Generate timetable'),
     path('viewtimetable/',TimetableView1.as_view(),name='viewtimetable'),
 
@@ -41,10 +48,31 @@ urlpatterns = [
     path('edittimeslot/<int:id>/',Edittimeslot.as_view(),name='editworkingday'),
     path('Deletetimeslot/<int:id>/',Deletetimeslot.as_view(),name='deleteworkingday'),
 
+    path('staffdashboard/',Staffdashboard.as_view(),name='staffdashboard'),
+    path('staffviewnotification/',StaffViewnotifications.as_view(),name='staffviewnotification'),
+    path('addnotificationbystaff/',notificationbystaff.as_view(),name='addnotificationbystaff'),
+    path('updatenotificationbystaff/<int:id>/',Updatenotificationbystaff.as_view(),name='updatenotificationbystaff'),
+    path('Deletenotificationbysatff/<int:id>/',Deletenotificationbystaff.as_view(),name='Deletenotificationbystaff'),
 
-    path('addnotification/',notification.as_view(),name='notification'),
-    path('updatenotification/<int:id>/',Updatenotification.as_view(),name='updatenotification'),
-    path('Deletenotification/<int:id>/',Deletenotification.as_view(),name='Deletenotification'),
+    # path('updatestudent/<int:id>/',Updatestudent.as_view(),name='updatestudent'),
+    path('viewtimetablebystaff/',TimetableView2.as_view(),name='viewtimetablebystaff'),
+    path('viewnotificationsbystaff/',Viewnotificationsaddedbystaff.as_view(),name='viewnotificationsbystaff'),
+    path('viewtimetablebyfaculty/',TimetableView3.as_view(),name='viewtimetablebyfaculty'),
+    path('editprofilebyfaculty/<int:id>/',Editprofilebyfaculty.as_view(),name='editprofilebyfaculty'),
+
+    path('viewstudent/',ViewStudent.as_view(),name='viewstudent'),
+    path('Studentreg/',Studentreg.as_view(),name='studentreg'),
+
+    path('viewstaff/',ViewStaff.as_view(),name='viewstaff'),
+    path('Staffreg/',Staffreg.as_view(),name='staffreg'),
+
+
+    path('updatestudent/<int:id>',Updatestudent.as_view(),name='updatestudent'),
+    path('Deletestudent/<int:id>',Deletestudent.as_view(),name='Deletestudent'),
+
+
+
+    
 
 
 

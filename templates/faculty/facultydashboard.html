@@ -71,7 +71,7 @@
   background-color: white;
   position: fixed;
   top: 70px; 
-  padding-top: 20px;
+  padding-top: 10px;
   color: black;
   display: flex;
   flex-direction: column;
@@ -110,6 +110,11 @@ body{
         background-color: rgb(211, 227, 244);
         
        }
+       .r{
+
+margin-top: 100px;
+}
+
 
 
 
@@ -128,50 +133,40 @@ body{
 
 
   <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="menu-item" id="notificationBtn">
-      <i class="material-icons icon">notifications</i>
-      <a href="#">Notifications</a>
 
   <div class="sidebar">
+   
+  <!-- <div class="sidebar"> -->
     <div class="menu-item" id="editBtn">
       <i class="material-icons icon">edit</i>
-      <a href="editfaculty.html">Edit profile</a>
+      <a href="/administrator/editprofilebyfaculty/{{request.session.user_id}}/">Edit profile</a>
     </div>
     <div class="menu-item" id="timeTableBtn">
       <i class="material-icons icon">schedule</i>
-      <a href="#">Time Table</a>
+      <a href="/administrator/viewtimetablebyfaculty/">Time Table</a>
     </div>
     <div class="menu-item" id="viewBookingBtn">
       <i class="material-icons icon">view_list</i>
       <a href="#">View Slot availability,Book</a>
     </div>
-    
-   
-    
-    
     <div class="menu-item" id="viewBookingBtn">
       <i class="material-icons icon">view_list</i>
-      <a href="#">View lab schedule</a>
+      <a href="#">Manage lab schedule</a>
     </div>
-    <div class="menu-item" id="viewBookingBtn"></div>
-      <i class="material-icons icon">schedule</i>
-      <a href="#">Manage schedule</a>
+      <div class="menu-item" id="notificationBtn">
+        <i class="material-icons icon">notifications</i>
+        <a href="/administrator/viewnotificationsbystaff/">Notifications added by Labststaff</a>
     </div>
-    <div class="overlay" id="overlay"></div>
-  
-  
-  
+
+    </div>
     
-   
-
-
- 
-
+    <!-- <div class="overlay" id="overlay"></div> -->
+    <div class="r">
+      {% block body %}
+      {% endblock %}
   
-
+    </div>
   
-   
+  </body>
+  </html>
   
-</body>
-</html>

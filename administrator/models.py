@@ -9,6 +9,7 @@ class notifications(models.Model):
     notificationdate=models.CharField(max_length=100,null=True,blank=True)
 
 class Faculty1(models.Model):
+    loginid=models.ForeignKey(Userprofile,on_delete=models.CASCADE,null=True,blank=True)
     name = models.CharField(max_length=100)
     address=models.CharField(max_length=100)
     email=models.CharField(max_length=100)
@@ -144,9 +145,6 @@ class Staffnotification(models.Model):
     notification=models.CharField(max_length=20)
     notificationdate=models.CharField(max_length=100)
 
-class Feedback(models.Model):
-    user_id=models.ForeignKey(Userprofile,on_delete=models.CASCADE,null=True,blank=True)
-    Feedback=models.CharField(max_length=100)
 
 
 class Staff(models.Model):
@@ -159,6 +157,7 @@ class Staff(models.Model):
         return self.name
 
 class Student(models.Model):
+    loginid=models.ForeignKey(Userprofile,on_delete=models.CASCADE,null=True,blank=True)
     name = models.CharField(max_length=100)
     address=models.CharField(max_length=100)
     semester=models.ForeignKey(Class1,on_delete=models.CASCADE,null=True,blank=True)
@@ -166,3 +165,6 @@ class Student(models.Model):
     phone=models.CharField(max_length=100)
     def _str_(self):
         return self.name
+
+
+

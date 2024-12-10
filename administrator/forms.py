@@ -58,11 +58,22 @@ class AddStudentform(forms.ModelForm):
         model=Student
         fields=['name','address','email','semester','phone']
 
+class UpdateStudentform(forms.ModelForm):
+    class Meta:
+        model=Student
+        fields=['name','address','email','semester','phone']
+
+
+
 class AddLabstaffform(forms.ModelForm):
     class Meta:
         model=Staff
         fields=['name','address','email','phone']
 
+class UpdateLabstaffform(forms.ModelForm):
+    class Meta:
+        model=Staff
+        fields=['name','address','email','phone']
 
 class Addnotificationbystaffform(forms.ModelForm):
     class Meta:
@@ -70,10 +81,6 @@ class Addnotificationbystaffform(forms.ModelForm):
         fields=['notification','notificationdate']
 
 
-class Addfeedbackform(forms.ModelForm):
-    class Meta:
-        model= Feedback
-        fields=['Feedback']
 
 
         
