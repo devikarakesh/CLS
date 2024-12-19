@@ -76,41 +76,41 @@ class TimeSlot(models.Model):
         return f"{self.slot_start_time} to {self.slot_end_time}"
 
 # Booking model for managing reservations
-# class Booking(models.Model):
-#     lab = models.ForeignKey(Lab, on_delete=models.CASCADE)
-#     user = models.ForeignKey(Userprofile, on_delete=models.CASCADE)
-#     date = models.DateField(default=timezone.now)
-#     time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
-#     purpose = models.CharField(max_length=255, null=True, blank=True)  # Added field for purpose
+class Booking(models.Model):
+    lab = models.ForeignKey(Lab, on_delete=models.CASCADE)
+    user = models.ForeignKey(Userprofile, on_delete=models.CASCADE)
+    date = models.DateField(default=timezone.now)
+    time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
+    purpose = models.CharField(max_length=255, null=True, blank=True)  # Added field for purpose
 
-#     def _str_(self):
-#         return f"{self.lab.name} booked by {self.user.username} on {self.date} ({self.time_slot})"
+    def _str_(self):
+        return f"{self.lab.name} booked by {self.user.username} on {self.date} ({self.time_slot})"
 
-# @receiver(post_save, sender=Booking)
-# def schedule_email_notification(sender, instance, created, **kwargs):
-#     if created:
-#         try:
-#             # Ensure booking_time is timezone-aware
-#             notification_time = instance.booking_time - timedelta(seconds=5)
+@receiver(post_save, sender=Booking)
+def schedule_email_notification(sender, instance, created, **kwargs):
+    if created:
+        try:
+            # Ensure booking_time is timezone-aware
+            notification_time = instance.booking_time - timedelta(seconds=5)
 
-#             # # Ensure booking_time is timezone-aware
-#             # notification_time = instance.booking_time - timedelta(hours=24)
-#             now_time = now()
+            # # Ensure booking_time is timezone-aware
+            # notification_time = instance.booking_time - timedelta(hours=24)
+            now_time = now()
 
-#             # Calculate countdown in seconds
-#             countdown = (notification_time - now_time).total_seconds()
+            # Calculate countdown in seconds
+            countdown = (notification_time - now_time).total_seconds()
 
-#             if countdown > 0:
-#                 # Schedule the task using Celery
-#                 send_email_notification.apply_async(
-#                     (instance.id,), 
-#                     countdown=countdown
-#                 )
-#                 print(f"Email notification scheduled in {countdown} seconds.")
-#             else:
-#                 print("Notification time is in the past. Email will not be scheduled.")
-#         except Exception as e:
-#             print(f"Error scheduling email notification: {e}")
+            if countdown > 0:
+                # Schedule the task using Celery
+                send_email_notification.apply_async(
+                    (instance.id,), 
+                    countdown=countdown
+                )
+                print(f"Email notification scheduled in {countdown} seconds.")
+            else:
+                print("Notification time is in the past. Email will not be scheduled.")
+        except Exception as e:
+            print(f"Error scheduling email notification: {e}")
 
 
 # pip install celery django-celery-beat redis
@@ -124,21 +124,21 @@ class TimeSlot(models.Model):
 # redis status
 # ps aux | grep redis
 
-# @receiver(post_delete, sender=Booking)
-# def booking_cancelled_notification(sender, instance, **kwargs):
-#     # Send email for cancellation
-#     subject = f'Booking Cancelled: {instance.lab.name}'
-#     message = (f'Dear {instance.user.username},\n\n'
-#                f'Your booking for {instance.lab.name} on {instance.date} has been cancelled.\n\n'
-#                f'Best Regards,\nTeam')
+@receiver(post_delete, sender=Booking)
+def booking_cancelled_notification(sender, instance, **kwargs):
+    # Send email for cancellation
+    subject = f'Booking Cancelled: {instance.lab.name}'
+    message = (f'Dear {instance.user.username},\n\n'
+               f'Your booking for {instance.lab.name} on {instance.date} has been cancelled.\n\n'
+               f'Best Regards,\nTeam')
 
-#     send_mail(
-#         subject,
-#         message,
-#         settings.EMAIL_HOST_USER,
-#         [instance.user.email],
-#         fail_silently=False,
-#     )
+    send_mail(
+        subject,
+        message,
+        settings.EMAIL_HOST_USER,
+        [instance.user.email],
+        fail_silently=False,
+    )
 
 
 class Staffnotification(models.Model):

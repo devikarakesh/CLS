@@ -81,7 +81,10 @@ class Addnotificationbystaffform(forms.ModelForm):
         fields=['notification','notificationdate']
 
 
-
+class BookingForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ['purpose', 'time_slot', 'date']
 
         
 
