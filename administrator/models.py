@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from loginapp.models import Userprofile
+from django.conf import settings
 
 # Create your models here.
 class notifications(models.Model):
@@ -127,6 +128,7 @@ def schedule_email_notification(sender, instance, created, **kwargs):
 @receiver(post_delete, sender=Booking)
 def booking_cancelled_notification(sender, instance, **kwargs):
     # Send email for cancellation
+    print("hhhhhh")
     subject = f'Booking Cancelled: {instance.lab.name}'
     message = (f'Dear {instance.user.username},\n\n'
                f'Your booking for {instance.lab.name} on {instance.date} has been cancelled.\n\n'

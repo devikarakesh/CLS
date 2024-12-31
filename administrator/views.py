@@ -1095,6 +1095,8 @@ class FacultyViewAddedlabs(View):
 class FacultyLabBookingView(View):
     def get(self, request, lab_id):
             lab = get_object_or_404(Lab, id=lab_id)
+            user=request.session.get('user_id')
+            print(user)
 
             # Get the current date or use a provided date
             today = timezone.now().date()
@@ -1162,7 +1164,8 @@ class FacultyLabBookingView(View):
     def post(self, request, lab_id):
         # Handle booking when the user selects a time slot
         lab = get_object_or_404(Lab, id=lab_id)
-        user = request.user
+        user = Userprofile.objects.get(id=request.session.get('user_id'))
+        print(user)
         slot_id = request.POST.get('slot_id')
         selected_date = request.POST.get('selected_date')
         purpose=request.POST.get('purpose')

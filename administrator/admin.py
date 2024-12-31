@@ -10,7 +10,7 @@ admin.site.register(Class1)
 admin.site.register(WorkingDay)
 admin.site.register(TimeSlot)
 admin.site.register(Staffnotification)
-
+admin.site.register(Booking)
 admin.site.register(Staff)
 admin.site.register(Student)
 
