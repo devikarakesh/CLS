@@ -45,9 +45,11 @@ from django.utils import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 # from .tasks import send_email_notification
-from datetime import timedelta
-from django.utils.timezone import now
+from datetime import timedelta,datetime
+from django.utils.timezone import now,make_aware
 from django.core.mail import send_mail
+from .tasks import *
+
 
 # Lab Model
 class Lab(models.Model):
@@ -92,7 +94,11 @@ def schedule_email_notification(sender, instance, created, **kwargs):
     if created:
         try:
             # Ensure booking_time is timezone-aware
-            notification_time = instance.booking_time - timedelta(seconds=5)
+            print("hhhhhh")
+            slot_start_datetime = datetime.combine(instance.date, instance.time_slot.slot_start_time)
+            slot_start_aware = make_aware(slot_start_datetime)
+            # Calculate the notification time (5 seconds before the slot st
+            notification_time = slot_start_aware - timedelta(seconds=5)
 
             # # Ensure booking_time is timezone-aware
             # notification_time = instance.booking_time - timedelta(hours=24)
