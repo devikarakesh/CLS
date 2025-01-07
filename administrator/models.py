@@ -174,5 +174,15 @@ class Student(models.Model):
     def _str_(self):
         return self.name
 
+class Labstaff(models.Model):
+    loginid=models.ForeignKey(Userprofile,on_delete=models.CASCADE,null=True,blank=True)
+    name = models.CharField(max_length=100)
+    address=models.CharField(max_length=100)
+    semester=models.ForeignKey(Class1,on_delete=models.CASCADE,null=True,blank=True)
+    email=models.CharField(max_length=100)
+    phone=models.CharField(max_length=100)
+    def _str_(self):
+        return self.name
+
 
 

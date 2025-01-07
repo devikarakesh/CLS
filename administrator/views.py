@@ -1187,8 +1187,102 @@ class FacultyLabBookingView(View):
                 )
         return self.get(request, lab_id)
 
+class regButton(View):
+    def get(self,request):
+        return render(request,'registerbuttons/regbuttons.html')
+
+
+class Studentreg(View):
+  def get(self,request):
+    sem=Class1.objects.all()
+    print(sem)
+    return render(request,'registerbuttons/Student.html',{'sem':sem})
+  def post(self,request):
+        print('addstudent')
+        form=AddStudentform(request.POST)
+        if form.is_valid():
+            reg_form=form.save(commit=False)
+            rf=Userprofile.objects.create_user(user_type='STUDENT',username=request.POST['username'],password=request.POST['password'])
+            reg_form.loginid=rf
+            rf.save()
+            reg_form.save()
+        return HttpResponse('''<script>alert("added");window.location="/administrator/viewstudent/"</script>''')
+            
+
+# class Updatestudent(View):
+#     def get(self,request,id):
+#         n=Student.objects.get(id=id)
+#         s=Class1.objects.all()
+#         return render(request,'admin/updatestudent.html',{'s':n,'r':s})
+#     def post(self,request,id):
+#         print("sss")
+#         n=Student.objects.get(id=id)
+#         form=UpdateStudentform(request.POST,instance=n)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('viewstudent')
+
+# class Deletestudent(View):
+#     def get(self,request,id):
+#         n=Student.objects.get(id=id)
+#         n.delete()
+#         return redirect('viewstudent')
+
+class Addfaculty(View):
+    def get(self,request):
+        return render(request,'registerbuttons/addfaculty.html')
+    def post(self,request):
+        form=Addfacultyform(request.POST)
+    
+        if form.is_valid():
+            reg_form=form.save(commit=False)
+            login_instance=Userprofile.objects.create_user(username=request.POST['username'],password=request.POST['password'],user_type='FACULTY')
+            reg_form.loginid=login_instance
+            reg_form.save()
+            form.save()
+            return redirect('viewfaculty')
 
 
 
 
+class LabstaffView(View):
+  def get(self,request):
+    st=Student.objects.all()
+    print(st)
+    return render(request,'admin/viewlabstaff.html',{'st':st})
 
+class Labstaffreg(View):
+  def get(self,request):
+    sem=Class1.objects.all()
+    print(sem)
+    return render(request,'admin/Student.html',{'sem':sem})
+  def post(self,request):
+        print('addstudent')
+        form=AddStudentform(request.POST)
+        if form.is_valid():
+            reg_form=form.save(commit=False)
+            rf=Userprofile.objects.create_user(user_type='STUDENT',username=request.POST['username'],password=request.POST['password'])
+            reg_form.loginid=rf
+            rf.save()
+            reg_form.save()
+        return HttpResponse('''<script>alert("added");window.location="/administrator/viewlabstaff/"</script>''')
+            
+
+class UpdateLabstaff(View):
+    def get(self,request,id):
+        n=Student.objects.get(id=id)
+        s=Class1.objects.all()
+        return render(request,'admin/updatelabstaff.html',{'s':n,'r':s})
+    def post(self,request,id):
+        print("sss")
+        n=Student.objects.get(id=id)
+        form=UpdateStudentform(request.POST,instance=n)
+        if form.is_valid():
+            form.save()
+            return redirect('viewlabstaff')
+
+class DeleteLabstaff(View):
+    def get(self,request,id):
+        n=Student.objects.get(id=id)
+        n.delete()
+        return redirect('viewlabstaff')

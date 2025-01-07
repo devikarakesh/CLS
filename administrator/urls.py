@@ -81,6 +81,9 @@ urlpatterns = [
     path('FacultyViewAddedlabs/',FacultyViewAddedlabs.as_view(),name='FacultyViewAddedlabs'),
     path('Flab/<int:lab_id>/book/', FacultyLabBookingView.as_view(), name='FacultyLabBookingView'),
 
+    path('Regbuttons/',regButton.as_view(),name='Regbuttons'),
+    path('addfaculty/',Addfaculty.as_view(),name='addfaculty'),   
+
     
 
 
