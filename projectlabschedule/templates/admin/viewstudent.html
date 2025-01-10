@@ -48,9 +48,7 @@
 
   </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <div class="plusbutton">
-    <a href="/Studentreg/"><i class="material-icons" style="font-size: 35px;">add</i></a>
-  </div>
+
 
     <div>
       <table id="table1">
@@ -60,19 +58,24 @@
             <th>Email</th>
             <th>Phone number</th>
             <th>Semester</th>
-            <th>Username</th>
-            <th>Password</th>
+
+          </tr>
+          {% for i in st %}
             <tr>
-                <td>Anu</td>
-                <td>ABC</td>
-                <td>abc@gmail.com</td>
-                <td>5555445</td>
-                <td>3</td>
-                <td>anu</td>
-                <td>123</td>
+              
+                <td>{{i.name}}</td>
+                <td>{{i.address}}</td>
+                <td>{{i.email}}</td>
+                <td>{{i.phone}}</td>
+                <td>{{i.semester.Semester}}</td>
+
+
                 
-            </tr>
+                <td><a href="/administrator/Deletestudent/{{i.id}}"><i class="material-icons" style="color: whitesmoke;">delete</i></a></td>
+                
+           
         </tr>
+        {% endfor %}
     </table>
   
     </div>

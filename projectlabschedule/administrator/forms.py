@@ -41,3 +41,53 @@ class Updateclassform(forms.ModelForm):
     class Meta:
         model=Class1
         fields=['Semester','subjects']
+
+class Addworkingdayform(forms.ModelForm):
+    class Meta:
+        model=WorkingDay
+        fields=['day','start_time','end_time']
+
+class Addslotform(forms.ModelForm):
+    class Meta:
+        model=TimeSlot
+        fields=['slot_start_time','slot_end_time']
+
+
+class AddStudentform(forms.ModelForm):
+    class Meta:
+        model=Student
+        fields=['name','address','email','semester','phone']
+
+
+class UpdateStudentform(forms.ModelForm):
+    class Meta:
+        model=Student
+        fields=['name','address','email','semester','phone']
+
+
+
+
+
+
+class Addnotificationbystaffform(forms.ModelForm):
+    class Meta:
+        model= Staffnotification
+        fields=['notification','notificationdate']
+
+
+class BookingForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ['purpose', 'time_slot', 'date']
+
+        
+class AddLabstaffform(forms.ModelForm):
+    class Meta:
+        model=Labstaff
+        fields=['name','address','lab','email','phone']
+
+class UpdateLabstaffform(forms.ModelForm):
+    class Meta:
+        model=Labstaff
+        fields=['name','address','lab','email','phone']
+

@@ -12,24 +12,22 @@
     <div class="lab">
         <form action="/login/" method="post">
             {% csrf_token %}
-            <h2>Login page </h2>
+            <h1><b>Login Page</b></h1>
         <div class="sch">
             <input type="text" placeholder="USERNAME" name="username" value="" id="">  
         </div>
         <div class="sch">
             <input type="password" name="password" id="" value="" placeholder="PASSWORD">
         </div>
-        <div class="sc">
-            <input type="checkbox" name="checkbox" value="Remember me">Remember me
-            <a href="">Forgot Password?</a>
+        
+        <div class="inp">
+            <input type="submit" value="Sign in">
         </div>
-        <div class="sch">
-            <button type="submit">Login</button>
+
+        <div >
+            <a href="/administrator/Regbuttons/" style="color: rgb(33, 33, 67);margin-top:150px;align-items:right;">REGISTER</a>
         </div>
-        <div class="sc">
-            <label for="">Don't have an account?</label>
-            <a href="">Register</a>
-        </div>
+        
 
     </form>
     </div>

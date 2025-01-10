@@ -6,6 +6,10 @@ from django.contrib import messages
 import json
 from administrator.models import notifications
 
+from administrator.forms import AddStudentform
+from .models import *
+from django.http import HttpResponse
+
 
 # Create your views here.
 
@@ -22,7 +26,7 @@ class Loginpageview(View):
     response_dict={"success":False}
     landing_page_url={
       "ADMIN":"administrator",
-      "FACULTY":"user:loadinstitute",
+      "FACULTY":"faculty",
       "STUDENT":"student",
       "LABSTAFF":"staff"
     }
@@ -49,6 +53,7 @@ class Loginpageview(View):
         user=user,defaults={"session_dict":json.dumps(session_dict)}
       )
       user_type=authenticated.user_type
+      request.session['user_id']=authenticated.id
       print("hai")
       print(user)
       print(user_type)
@@ -62,10 +67,7 @@ class Adminpage(View):
  def get(self,request):
   return render(request,'admin/admin.html')
 
-class Student(View):
- def get(self,request):
-  return render(request,'student/studentdashboard.html')
- 
+
 class Labstaff(View):
   def get(self,request):
    return render(request,'staff/staffdashboard.html')
@@ -76,34 +78,27 @@ class Faculty(View):
   
 
 
-class Studentreg(View):
-  def get(self,request):
-    return render(request,'admin/Student.html')
 
-class Staffreg(View):
-  def get(self,request):
-    return render(request,'admin/staffregister.html')
-  
+class Student(View):
+ def get(self,request):
+  return render(request,'student/studentdashboard.html')
+ 
+
+
+
+
+
 class AdminBasepage(View):
  def get(self,request):
   return render(request,'admin/adminbase.html')
  
-class ViewStudent(View):
-  def get(self,request):
-    return render(request,'admin/viewstudent.html')
 
-class ViewStaff(View):
-  def get(self,request):
-    return render(request,'admin/viewstaff.html')
+
   
-class Viewnotifications(View):
-  def get(self,request):
-    notificationobject=notifications.objects.all()
-    return render(request,'admin/viewnotifications.html',{'notificationobject':notificationobject})
+
 
 class Addnotifications(View):
   def get(self,request):
- 
     return render(request,'admin/addnotification.html')
 
 

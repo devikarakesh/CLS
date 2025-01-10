@@ -59,45 +59,52 @@
     color: whitesmoke;
     margin-bottom: 10px;
 }
+.inp input{
+    background-color:rgb(1, 13, 39);
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 15px;
+
+  }
+
     
   </style>
   
   <div class="lab">
-  <form action="">
+    <form action="" method="post">
+        {% csrf_token %}
     <div style="font-size: 25px;text-align: center;">Update Student</div>
     <div class="sch">
     <label for="">Name</label>
-    <input type="text" name="" id="">
+    <input type="text" name="name" id="" value="{{s.name}}">
 </div>
 <div class="sch">
     <label for="">Address</label>
-    <textarea name="" id="" rows="2" cols="20"></textarea>
+    <textarea name="address" id="" rows="2" cols="20">{{s.address}}</textarea>
 </div>
 <div class="sch">
     <label for="">Email</label>
-    <input type="text" name="" id="">
+    <input type="text" name="email" id="" value="{{s.email}}">
 </div>
 <div class="sch">
     <label for="">Phone number</label>
-    <input type="text"name="" id="" >
+    <input type="text" name="phone" id="" value="{{s.phone}}">
 </div>
 <div class="sch">
   <label for="">Semester</label>
-  <input type="text"name="" id="" >
-</div>
+  <select name="semester" id="">
+    {% for i in r %}
+    <option value="{{s.semester.id}}" {% if i.id == s.semester.id %} selected {% endif %}>{{s.semester.Semester}}</option>
+    {% endfor %}
+</select>
 
-<div class="sch">
-    <label for="">Username</label>
-    <input type="text" name="" id="">
 </div>
-<div class="sch">
-    <label for="">Password</label>
-    <input type="password" name="" id="">
-</div>
-<div class="sch">
-   <button type="submit">Register </button>
-</div>
-</div>
+<div class="inp">
+    <b><input type="submit" value="UPDATE"></b>
+ </div>
+ </div>
     {% endblock %}
 
     
