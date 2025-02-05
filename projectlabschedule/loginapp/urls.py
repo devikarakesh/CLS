@@ -23,6 +23,8 @@ urlpatterns = [
 
 
     path('Addnotifications/',Addnotifications.as_view(),name='Addnotifications'),
+    path('forgot-password/', ForgotPasswordView.as_view(), name='forgot_password'),
+    path('reset-password/<uid>/<token>/', ResetPasswordView.as_view(), name='reset_password'),
 
    
 ]

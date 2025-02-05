@@ -91,3 +91,5 @@ class UpdateLabstaffform(forms.ModelForm):
         model=Labstaff
         fields=['name','address','lab','email','phone']
 
+
+    

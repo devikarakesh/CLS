@@ -108,3 +108,66 @@ class Logout(View):
         request.session["token"]=None
         request.session.flush()
         return redirect("login")
+from django.shortcuts import render, redirect
+from django.views import View
+from django.core.mail import send_mail
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.contrib.auth.tokens import default_token_generator
+from django.conf import settings
+
+
+# Forgot Password View
+class ForgotPasswordView(View):
+    def get(self, request):
+        return render(request, 'forgot_password.html')  # HTML form to enter email
+
+    def post(self, request):
+        email = request.POST.get('email')
+        try:
+            user = LoginTable.objects.get(email=email)
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.id))
+            reset_url = f"{request.scheme}://{request.get_host()}/reset-password/{uid}/{token}/"
+
+            # Send reset email
+            send_mail(
+                'Password Reset Request',
+                f'Click the link below to reset your password:\n\n{reset_url}',
+                settings.EMAIL_HOST_USER,
+                [user.email],
+                fail_silently=False,
+            )
+
+            return render(request, 'forgot_password.html', {'message': 'Password reset link sent!'})
+
+        except LoginTable.DoesNotExist:
+            return render(request, 'forgot_password.html', {'error': 'Email not found!'})
+
+class ResetPasswordView(View):
+    def get(self, request, uid, token):
+        try:
+            uid = force_str(urlsafe_base64_decode(uid))
+            user = LoginTable.objects.get(id=uid)
+
+            if default_token_generator.check_token(user, token):
+                return render(request, 'reset_password.html', {'uid': uid, 'token': token})
+            else:
+                return render(request, 'reset_password.html', {'error': 'Invalid or expired token'})
+
+        except (LoginTable.DoesNotExist, ValueError):
+            return render(request, 'reset_password.html', {'error': 'Invalid request'})
+
+    def post(self, request, uid, token):
+        new_password = request.POST.get('password')
+        try:
+            user = LoginTable.objects.get(id=uid)
+            if default_token_generator.check_token(user, token):
+                user.password = new_password  # Ideally, hash the password
+                user.save()
+                return redirect('login')
+            else:
+                return render(request, 'reset_password.html', {'error': 'Invalid or expired token'})
+
+        except LoginTable.DoesNotExist:
+            return render(request, 'reset_password.html', {'error': 'User not found'})

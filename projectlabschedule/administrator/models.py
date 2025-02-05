@@ -3,6 +3,7 @@ from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from loginapp.models import Userprofile
 from django.conf import settings
+import uuid
 
 # Create your models here.
 class notifications(models.Model):

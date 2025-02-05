@@ -90,6 +90,8 @@ urlpatterns = [
     path('UpdateLabstaff/<int:id>',UpdateLabstaff.as_view(),name='UpdateLabstaff'), 
     path('DeleteLabstaff/<int:id>',DeleteLabstaff.as_view(),name='DeleteLabstaff'),
 
+    path('Forgotpassword',ForgotPasswordView.as_view(),name='Forgotpassword'),
+
    
 
     

@@ -11,14 +11,17 @@ body{
     /* background-attachment: fixed; */
 }
 .lab{
-    padding: 100px;
-    max-width: 350px;
+    padding: 10px;
+    width: 400px;
     background-color:  rgba(231, 234, 235, 0.505);
     /* border: 1px solid black; */
     border-radius: 25px;
     box-shadow:0 0 50px rgba(163, 188, 223, 0.1);
    
-}        
+}  
+form{
+    margin: 40px;
+}      
 .sch{
      margin-bottom: 15px;
      color: white;

@@ -1189,20 +1189,18 @@ class FacultyLabBookingView(View):
 
 class regButton(View):
     def get(self,request):
-        return render(request,'registerbuttons/regbuttons.html')
+        sem=Class1.objects.all()
+        print(sem)
+        return render(request,'registerbuttons/reg.html',{'sem':sem})
 
 
 class Studentreg(View):
-  def get(self,request):
-    sem=Class1.objects.all()
-    print(sem)
-    return render(request,'registerbuttons/Student.html',{'sem':sem})
   def post(self,request):
         print('addstudent')
         form=AddStudentform(request.POST)
         if form.is_valid():
             reg_form=form.save(commit=False)
-            rf=Userprofile.objects.create_user(user_type='STUDENT',username=request.POST['username'],password=request.POST['password'])
+            rf=Userprofile.objects.create_user(user_type='STUDENT',username=request.POST['username'],password=request.POST['password'],email=request.POST['email'])
             reg_form.loginid=rf
             rf.save()
             reg_form.save()
@@ -1219,7 +1217,7 @@ class Addfaculty(View):
     
         if form.is_valid():
             reg_form=form.save(commit=False)
-            login_instance=Userprofile.objects.create_user(username=request.POST['username'],password=request.POST['password'],user_type='FACULTY')
+            login_instance=Userprofile.objects.create_user(username=request.POST['username'],password=request.POST['password'],user_type='FACULTY',email=request.POST['email'])
             reg_form.loginid=login_instance
             reg_form.save()
             form.save()
@@ -1242,7 +1240,7 @@ class Labstaffreg(View):
         form=AddLabstaffform(request.POST)
         if form.is_valid():
             reg_form=form.save(commit=False)
-            rf=Userprofile.objects.create_user(user_type='LABSTAFF',username=request.POST['username'],password=request.POST['password'])
+            rf=Userprofile.objects.create_user(user_type='LABSTAFF',username=request.POST['username'],password=request.POST['password'],email=request.POST['email'])
             reg_form.loginid=rf
             rf.save()
             reg_form.save()
@@ -1266,3 +1264,28 @@ class DeleteLabstaff(View):
         n=Labstaff.objects.get(id=id)
         n.delete()
         return redirect('LabstaffView')
+
+
+
+class ForgotPasswordView(View):
+    def get(self,request):
+        return render(request,'admin/forgot_password.html')
+    def post(self,request):
+        try:
+                # email=request.POST['email']
+                # c=Student.objects.get(email=email)
+                d=Userprofile.objects.get(email=email)
+                user_password=d.password
+                # You should ideally send a password reset link instead of the plain password
+                subject = "Password Reset"
+                message = f"Your password is: {user_password}"  # This is just an example; sending the plain password is not recommended
+                from_email = "devikarakesh14530@gmail.com"
+                recipient_list = [email]
+                
+                send_mail(subject, message, from_email, recipient_list)
+                messages.success(request, "Your password has been sent to your email.")
+                return redirect('login')  # Redirect to the login page
+
+        except Userprofile.DoesNotExist:
+                messages.error(request, "No user found with that email address.")
+                return redirect('Forgotpassword')
