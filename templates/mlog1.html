@@ -1,36 +1,41 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-       <link rel="stylesheet" type="text/css" href="{% static 'css/mlog.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mlog.css' %}">
 </head>
+
 <body>
     <center>
-    <div class="lab">
-        <form action="/login/" method="post">
-            {% csrf_token %}
-            <h1><b>Login Page</b></h1>
-        <div class="sch">
-            <input type="text" placeholder="USERNAME" name="username" value="" id="">  
-        </div>
-        <div class="sch">
-            <input type="password" name="password" id="" value="" placeholder="PASSWORD">
-        </div>
-        
-        <div class="inp">
-            <input type="submit" value="Sign in">
+        <div class="lab">
+            <form action="/login/" method="post">
+                {% csrf_token %}
+                <h1><b>Login Page</b></h1>
+                <div class="sch">
+                    <input type="text" placeholder="USERNAME" name="username" value="" id="">
+                </div>
+                <div class="sch">
+                    <input type="password" name="password" id="" value="" placeholder="PASSWORD">
+                </div>
+
+                <div class="inp">
+                    <input type="submit" value="Sign in">
+                </div>
+
+            </form>
+            <div style="display: flex; justify-content: space-between;font-size: 16px;margin-top: 20px;">
+                <a href="/administrator/Forgotpassword" style="text-decoration:none;color:rgb(7, 7, 23);">FORGOT
+                    PASSWORD</a>
+
+                <a href="/administrator/Regbuttons/" style="text-decoration:none;color:rgb(13, 13, 33);">REGISTER</a>
+            </div>
         </div>
 
-        <div >
-            <a href="/administrator/Regbuttons/" style="color: rgb(33, 33, 67);margin-top:150px;align-items:right;">REGISTER</a>
-        </div>
-        
-
-    </form>
-    </div>
-</center>
+    </center>
 </body>
+
 </html>

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import random
 import string
+import uuid
 # Create your models here.
 USER_TYPE_CHOICES = {
     ("ADMIN","Admin"),
@@ -23,6 +24,7 @@ class Userprofile(AbstractUser):
     status =  models.CharField(max_length=20,null=False,choices=STATUS_CHOICES)
     is_active = models.BooleanField(max_length=20,null=False,default=True)
     user_type = models.CharField(max_length=20,null=False,choices=USER_TYPE_CHOICES)
+    reset_token = models.UUIDField(default=uuid.uuid4, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

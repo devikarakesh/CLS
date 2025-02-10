@@ -1189,44 +1189,25 @@ class FacultyLabBookingView(View):
 
 class regButton(View):
     def get(self,request):
-        return render(request,'registerbuttons/regbuttons.html')
+        sem=Class1.objects.all()
+        print(sem)
+        return render(request,'registerbuttons/reg.html',{'sem':sem})
 
 
 class Studentreg(View):
-  def get(self,request):
-    sem=Class1.objects.all()
-    print(sem)
-    return render(request,'registerbuttons/Student.html',{'sem':sem})
   def post(self,request):
         print('addstudent')
         form=AddStudentform(request.POST)
         if form.is_valid():
             reg_form=form.save(commit=False)
-            rf=Userprofile.objects.create_user(user_type='STUDENT',username=request.POST['username'],password=request.POST['password'])
+            rf=Userprofile.objects.create_user(user_type='STUDENT',username=request.POST['username'],password=request.POST['password'],email=request.POST['email'])
             reg_form.loginid=rf
             rf.save()
             reg_form.save()
-        return HttpResponse('''<script>alert("added");window.location="/administrator/viewstudent/"</script>''')
+            return redirect('login')
+      
             
 
-# class Updatestudent(View):
-#     def get(self,request,id):
-#         n=Student.objects.get(id=id)
-#         s=Class1.objects.all()
-#         return render(request,'admin/updatestudent.html',{'s':n,'r':s})
-#     def post(self,request,id):
-#         print("sss")
-#         n=Student.objects.get(id=id)
-#         form=UpdateStudentform(request.POST,instance=n)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('viewstudent')
-
-# class Deletestudent(View):
-#     def get(self,request,id):
-#         n=Student.objects.get(id=id)
-#         n.delete()
-#         return redirect('viewstudent')
 
 class Addfaculty(View):
     def get(self,request):
@@ -1236,53 +1217,106 @@ class Addfaculty(View):
     
         if form.is_valid():
             reg_form=form.save(commit=False)
-            login_instance=Userprofile.objects.create_user(username=request.POST['username'],password=request.POST['password'],user_type='FACULTY')
+            login_instance=Userprofile.objects.create_user(username=request.POST['username'],password=request.POST['password'],user_type='FACULTY',email=request.POST['email'])
             reg_form.loginid=login_instance
             reg_form.save()
             form.save()
-            return redirect('viewfaculty')
+            return redirect('login')
 
 
 
 
 class LabstaffView(View):
   def get(self,request):
-    st=Student.objects.all()
-    print(st)
-    return render(request,'admin/viewlabstaff.html',{'st':st})
+    l=Labstaff.objects.all()
+    return render(request,'admin/viewlabstaff.html',{'ls':l})
 
 class Labstaffreg(View):
   def get(self,request):
-    sem=Class1.objects.all()
-    print(sem)
-    return render(request,'admin/Student.html',{'sem':sem})
+    lab=Labstaff.objects.all()
+    l=Lab.objects.all()
+    return render(request,'admin/Labstaffregister.html',{'ls':lab,'l':l})
   def post(self,request):
-        print('addstudent')
-        form=AddStudentform(request.POST)
+        form=AddLabstaffform(request.POST)
         if form.is_valid():
             reg_form=form.save(commit=False)
-            rf=Userprofile.objects.create_user(user_type='STUDENT',username=request.POST['username'],password=request.POST['password'])
+            rf=Userprofile.objects.create_user(user_type='LABSTAFF',username=request.POST['username'],password=request.POST['password'],email=request.POST['email'])
             reg_form.loginid=rf
             rf.save()
             reg_form.save()
-        return HttpResponse('''<script>alert("added");window.location="/administrator/viewlabstaff/"</script>''')
+        return HttpResponse('''<script>alert("added");window.location="/administrator/LabstaffView/"</script>''')
             
 
 class UpdateLabstaff(View):
     def get(self,request,id):
-        n=Student.objects.get(id=id)
-        s=Class1.objects.all()
-        return render(request,'admin/updatelabstaff.html',{'s':n,'r':s})
+        l=Labstaff.objects.get(id=id)
+        L=Lab.objects.all()
+        return render(request,'admin/updatelabstaff.html',{'ls':l,'r':L})
     def post(self,request,id):
-        print("sss")
-        n=Student.objects.get(id=id)
-        form=UpdateStudentform(request.POST,instance=n)
+        n=Labstaff.objects.get(id=id)
+        form=UpdateLabstaffform(request.POST,instance=n)
         if form.is_valid():
             form.save()
-            return redirect('viewlabstaff')
+            return redirect('LabstaffView')
 
 class DeleteLabstaff(View):
     def get(self,request,id):
-        n=Student.objects.get(id=id)
+        n=Labstaff.objects.get(id=id)
         n.delete()
-        return redirect('viewlabstaff')
+        return redirect('LabstaffView')
+
+
+
+class ForgotPasswordView(View):
+    def get(self,request):
+        return render(request,'admin/forgot_password.html')
+    def post(self,request):
+        try:
+                # email=request.POST['email']
+                # c=Student.objects.get(email=email)
+                d=Userprofile.objects.get(email=email)
+                user_password=d.password
+                # You should ideally send a password reset link instead of the plain password
+                subject = "Password Reset"
+                message = f"Your password is: {user_password}"  # This is just an example; sending the plain password is not recommended
+                from_email = "devikarakesh14530@gmail.com"
+                recipient_list = [email]
+                
+                send_mail(subject, message, from_email, recipient_list)
+                messages.success(request, "Your password has been sent to your email.")
+                return redirect('login')  # Redirect to the login page
+
+        except Userprofile.DoesNotExist:
+                messages.error(request, "No user found with that email address.")
+                return redirect('Forgotpassword')
+
+
+class TimetableView4(View):
+    template_name = 'student/viewtimetable.html'  # Specify your template name here
+
+    def get(self, request, *args, **kwargs):
+        # Get all classes
+        classes = Class1.objects.all()
+        faculties= Faculty1.objects.all()
+        
+        # Define the days and periods
+        days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+        periods = [1, 2, 3, 4, 5]  # Assuming 5 periods per day
+
+        # Initialize a dictionary to hold timetable data
+        timetable_data = {cls: {day: {period: None for period in periods} for day in days} for cls in classes}
+
+        # Populate the timetable dictionary with entries
+        entries = TimetableEntry1.objects.all()
+        for entry in entries:
+            timetable_data[entry.cls][entry.day][entry.period] = entry
+
+        # Create a context dictionary for the template
+        context = {
+            'timetable_data': timetable_data,
+            'days': days,
+            'periods': periods,
+            'faculties':faculties
+        }
+        
+        return render(request, self.template_name, context)

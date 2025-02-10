@@ -40,13 +40,13 @@ urlpatterns = [
 
     path('viewworkingday/<int:id>/',Viewworkingday.as_view(),name='viewworkingday'),
     path('addworkingday/<int:id>/',Addworkingday.as_view(),name='addwworkingday'),
-    path('editworkingday/<int:id>/',Editworkingday.as_view(),name='editworkingday'),
-    path('Deleteworkingday/<int:id>/',Deleteworkingday.as_view(),name='deleteworkingday'),
+    path('editworkingday/<int:id>',Editworkingday.as_view(),name='editworkingday'),
+    path('Deleteworkingday/<int:id>',Deleteworkingday.as_view(),name='deleteworkingday'),
 
     path('viewtimeslot/<int:id>',Viewtimeslot.as_view(),name='viewtimeslot'),
     path('addtimeslot/<int:id>',Addtimeslot.as_view(),name='addtimeslot'),
-    path('edittimeslot/<int:id>/',Edittimeslot.as_view(),name='editworkingday'),
-    path('Deletetimeslot/<int:id>/',Deletetimeslot.as_view(),name='deleteworkingday'),
+    path('edittimeslot/<int:id>',Edittimeslot.as_view(),name='editworkingday'),
+    path('Deletetimeslot/<int:id>',Deletetimeslot.as_view(),name='deleteworkingday'),
 
     path('staffdashboard/',Staffdashboard.as_view(),name='staffdashboard'),
     path('staffviewnotification/',StaffViewnotifications.as_view(),name='staffviewnotification'),
@@ -82,7 +82,19 @@ urlpatterns = [
     path('Flab/<int:lab_id>/book/', FacultyLabBookingView.as_view(), name='FacultyLabBookingView'),
 
     path('Regbuttons/',regButton.as_view(),name='Regbuttons'),
-    path('addfaculty/',Addfaculty.as_view(),name='addfaculty'),   
+    path('addfaculty/',Addfaculty.as_view(),name='addfaculty'),  
+
+    
+    path('LabstaffView/',LabstaffView.as_view(),name='LabstaffView'),  
+    path('Labstaffreg/',Labstaffreg.as_view(),name='Labstaffreg'), 
+    path('UpdateLabstaff/<int:id>',UpdateLabstaff.as_view(),name='UpdateLabstaff'), 
+    path('DeleteLabstaff/<int:id>',DeleteLabstaff.as_view(),name='DeleteLabstaff'),
+
+    path('Forgotpassword',ForgotPasswordView.as_view(),name='Forgotpassword'),
+
+    path('viewtimetablebystudent/',TimetableView4.as_view(),name='viewtimetablebystudent'),
+
+   
 
     
 

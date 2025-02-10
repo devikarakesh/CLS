@@ -9,8 +9,6 @@
             font-family: Arial, sans-serif;
             background-color:rgb(211, 227, 244);
             color: #333;
-            margin: 0;
-            padding: 2rem;
         }
 
         h1 {
@@ -20,8 +18,8 @@
         }
 
         .calendar-container {
-            max-width: 900px;
             margin: 0 auto;
+            margin-left: 240px;
             padding: 1rem;
             background-color: #fff;
             border-radius: 10px;
@@ -127,7 +125,7 @@
     </style>
 </head>
 <body>
-    <h1>Booking Calendar for {{ auditorium.name }}</h1>
+    <h1>Booking Calendar{{ auditorium.name }}</h1>
 
     <div class="calendar-container">
         <div class="header">

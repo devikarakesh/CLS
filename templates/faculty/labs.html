@@ -3,7 +3,7 @@
 <style>
 
 
-    /* /* .btn{
+     /* /* .btn{
         margin-top: 200px;
        
     }
@@ -55,23 +55,34 @@
     margin: auto;
     gap: 20px;
 }
-/* .card{
-    padding: 20px;
-    margin: 10px auto;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
-    text-align: center;
-} */
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 0 40px;
+}
+.btn{
+    text-decoration: none;
+    background-color: green;
+    color: #fff;
+    padding: 5px 20px;
+}
+
 </style>
 
     <div class="cards">
         {% for i in labs %}
         <div class="card">
-            <h3>Lab name: </h3>
-             <h3>Lab capacity: 44</h3>
-             <a href="/administrator/Flab/{{i.id}}/book/">Book</a>
+            <h3>Lab name: <span>{{i.name}}</span></h3>
+             <h3>Lab capacity: <span>{{i.capacity}}</span></h3>
+             <a href="/administrator/Flab/{{i.id}}/book/" class="btn">Book</a>
         </div>
         {% endfor %}
 
     </div>
+
 
 {% endblock %}

@@ -3,6 +3,7 @@ from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from loginapp.models import Userprofile
 from django.conf import settings
+import uuid
 
 # Create your models here.
 class notifications(models.Model):
@@ -15,6 +16,7 @@ class Faculty1(models.Model):
     address=models.CharField(max_length=100)
     email=models.CharField(max_length=100)
     phone=models.CharField(max_length=100)
+    department=models.CharField(max_length=100,null=True,blank=True)
     def _str_(self):
         return self.name
 
@@ -178,7 +180,7 @@ class Labstaff(models.Model):
     loginid=models.ForeignKey(Userprofile,on_delete=models.CASCADE,null=True,blank=True)
     name = models.CharField(max_length=100)
     address=models.CharField(max_length=100)
-    semester=models.ForeignKey(Class1,on_delete=models.CASCADE,null=True,blank=True)
+    lab=models.ForeignKey(Lab,on_delete=models.CASCADE,null=True,blank=True)
     email=models.CharField(max_length=100)
     phone=models.CharField(max_length=100)
     def _str_(self):

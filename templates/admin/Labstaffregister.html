@@ -10,7 +10,7 @@
     overflow: auto;
     margin-left: 600px;
     margin-top: -52px;
-    position: sticky;
+    /* position: sticky; */
    
 }        
 .sch{
@@ -78,37 +78,43 @@
   </style>
   
   <div class="lab">
-  <form action="">
-    <div style="font-size: 25px;text-align: center;"><h4>REGISTER LABSTAFF</h4></div>
+  <form action="" method="post">
+    {% csrf_token %}
+    <div style="font-size: 25px;text-align: center;"><h4>LABSTAFF REGISTRATION</h4></div>
     <div class="sch">
     <label for="">Name</label>
-    <input type="text" name="" id="">
+    <input type="text" name="name" id="">
 </div>
 <div class="sch">
     <label for="">Address</label>
-    <textarea name="" id="" rows="2" cols="20"></textarea>
+    <textarea name="address" id="" rows="2" cols="20"></textarea>
 </div>
 <div class="sch">
     <label for="">Email</label>
-    <input type="text" name="" id="">
+    <input type="text" name="email" id="">
 </div>
 <div class="sch">
     <label for="">Phone number</label>
-    <input type="text"name="" id="" >
+    <input type="text" name="phone" id="" >
 </div>
 <div class="sch">
     <label for="">Lab</label>
-    <input type="text"name="" id="" >
-</div>
+    <select name="lab" id="">
+    {% for i in l %}
+    <option value="{{i.id}}">{{i.name}}</option>
+    {% endfor %}
+  </select>
+  </div>
+  
 
 
 <div class="sch">
     <label for="">Username</label>
-    <input type="text" name="" id="">
+    <input type="text" name="username" id="">
 </div>
 <div class="sch">
     <label for="">Password</label>
-    <input type="password" name="" id="">
+    <input type="password" name="password" id="">
 </div>
 <div class="inp">
    <b><input type="submit" value="REGISTER"> </b>

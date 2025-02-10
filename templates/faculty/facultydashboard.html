@@ -28,6 +28,7 @@
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 1000;
 }
 
 .navbar .logo {
@@ -137,18 +138,18 @@ margin-top: 100px;
   <div class="sidebar">
    
   <!-- <div class="sidebar"> -->
-    <div class="menu-item" id="editBtn">
+    <!-- <div class="menu-item" id="editBtn">
       <i class="material-icons icon">edit</i>
       <a href="/administrator/editprofilebyfaculty/{{request.session.user_id}}/">Edit profile</a>
-    </div>
+    </div> -->
     <div class="menu-item" id="timeTableBtn">
       <i class="material-icons icon">schedule</i>
       <a href="/administrator/viewtimetablebyfaculty/">Time Table</a>
     </div>
-    <div class="menu-item" id="viewBookingBtn">
+    <!-- <div class="menu-item" id="viewBookingBtn">
       <i class="material-icons icon">view_list</i>
       <a href="#">View Slot availability,Book</a>
-    </div>
+    </div> -->
     <div class="menu-item" id="viewBookingBtn">
       <i class="material-icons icon">view_list</i>
       <a href="/administrator/FacultyViewAddedlabs/">Manage lab schedule</a>
