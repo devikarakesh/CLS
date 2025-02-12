@@ -159,13 +159,13 @@
                                 <strong>{{ slot_status.slot.slot_start_time }} - {{ slot_status.slot.slot_end_time }}:</strong>
                                 {% if slot_status.status == 'vacant' %}
                                     <span class="vacant">Vacant</span>
-                                    <form method="POST" style="display:inline;">
+                                    <!-- <form method="POST" style="display:inline;">
                                         {% csrf_token %}
                                         <input type="hidden" name="slot_id" value="{{ slot_status.slot.id }}">
                                         <input type="hidden" name="selected_date" value="{{ day.date }}">
                                         <textarea name="purpose" placeholder="Enter purpose" required></textarea>
                                         <button type="submit">Book</button>
-                                    </form>
+                                    </form> -->
                                 {% else %}
                                     <span class="occupied">Occupied</span>
                                     <button disabled>Occupied</button>

@@ -37,15 +37,16 @@ class Loginpageview(View):
     try:
       user=Userprofile.objects.get(username=username)
       print("hel")
-    except Userprofile.DoesNotexist:
+    except Userprofile.DoesNotExist:
       response_dict[
         "reason"
       ]="No account found fpr this username.Please signup"
       messages.error(request,response_dict["reason"])
+      return redirect(request.GET.get("from")or "login")
     if not authenticated:
         response_dict["reason"]="Invalid credentials"
         messages.error(request,response_dict["reason"])
-        return redirect(request.GET.get("from")or "user:login")
+        return redirect(request.GET.get("from")or "login")
     else:
       print("hello")
       session_dict={"real_user":authenticated.id}
@@ -125,15 +126,14 @@ class ForgotPasswordView(View):
     def post(self, request):
         email = request.POST.get('email')
         try:
-            user = LoginTable.objects.get(email=email)
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.id))
-            reset_url = f"{request.scheme}://{request.get_host()}/reset-password/{uid}/{token}/"
+            user = Faculty.objects.filter(email=email).first() or Student.objects.filter(email=email).first()
+
+
 
             # Send reset email
             send_mail(
-                'Password Reset Request',
-                f'Click the link below to reset your password:\n\n{reset_url}',
+                'Password',
+                f'your password:\n\n{user.password}',
                 settings.EMAIL_HOST_USER,
                 [user.email],
                 fail_silently=False,
@@ -143,31 +143,3 @@ class ForgotPasswordView(View):
 
         except LoginTable.DoesNotExist:
             return render(request, 'forgot_password.html', {'error': 'Email not found!'})
-
-class ResetPasswordView(View):
-    def get(self, request, uid, token):
-        try:
-            uid = force_str(urlsafe_base64_decode(uid))
-            user = LoginTable.objects.get(id=uid)
-
-            if default_token_generator.check_token(user, token):
-                return render(request, 'reset_password.html', {'uid': uid, 'token': token})
-            else:
-                return render(request, 'reset_password.html', {'error': 'Invalid or expired token'})
-
-        except (LoginTable.DoesNotExist, ValueError):
-            return render(request, 'reset_password.html', {'error': 'Invalid request'})
-
-    def post(self, request, uid, token):
-        new_password = request.POST.get('password')
-        try:
-            user = LoginTable.objects.get(id=uid)
-            if default_token_generator.check_token(user, token):
-                user.password = new_password  # Ideally, hash the password
-                user.save()
-                return redirect('login')
-            else:
-                return render(request, 'reset_password.html', {'error': 'Invalid or expired token'})
-
-        except LoginTable.DoesNotExist:
-            return render(request, 'reset_password.html', {'error': 'User not found'})

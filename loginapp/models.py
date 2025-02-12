@@ -20,6 +20,7 @@ class Userprofile(AbstractUser):
     #password
     #first_name
     #email
+    
     photo = models.ImageField(null=True,blank=True,upload_to='teacherimages')
     status =  models.CharField(max_length=20,null=False,choices=STATUS_CHOICES)
     is_active = models.BooleanField(max_length=20,null=False,default=True)

@@ -76,7 +76,7 @@ urlpatterns = [
    
     path('booking/<int:booking_id>/confirmation/', BookingConfirmationView.as_view(), name='booking_confirmation'),
     path('booking/<int:booking_id>/edit/', EditBookingView.as_view(), name='edit_booking'),
-    path('booking/<int:booking_id>/delete/', DeleteBookingView.as_view(), name='delete_booking'),
+    path('bookingdelete/<int:booking_id>', DeleteBookingView.as_view(), name='delete_booking'),
 
     path('FacultyViewAddedlabs/',FacultyViewAddedlabs.as_view(),name='FacultyViewAddedlabs'),
     path('Flab/<int:lab_id>/book/', FacultyLabBookingView.as_view(), name='FacultyLabBookingView'),

@@ -79,7 +79,29 @@ class TimeSlot(models.Model):
 
     def _str_(self):
         return f"{self.slot_start_time} to {self.slot_end_time}"
+import threading
+from django.core.mail import send_mail
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.utils.timezone import make_aware
+from datetime import datetime, timedelta
 
+
+class EmailThread(threading.Thread):
+    def __init__(self, subject, message, recipient_list):
+        self.subject = subject
+        self.message = message
+        self.recipient_list = recipient_list
+        threading.Thread.__init__(self)
+
+    def run(self):
+        send_mail(
+            subject=self.subject,
+            message=self.message,
+            from_email="no-reply@example.com",
+            recipient_list=self.recipient_list,
+            fail_silently=False,
+        )
 # Booking model for managing reservations
 class Booking(models.Model):
     lab = models.ForeignKey(Lab, on_delete=models.CASCADE)
@@ -90,36 +112,66 @@ class Booking(models.Model):
 
     def _str_(self):
         return f"{self.lab.name} booked by {self.user.username} on {self.date} ({self.time_slot})"
-
 @receiver(post_save, sender=Booking)
 def schedule_email_notification(sender, instance, created, **kwargs):
     if created:
         try:
-            # Ensure booking_time is timezone-aware
-            print("hhhhhh")
+            print("Booking created. Preparing email notification...")
+
             slot_start_datetime = datetime.combine(instance.date, instance.time_slot.slot_start_time)
             slot_start_aware = make_aware(slot_start_datetime)
-            # Calculate the notification time (5 seconds before the slot st
+
+            # Send email 5 seconds before the booking time
             notification_time = slot_start_aware - timedelta(seconds=5)
+            now_time = datetime.now()
 
-            # # Ensure booking_time is timezone-aware
-            # notification_time = instance.booking_time - timedelta(hours=24)
-            now_time = now()
-
-            # Calculate countdown in seconds
             countdown = (notification_time - now_time).total_seconds()
 
             if countdown > 0:
-                # Schedule the task using Celery
-                send_email_notification.apply_async(
-                    (instance.id,), 
-                    countdown=countdown
-                )
-                print(f"Email notification scheduled in {countdown} seconds.")
+                print(f"Scheduling email in {countdown} seconds...")
+
+                def send_email():
+                    EmailThread(
+                        subject="Lab Booking Reminder",
+                        message=f"Reminder: Your lab booking is scheduled at {instance.time_slot.slot_start_time}.",
+                        recipient_list=[instance.user.email]
+                    ).start()
+
+                # Schedule email to be sent after `countdown` seconds
+                threading.Timer(countdown, send_email).start()
             else:
                 print("Notification time is in the past. Email will not be scheduled.")
         except Exception as e:
             print(f"Error scheduling email notification: {e}")
+# @receiver(post_save, sender=Booking)
+# def schedule_email_notification(sender, instance, created, **kwargs):
+#     if created:
+#         try:
+#             # Ensure booking_time is timezone-aware
+#             print("hhhhhh")
+#             slot_start_datetime = datetime.combine(instance.date, instance.time_slot.slot_start_time)
+#             slot_start_aware = make_aware(slot_start_datetime)
+#             # Calculate the notification time (5 seconds before the slot st
+#             notification_time = slot_start_aware - timedelta(seconds=5)
+
+#             # # Ensure booking_time is timezone-aware
+#             # notification_time = instance.booking_time - timedelta(hours=24)
+#             now_time = now()
+
+#             # Calculate countdown in seconds
+#             countdown = (notification_time - now_time).total_seconds()
+
+#             if countdown > 0:
+#                 # Schedule the task using Celery
+#                 send_email_notification.apply_async(
+#                     (instance.id,), 
+#                     countdown=countdown
+#                 )
+#                 print(f"Email notification scheduled in {countdown} seconds.")
+#             else:
+#                 print("Notification time is in the past. Email will not be scheduled.")
+#         except Exception as e:
+#             print(f"Error scheduling email notification: {e}")
 
 
 # pip install celery django-celery-beat redis
@@ -132,6 +184,22 @@ def schedule_email_notification(sender, instance, created, **kwargs):
 # sudo systemctl stop redis
 # redis status
 # ps aux | grep redis
+@receiver(post_save, sender=Booking)
+def booking_cancelled_notification(sender, instance, **kwargs):
+    # Send email for cancellation
+    print("hhhhhh")
+    subject = f'Booked: {instance.lab.name}'
+    message = (f'Dear {instance.user.username},\n\n'
+               f'Your booking for {instance.lab.name} on {instance.date} has been booked.\n\n'
+               f'Best Regards,\nTeam')
+
+    send_mail(
+        subject,
+        message,
+        settings.EMAIL_HOST_USER,
+        [instance.user.email],
+        fail_silently=False,
+    )
 
 @receiver(post_delete, sender=Booking)
 def booking_cancelled_notification(sender, instance, **kwargs):

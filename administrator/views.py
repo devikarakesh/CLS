@@ -1,5 +1,8 @@
+from pyexpat.errors import messages
 from django.shortcuts import render,redirect
 from django.views import View
+
+from .models import *
 from .forms import *
 from django.urls import reverse
 
@@ -905,9 +908,13 @@ class LabBookingView(View):
 
             # Create a dictionary of bookings per day
             bookings_by_date = {day: [] for day in range(1, num_days_in_month + 1)}
+            # Store booking ID along with time slot
+            booking_ids_by_date = {day: {} for day in range(1, num_days_in_month + 1)}
+            print("cccc",booking_ids_by_date)
             for booking in bookings:
                 day = booking.date.day
                 bookings_by_date[day].append(booking.time_slot)
+                booking_ids_by_date[day][booking.time_slot.id] = booking.id 
 
             calendar_days = []
             for day in range(1, num_days_in_month + 1):
@@ -926,7 +933,10 @@ class LabBookingView(View):
                     print("time_slots",time_slots)
                     for slot in time_slots:
                         is_booked = any(booking == slot for booking in day_bookings)
+                        booking_id = booking_ids_by_date[day].get(slot.id, None) 
+                        print("gggggg",booking_id)
                         slots_with_status.append({
+                            'booking_id': booking_id ,
                             'slot': slot,
                             'status': 'occupied' if is_booked else 'vacant'
                         })
@@ -1013,12 +1023,14 @@ from .models import Booking
 class DeleteBookingView(View):
     def get(self, request, booking_id):
         booking = get_object_or_404(Booking, id=booking_id)
-        return render(request, 'delete_confirmation.html', {'booking': booking})
-
-    def post(self, request, booking_id):
-        booking = get_object_or_404(Booking, id=booking_id)
         booking.delete()
-        return redirect('adminlab_booking', lab_id=booking.lab.id)
+        print("hhhh")
+        return redirect('FacultyLabBookingView')
+
+    # def post(self, request, booking_id):
+    #     booking = get_object_or_404(Booking, id=booking_id)
+    #     booking.delete()
+    #     return redirect('adminlab_booking', lab_id=booking.lab.id)
 
 class AdminLabBookingView(View):
     def get(self, request, lab_id):
@@ -1115,9 +1127,12 @@ class FacultyLabBookingView(View):
 
             # Create a dictionary of bookings per day
             bookings_by_date = {day: [] for day in range(1, num_days_in_month + 1)}
+                # Store booking ID along with time slot
+            booking_ids_by_date = {day: {} for day in range(1, num_days_in_month + 1)}
             for booking in bookings:
                 day = booking.date.day
                 bookings_by_date[day].append(booking.time_slot)
+                booking_ids_by_date[day][booking.time_slot.id] = booking.id  
 
             calendar_days = []
             for day in range(1, num_days_in_month + 1):
@@ -1136,7 +1151,9 @@ class FacultyLabBookingView(View):
                     print("time_slots",time_slots)
                     for slot in time_slots:
                         is_booked = any(booking == slot for booking in day_bookings)
+                        booking_id = booking_ids_by_date[day].get(slot.id, None) 
                         slots_with_status.append({
+                            'booking_id': booking_id,
                             'slot': slot,
                             'status': 'occupied' if is_booked else 'vacant'
                         })
@@ -1198,6 +1215,10 @@ class Studentreg(View):
   def post(self,request):
         print('addstudent')
         form=AddStudentform(request.POST)
+         # ✅ Check if email already exists in Student or Labour table
+        if Student.objects.filter(email=email).exists() or Faculty1.objects.filter(email=email).exists():
+            return HttpResponse("<script>alert('Email already exists!'); window.location.href='/login/';</script>")
+
         if form.is_valid():
             reg_form=form.save(commit=False)
             rf=Userprofile.objects.create_user(user_type='STUDENT',username=request.POST['username'],password=request.POST['password'],email=request.POST['email'])
@@ -1214,6 +1235,11 @@ class Addfaculty(View):
         return render(request,'registerbuttons/addfaculty.html')
     def post(self,request):
         form=Addfacultyform(request.POST)
+        email=request.POST['email']
+         # ✅ Check if email already exists in Student or Labour table
+        if Student.objects.filter(email=email).exists() or Faculty1.objects.filter(email=email).exists():
+            return HttpResponse("<script>alert('Email already exists!'); window.location.href='/login/';</script>")
+
     
         if form.is_valid():
             reg_form=form.save(commit=False)
@@ -1272,10 +1298,12 @@ class ForgotPasswordView(View):
         return render(request,'admin/forgot_password.html')
     def post(self,request):
         try:
-                # email=request.POST['email']
+                email=request.POST['email']
                 # c=Student.objects.get(email=email)
-                d=Userprofile.objects.get(email=email)
-                user_password=d.password
+                user = Faculty1.objects.filter(email=email).first() or Student.objects.filter(email=email).first()
+                print(user)
+                c=Userprofile.objects.get(id=user.id)
+                user_password=c.password
                 # You should ideally send a password reset link instead of the plain password
                 subject = "Password Reset"
                 message = f"Your password is: {user_password}"  # This is just an example; sending the plain password is not recommended
@@ -1283,7 +1311,7 @@ class ForgotPasswordView(View):
                 recipient_list = [email]
                 
                 send_mail(subject, message, from_email, recipient_list)
-                messages.success(request, "Your password has been sent to your email.")
+                # messages.success(request, "Your password has been sent to your email.")
                 return redirect('login')  # Redirect to the login page
 
         except Userprofile.DoesNotExist:
