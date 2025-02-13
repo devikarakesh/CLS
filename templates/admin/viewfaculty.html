@@ -58,6 +58,7 @@
             <th>Address</th>
             <th>Email address</th>
             <th>Phone number</th>
+            <th>Department</th>
             </tr>
            {% for i in faculties %}
             <tr>
@@ -66,6 +67,8 @@
                 <td>{{i.address}}</td>
                 <td>{{i.email}}</td>
                 <td>{{i.phone}}</td>
+                <td>{{i.department}}</td>
+
                 <!-- <td><a href="/administrator/updatefaculty/{{i.id}}"><i class="material-icons" style="color: whitesmoke;">edit</i></a></td> -->
                 <td><a href="/administrator/Deletefaculty/{{i.id}}"><i class="material-icons" style="color: whitesmoke;">delete</i></a></td>
                 

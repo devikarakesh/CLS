@@ -56,6 +56,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+BASE_URL = 'http://localhost:8000'
+
 ROOT_URLCONF = 'projectlabschedule.urls'
 
 TEMPLATES = [

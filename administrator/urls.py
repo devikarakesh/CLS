@@ -93,8 +93,15 @@ urlpatterns = [
     path('Forgotpassword',ForgotPasswordView.as_view(),name='Forgotpassword'),
 
     path('viewtimetablebystudent/',TimetableView4.as_view(),name='viewtimetablebystudent'),
+    
+    path('LabStaffBookingView/<int:lab_id>',LabStaffBookingView.as_view(),name='LabStaffBookingView'),
+    path('StudentLabBookingView/<int:lab_id>',StudentLabBookingView.as_view(),name='StudentLabBookingView'),
 
-   
+
+    path('LabstaffViewAddedlabs/',LabstaffViewAddedlabs.as_view(),name='LabstaffViewAddedlabs'),
+    path('StudentsViewAddedlabs/',StudentsViewAddedlabs.as_view(),name='StudentsViewAddedlabs'),
+
+
 
     
 

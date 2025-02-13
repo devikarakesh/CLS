@@ -1102,8 +1102,7 @@ class FacultyViewAddedlabs(View):
     def get(self,request):
         lab=Lab.objects.all()
         return render(request,'faculty/labs.html',{'labs':lab})
-
-
+####code updation
 class FacultyLabBookingView(View):
     def get(self, request, lab_id):
             lab = get_object_or_404(Lab, id=lab_id)
@@ -1181,8 +1180,7 @@ class FacultyLabBookingView(View):
     def post(self, request, lab_id):
         # Handle booking when the user selects a time slot
         lab = get_object_or_404(Lab, id=lab_id)
-        user = Userprofile.objects.get(id=request.session.get('user_id'))
-        print(user)
+        user = request.user
         slot_id = request.POST.get('slot_id')
         selected_date = request.POST.get('selected_date')
         purpose=request.POST.get('purpose')
@@ -1348,3 +1346,146 @@ class TimetableView4(View):
         }
         
         return render(request, self.template_name, context)
+
+class StudentLabBookingView(View):
+    def get(self, request, lab_id):
+        lab = get_object_or_404(Lab, id=lab_id)
+
+        # Get the current date or use a provided date
+        today = timezone.now().date()
+        selected_year = int(request.GET.get('year', today.year))
+        selected_month = int(request.GET.get('month', today.month))
+
+        selected_date = date(selected_year, selected_month, 1)
+        num_days_in_month = monthrange(selected_date.year, selected_date.month)[1]
+
+        first_day_weekday = selected_date.weekday()  # Monday is 0, Sunday is 6
+
+        # Fetch bookings for the selected month
+        first_day = selected_date
+        last_day = selected_date + timedelta(days=num_days_in_month - 1)
+        bookings = Booking.objects.filter(lab=lab, date__range=[first_day, last_day])
+
+        # Create a dictionary of bookings per day
+        bookings_by_date = {day: [] for day in range(1, num_days_in_month + 1)}
+        for booking in bookings:
+            day = booking.date.day
+            bookings_by_date[day].append(booking)
+
+        calendar_days = []
+        for day in range(1, num_days_in_month + 1):
+            current_date = date(selected_date.year, selected_date.month, day)
+            day_name = current_date.strftime('%A')  # Get day name like 'Monday', 'Tuesday'
+
+            # Fetch the working day for this specific day of the week
+            working_day = WorkingDay.objects.filter(lab=lab, day=day_name).first()
+            slots_with_status = []
+
+            if working_day:
+                # Fetch only time slots that belong to this working day
+                time_slots = TimeSlot.objects.filter(working_day=working_day)
+                day_bookings = bookings_by_date.get(day, [])
+                for slot in time_slots:
+                    # Check if the slot is booked
+                    booked_slot = next((b for b in day_bookings if b.time_slot == slot), None)
+                    slots_with_status.append({
+                        'slot': slot,
+                        'status': 'occupied' if booked_slot else 'vacant',
+                        'booking': booked_slot,  # Pass the booking object if it's occupied
+                    })
+
+            calendar_days.append({
+                'date': current_date,
+                'slots_with_status': slots_with_status
+            })
+
+        empty_days_before_first = list(range(first_day_weekday))
+
+        context = {
+            'lab': lab,
+            'calendar_days': calendar_days,
+            'selected_date': selected_date,
+            'selected_year': selected_year,
+            'selected_month': selected_month,
+            'first_day_weekday': first_day_weekday,
+            'empty_days_before_first': empty_days_before_first,
+        }
+
+        return render(request, 'student/lab_booking.html', context)
+    
+class LabStaffBookingView(View):
+    def get(self, request, lab_id):
+        lab = get_object_or_404(Lab, id=lab_id)
+
+        # Get the current date or use a provided date
+        today = timezone.now().date()
+        selected_year = int(request.GET.get('year', today.year))
+        selected_month = int(request.GET.get('month', today.month))
+
+        selected_date = date(selected_year, selected_month, 1)
+        num_days_in_month = monthrange(selected_date.year, selected_date.month)[1]
+
+        first_day_weekday = selected_date.weekday()  # Monday is 0, Sunday is 6
+
+        # Fetch bookings for the selected month
+        first_day = selected_date
+        last_day = selected_date + timedelta(days=num_days_in_month - 1)
+        bookings = Booking.objects.filter(lab=lab, date__range=[first_day, last_day])
+
+        # Create a dictionary of bookings per day
+        bookings_by_date = {day: [] for day in range(1, num_days_in_month + 1)}
+        for booking in bookings:
+            day = booking.date.day
+            bookings_by_date[day].append(booking)
+
+        calendar_days = []
+        for day in range(1, num_days_in_month + 1):
+            current_date = date(selected_date.year, selected_date.month, day)
+            day_name = current_date.strftime('%A')  # Get day name like 'Monday', 'Tuesday'
+
+            # Fetch the working day for this specific day of the week
+            working_day = WorkingDay.objects.filter(lab=lab, day=day_name).first()
+            slots_with_status = []
+
+            if working_day:
+                # Fetch only time slots that belong to this working day
+                time_slots = TimeSlot.objects.filter(working_day=working_day)
+                day_bookings = bookings_by_date.get(day, [])
+                for slot in time_slots:
+                    # Check if the slot is booked
+                    booked_slot = next((b for b in day_bookings if b.time_slot == slot), None)
+                    slots_with_status.append({
+                        'slot': slot,
+                        'status': 'occupied' if booked_slot else 'vacant',
+                        'booking': booked_slot,  # Pass the booking object if it's occupied
+                    })
+
+            calendar_days.append({
+                'date': current_date,
+                'slots_with_status': slots_with_status
+            })
+
+        empty_days_before_first = list(range(first_day_weekday))
+
+        context = {
+            'lab': lab,
+            'calendar_days': calendar_days,
+            'selected_date': selected_date,
+            'selected_year': selected_year,
+            'selected_month': selected_month,
+            'first_day_weekday': first_day_weekday,
+            'empty_days_before_first': empty_days_before_first,
+        }
+
+        return render(request, 'Staff/lab_booking.html', context)
+    
+class LabstaffViewAddedlabs(View):
+    def get(self,request):
+        lab=Lab.objects.all()
+        return render(request,'Staff/labs.html',{'labs':lab})
+    
+class StudentsViewAddedlabs(View):
+    def get(self,request):
+        lab=Lab.objects.all()
+        return render(request,'student/labs.html',{'labs':lab})
+    

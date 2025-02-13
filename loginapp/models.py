@@ -3,6 +3,10 @@ from django.contrib.auth.models import AbstractUser
 import random
 import string
 import uuid
+from django.core.mail import send_mail
+from django.urls import reverse
+from django.utils import timezone
+from django.conf import settings
 # Create your models here.
 USER_TYPE_CHOICES = {
     ("ADMIN","Admin"),
@@ -20,7 +24,6 @@ class Userprofile(AbstractUser):
     #password
     #first_name
     #email
-    
     photo = models.ImageField(null=True,blank=True,upload_to='teacherimages')
     status =  models.CharField(max_length=20,null=False,choices=STATUS_CHOICES)
     is_active = models.BooleanField(max_length=20,null=False,default=True)
@@ -106,3 +109,21 @@ class Token(models.Model):
 
     def str(self):
         return str(self.user) if self.user else str(self.id)
+
+    def generate_password_reset_token(self):
+        return "".join(
+            random.choice(
+                string.ascii_lowercase + string.digits + string.ascii_uppercase
+            )
+            for i in range(40)
+        )
+
+    def send_password_reset_email(self):
+        reset_token = self.generate_password_reset_token()
+        self.key = reset_token
+        self.save()
+
+        reset_url = settings.BASE_URL + reverse('password_reset_confirm', kwargs={'token': reset_token})
+        subject = 'Password Reset Request'
+        message = f'Please click the following link to reset your password: {reset_url}'
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [self.user.email])

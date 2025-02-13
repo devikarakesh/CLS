@@ -40,7 +40,7 @@ class Loginpageview(View):
     except Userprofile.DoesNotExist:
       response_dict[
         "reason"
-      ]="No account found fpr this username.Please signup"
+      ]="No account found for this username.Please signup"
       messages.error(request,response_dict["reason"])
       return redirect(request.GET.get("from")or "login")
     if not authenticated:
@@ -109,37 +109,43 @@ class Logout(View):
         request.session["token"]=None
         request.session.flush()
         return redirect("login")
+
 from django.shortcuts import render, redirect
-from django.views import View
-from django.core.mail import send_mail
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str
-from django.contrib.auth.tokens import default_token_generator
-from django.conf import settings
+from django.contrib import messages
+from .models import Userprofile, Token
 
 
-# Forgot Password View
-class ForgotPasswordView(View):
-    def get(self, request):
-        return render(request, 'forgot_password.html')  # HTML form to enter email
-
-    def post(self, request):
+def forgot_password(request):
+    if request.method == 'POST':
         email = request.POST.get('email')
+        print(email)
         try:
-            user = Faculty.objects.filter(email=email).first() or Student.objects.filter(email=email).first()
+            user = Userprofile.objects.get(email=email)
+            print(user)
+            token, created = Token.objects.get_or_create(user=user)
+            token.send_password_reset_email()
+            messages.success(request, 'An email with password reset instructions has been sent to your email address.')
+            return redirect('login')
+        except Userprofile.DoesNotExist:
+            messages.error(request, 'No user found with this email address.')
+    return render(request, 'forgot_password.html')
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.hashers import make_password
+from .models import Token, Userprofile
 
-
-
-            # Send reset email
-            send_mail(
-                'Password',
-                f'your password:\n\n{user.password}',
-                settings.EMAIL_HOST_USER,
-                [user.email],
-                fail_silently=False,
-            )
-
-            return render(request, 'forgot_password.html', {'message': 'Password reset link sent!'})
-
-        except LoginTable.DoesNotExist:
-            return render(request, 'forgot_password.html', {'error': 'Email not found!'})
+def password_reset_confirm(request, token):
+    try:
+        token_obj = Token.objects.get(key=token)
+        user = token_obj.user
+        if request.method == 'POST':
+            new_password = request.POST.get('new_password')
+            user.password = make_password(new_password)
+            user.save()
+            token_obj.delete()
+            messages.success(request, 'Your password has been reset successfully.')
+            return redirect('login')
+        return render(request, 'password_reset_confirm.html')
+    except Token.DoesNotExist:
+        messages.error(request, 'Invalid or expired password reset link.')
+        return redirect('login')

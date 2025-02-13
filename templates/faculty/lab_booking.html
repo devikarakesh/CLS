@@ -164,8 +164,9 @@
                         <span class="vacant">Vacant</span>
                         <form method="POST" style="display:inline;">
                             {% csrf_token %}
-                            <input type="hidden" name="slot_id" value="{{ slot_status.booking_id }}">
-                            <input type="hidden" name="selected_date" value="{{ day.date }}">
+                            <input type="text" name="abc" value="{{ slot_status.status }}">
+                            <input type="text" name="slot_id" value="{{ slot_status.slot_id }}">
+                            <input type="text" name="selected_date" value="{{ day.date }}">
                             <textarea name="purpose" placeholder="Enter purpose" required></textarea>
                             <button type="submit">Book</button>
                         </form>
