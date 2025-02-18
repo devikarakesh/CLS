@@ -259,7 +259,7 @@ def generate_timetable(request):
                                 subject=subject,
                                 faculty=subject.faculty
                             )
-                            print(f"Assigned {subject.name} to {cls.name} on {slot['day']} period {slot['period']}")
+                            print(f"Assigned {subject.name} to {cls.Semester} on {slot['day']} period {slot['period']}")
                             break  # Exit loop when assignment is successful
                         else:
                             # print(f"Slot already occupied: {slot['day']} period {slot['period']} for {subject.name} in {cls.name}")
@@ -961,61 +961,61 @@ class LabBookingView(View):
             # print(calendar_days)
 
             return render(request, 'lab_booking.html', context)
-    def post(self, request, lab_id):
-        # Handle booking when the user selects a time slot
-        lab = get_object_or_404(Lab, id=lab_id)
-        user = request.user
-        slot_id = request.POST.get('slot_id')
-        selected_date = request.POST.get('selected_date')
-        purpose=request.POST.get('purpose')
+    # def post(self, request, lab_id):
+    #     # Handle booking when the user selects a time slot
+    #     lab = get_object_or_404(Lab, id=lab_id)
+    #     user = request.user
+    #     slot_id = request.POST.get('slot_id')
+    #     selected_date = request.POST.get('selected_date')
+    #     purpose=request.POST.get('purpose')
     
 
-        if slot_id and selected_date:
-            time_slot = get_object_or_404(TimeSlot, id=slot_id)
-            booking_date = datetime.strptime(selected_date, '%b. %d, %Y').date()
-            # booking_date = date.fromisoformat(selected_date)
+    #     if slot_id and selected_date:
+    #         time_slot = get_object_or_404(TimeSlot, id=slot_id)
+    #         booking_date = datetime.strptime(selected_date, '%b. %d, %Y').date()
+    #         # booking_date = date.fromisoformat(selected_date)
 
-            # Check if the time slot is already booked
-            if not Booking.objects.filter(lab=lab, date=booking_date, time_slot=time_slot).exists():
-                Booking.objects.create(
-                    lab=lab,
-                    user=user,
-                    date=booking_date,
-                    time_slot=time_slot,
-                    purpose=purpose
-                )
-        return self.get(request, lab_id)
+    #         # Check if the time slot is already booked
+    #         if not Booking.objects.filter(lab=lab, date=booking_date, time_slot=time_slot).exists():
+    #             Booking.objects.create(
+    #                 lab=lab,
+    #                 user=user,
+    #                 date=booking_date,
+    #                 time_slot=time_slot,
+    #                 purpose=purpose
+    #             )
+    #     return self.get(request, lab_id)
 
-class BookingConfirmationView(View):
-    def get(self, request, booking_id):
-        booking = get_object_or_404(Booking, id=booking_id)
-        context = {'booking': booking}
-        return render(request, 'booking_confirmation.html', context)
+# class BookingConfirmationView(View):
+#     def get(self, request, booking_id):
+#         booking = get_object_or_404(Booking, id=booking_id)
+#         context = {'booking': booking}
+#         return render(request, 'booking_confirmation.html', context)
 
-class BookingConfirmationView(View):
-    def get(self, request, booking_id):
-        booking = get_object_or_404(Booking, id=booking_id)
-        context = {'booking': booking}
-        return render(request, 'booking_confirmation.html', context)
+# class BookingConfirmationView(View):
+#     def get(self, request, booking_id):
+#         booking = get_object_or_404(Booking, id=booking_id)
+#         context = {'booking': booking}
+#         return render(request, 'booking_confirmation.html', context)
     
 from django.views import View
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Booking
 from .forms import BookingForm
 
-class EditBookingView(View):
-    def get(self, request, booking_id):
-        booking = get_object_or_404(Booking, id=booking_id)
-        form = BookingForm(instance=booking)
-        return render(request, 'edit_booking.html', {'form': form, 'booking': booking})
+# class EditBookingView(View):
+#     def get(self, request, booking_id):
+#         booking = get_object_or_404(Booking, id=booking_id)
+#         form = BookingForm(instance=booking)
+#         return render(request, 'edit_booking.html', {'form': form, 'booking': booking})
 
-    def post(self, request, booking_id):
-        booking = get_object_or_404(Booking, id=booking_id)
-        form = BookingForm(request.POST, instance=booking)
-        if form.is_valid():
-            form.save()
-            return redirect('lab_booking', lab_id=booking.lab.id)
-        return render(request, 'edit_booking.html', {'form': form, 'booking': booking})
+#     def post(self, request, booking_id):
+#         booking = get_object_or_404(Booking, id=booking_id)
+#         form = BookingForm(request.POST, instance=booking)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('lab_booking', lab_id=booking.lab.id)
+#         return render(request, 'edit_booking.html', {'form': form, 'booking': booking})
 from django.views import View
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Booking
@@ -1023,9 +1023,12 @@ from .models import Booking
 class DeleteBookingView(View):
     def get(self, request, booking_id):
         booking = get_object_or_404(Booking, id=booking_id)
+        return render(request, 'delete_confirmation.html', {'booking': booking})
+
+    def post(self, request, booking_id):
+        booking = get_object_or_404(Booking, id=booking_id)
         booking.delete()
-        print("hhhh")
-        return redirect('FacultyLabBookingView')
+        return redirect('FacultyLabBookingView', lab_id=booking.lab.id)
 
     # def post(self, request, booking_id):
     #     booking = get_object_or_404(Booking, id=booking_id)
@@ -1076,7 +1079,8 @@ class AdminLabBookingView(View):
                     slots_with_status.append({
                         'slot': slot,
                         'status': 'occupied' if booked_slot else 'vacant',
-                        'booking': booked_slot,  # Pass the booking object if it's occupied
+                        'booking': booked_slot,
+                        'purpose': booked_slot.purpose if booked_slot else None,   # Pass the booking object if it's occupied
                     })
 
             calendar_days.append({
@@ -1103,84 +1107,82 @@ class FacultyViewAddedlabs(View):
         lab=Lab.objects.all()
         return render(request,'faculty/labs.html',{'labs':lab})
 ####code updation
+
 class FacultyLabBookingView(View):
     def get(self, request, lab_id):
-            lab = get_object_or_404(Lab, id=lab_id)
-            user=request.session.get('user_id')
-            print(user)
+        lab = get_object_or_404(Lab, id=lab_id)
+        user = request.session.get('user_id')
+        print(user)
 
-            # Get the current date or use a provided date
-            today = timezone.now().date()
-            selected_year = int(request.GET.get('year', today.year))
-            selected_month = int(request.GET.get('month', today.month))
+        # Get the current date or use a provided date
+        today = timezone.now().date()
+        selected_year = int(request.GET.get('year', today.year))
+        selected_month = int(request.GET.get('month', today.month))
 
-            selected_date = date(selected_year, selected_month, 1)
-            num_days_in_month = monthrange(selected_date.year, selected_date.month)[1]
+        selected_date = date(selected_year, selected_month, 1)
+        num_days_in_month = monthrange(selected_date.year, selected_date.month)[1]
 
-            first_day_weekday = selected_date.weekday()  # Monday is 0, Sunday is 6
+        first_day_weekday = selected_date.weekday()  # Monday is 0, Sunday is 6
 
-            # Fetch bookings for the selected month
-            first_day = selected_date
-            last_day = selected_date + timedelta(days=num_days_in_month - 1)
-            bookings = Booking.objects.filter(lab=lab, date__range=[first_day, last_day])
+        # Fetch bookings for the selected month
+        first_day = selected_date
+        last_day = selected_date + timedelta(days=num_days_in_month - 1)
+        bookings = Booking.objects.filter(lab=lab, date__range=[first_day, last_day])
 
-            # Create a dictionary of bookings per day
-            bookings_by_date = {day: [] for day in range(1, num_days_in_month + 1)}
-                # Store booking ID along with time slot
-            booking_ids_by_date = {day: {} for day in range(1, num_days_in_month + 1)}
-            for booking in bookings:
-                day = booking.date.day
-                bookings_by_date[day].append(booking.time_slot)
-                booking_ids_by_date[day][booking.time_slot.id] = booking.id  
+        # Create a dictionary of bookings per day
+        bookings_by_date = {day: [] for day in range(1, num_days_in_month + 1)}
+        for booking in bookings:
+            day = booking.date.day
+            bookings_by_date[day].append(booking)
 
-            calendar_days = []
-            for day in range(1, num_days_in_month + 1):
-                current_date = date(selected_date.year, selected_date.month, day)
-                day_name = current_date.strftime('%A')  # Get day name like 'Monday', 'Tuesday'
-                
-                # Fetch the working day for this specific day of the week
-                working_day = WorkingDay.objects.filter(lab=lab, day=day_name).first()
-                # print("working_day",working_day)
-                slots_with_status = []
+        calendar_days = []
+        for day in range(1, num_days_in_month + 1):
+            current_date = date(selected_date.year, selected_date.month, day)
+            day_name = current_date.strftime('%A')  # Get day name like 'Monday', 'Tuesday'
+            
+            # Fetch the working day for this specific day of the week
+            working_day = WorkingDay.objects.filter(lab=lab, day=day_name).first()
+            slots_with_status = []
 
-                if working_day:
-                    # Fetch only time slots that belong to this working day
-                    time_slots = TimeSlot.objects.filter(working_day=working_day)
-                    day_bookings = bookings_by_date.get(day, [])
-                    print("time_slots",time_slots)
-                    for slot in time_slots:
-                        is_booked = any(booking == slot for booking in day_bookings)
-                        booking_id = booking_ids_by_date[day].get(slot.id, None) 
-                        slots_with_status.append({
-                            'booking_id': booking_id,
-                            'slot': slot,
-                            'status': 'occupied' if is_booked else 'vacant'
-                        })
+            if working_day:
+                # Fetch only time slots that belong to this working day
+                time_slots = TimeSlot.objects.filter(working_day=working_day)
+                day_bookings = bookings_by_date.get(day, [])
+                for slot in time_slots:
+                    # Check if the slot is booked
+                    booking_for_slot = next((b for b in day_bookings if b.time_slot == slot), None)
+                    is_booked = booking_for_slot is not None
+                    slots_with_status.append({
+                        'slot': slot,
+                        'status': 'occupied' if is_booked else 'vacant',
+                        'booking': booking_for_slot,
+                        'purpose': booking_for_slot.purpose if booking_for_slot else None,   # Include the booking object if occupied
+                    })
 
-                calendar_days.append({
-                    'date': current_date,
-                    'slots_with_status': slots_with_status
-                })
+            calendar_days.append({
+                'date': current_date,
+                'slots_with_status': slots_with_status
+            })
 
-            # Add the range of empty days before the first day of the month
-            empty_days_before_first = list(range(first_day_weekday))
+        # Add the range of empty days before the first day of the month
+        empty_days_before_first = list(range(first_day_weekday))
 
-            context = {
-                'lab': lab,
-                'calendar_days': calendar_days,
-                'selected_date': selected_date,
-                'selected_year': selected_year,
-                'selected_month': selected_month,
-                'first_day_weekday': first_day_weekday,
-                'empty_days_before_first': empty_days_before_first,
-            }
-            # print(calendar_days)
-
-            return render(request, 'faculty/lab_booking.html', context)
+        context = {
+            'lab': lab,
+            'calendar_days': calendar_days,
+            'selected_date': selected_date,
+            'selected_year': selected_year,
+            'selected_month': selected_month,
+            'first_day_weekday': first_day_weekday,
+            'empty_days_before_first': empty_days_before_first,
+        }
+        return render(request, 'faculty/lab_booking.html', context)
+      
     def post(self, request, lab_id):
         # Handle booking when the user selects a time slot
         lab = get_object_or_404(Lab, id=lab_id)
-        user = request.user
+        user = request.session["user_id"]
+        user=Userprofile.objects.get(id=user)
         slot_id = request.POST.get('slot_id')
         selected_date = request.POST.get('selected_date')
         purpose=request.POST.get('purpose')
@@ -1188,7 +1190,10 @@ class FacultyLabBookingView(View):
 
         if slot_id and selected_date:
             time_slot = get_object_or_404(TimeSlot, id=slot_id)
-            booking_date = datetime.strptime(selected_date, '%b. %d, %Y').date()
+            try:
+                booking_date = datetime.strptime(selected_date, '%b. %d, %Y').date()
+            except ValueError:
+                booking_date = datetime.strptime(selected_date, '%B %d, %Y').date()
             # booking_date = date.fromisoformat(selected_date)
 
             # Check if the time slot is already booked
@@ -1213,6 +1218,7 @@ class Studentreg(View):
   def post(self,request):
         print('addstudent')
         form=AddStudentform(request.POST)
+        email=request.POST['email']
          # ✅ Check if email already exists in Student or Labour table
         if Student.objects.filter(email=email).exists() or Faculty1.objects.filter(email=email).exists():
             return HttpResponse("<script>alert('Email already exists!'); window.location.href='/login/';</script>")
@@ -1321,6 +1327,8 @@ class TimetableView4(View):
     template_name = 'student/viewtimetable.html'  # Specify your template name here
 
     def get(self, request, *args, **kwargs):
+        studentid=request.session["user_id"]
+        classid=Student.objects.filter(loginid__id=studentid).first()
         # Get all classes
         classes = Class1.objects.all()
         faculties= Faculty1.objects.all()
@@ -1391,7 +1399,8 @@ class StudentLabBookingView(View):
                     slots_with_status.append({
                         'slot': slot,
                         'status': 'occupied' if booked_slot else 'vacant',
-                        'booking': booked_slot,  # Pass the booking object if it's occupied
+                        'booking': booked_slot,
+                        'purpose': booked_slot.purpose if booked_slot else None,  # Pass the booking object if it's occupied
                     })
 
             calendar_days.append({
@@ -1457,8 +1466,10 @@ class LabStaffBookingView(View):
                     slots_with_status.append({
                         'slot': slot,
                         'status': 'occupied' if booked_slot else 'vacant',
-                        'booking': booked_slot,  # Pass the booking object if it's occupied
+                        'booking': booked_slot,
+                        'purpose': booked_slot.purpose if booked_slot else None,  # Pass the booking object if it's occupied
                     })
+            
 
             calendar_days.append({
                 'date': current_date,
@@ -1476,6 +1487,7 @@ class LabStaffBookingView(View):
             'first_day_weekday': first_day_weekday,
             'empty_days_before_first': empty_days_before_first,
         }
+        print(context)
 
         return render(request, 'Staff/lab_booking.html', context)
     

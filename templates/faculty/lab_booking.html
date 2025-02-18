@@ -21,7 +21,8 @@
 
     .calendar-container {
         margin: 0 auto;
-        margin-left: 260px;
+        margin-left: 275px;
+        margin-right: 50px;
         padding: 1rem;
         background-color: #fff;
         border-radius: 10px;
@@ -157,37 +158,32 @@
                 <ul>
 
                     {% for slot_status in day.slots_with_status %}
-
                     <li>
                         <strong>{{ slot_status.slot.slot_start_time }} - {{ slot_status.slot.slot_end_time }}:</strong>
                         {% if slot_status.status == 'vacant' %}
                         <span class="vacant">Vacant</span>
                         <form method="POST" style="display:inline;">
                             {% csrf_token %}
-                            <input type="text" name="abc" value="{{ slot_status.status }}">
-                            <input type="text" name="slot_id" value="{{ slot_status.slot_id }}">
-                            <input type="text" name="selected_date" value="{{ day.date }}">
+                            <input type="hidden" name="slot_id" value="{{ slot_status.slot.id }}">
+                            <input type="hidden" name="selected_date" value="{{ day.date }}">
                             <textarea name="purpose" placeholder="Enter purpose" required></textarea>
                             <button type="submit">Book</button>
                         </form>
                         {% else %}
-                        <input type="text" name="slot_id" value="{{ slot_status.booking_id }}">
                         <span class="occupied">Occupied</span>
-                        <button disabled>Occupied</button>
-                        {% comment %}
-                        <!-- Edit Booking -->
-                         <form action="{% url 'administrator:edit_booking' slot_status.booking.id %}" method="GET"
+                        <!-- <button disabled>Occupied</button> -->
+                        {% if slot_status.purpose %}
+                        <p>Purpose: {{ slot_status.purpose }}</p>
+                    {% endif %}
+                        <!-- Add delete button if the slot is occupied -->
+                        {% if slot_status.booking %}
+                        <form action="{% url 'delete_booking' slot_status.booking.id %}" method="POST"
                             style="display:inline;">
-                            <button type="submit">Edit</button>
-                        </form> 
-                        {% endcomment %}
-                        
-                        
-                        <!-- Delete Booking -->
-                        <a href="/administrator/bookingdelete/{{slot_status.booking_id}}" style="display:inline">
-                            <button>Delete</button></a>
-                        
-
+                            {% csrf_token %}
+                            <button type="submit"
+                                onclick="return confirm('Are you sure you want to delete this booking?')">Delete</button>
+                        </form>
+                        {% endif %}
                         {% endif %}
                     </li>
                     {% endfor %}

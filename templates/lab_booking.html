@@ -146,7 +146,7 @@
             {% for empty_day in empty_days_before_first %}
                 <div class="day empty-day"></div>
             {% endfor %}
-            <label for="">hello{{slot_status}}</label>  
+            <label for="">{{slot_status}}</label>  
             <!-- Calendar days -->
             {% for day in calendar_days %}
                 <div class="day">
@@ -168,7 +168,10 @@
                                     </form> -->
                                 {% else %}
                                     <span class="occupied">Occupied</span>
-                                    <button disabled>Occupied</button>
+                                    {% if slot_status.purpose %}
+                                    <span>Purpose: {{ slot_status.purpose }}</span>
+                                {% endif %}
+                                    
                                 {% endif %}
                             </li>
                         {% endfor %}

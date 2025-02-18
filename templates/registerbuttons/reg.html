@@ -248,23 +248,23 @@ select option {
                 </div>
                 <div class="sch">
                     <label for="">Name</label>
-                    <input type="text" name="name" id="">
+                    <input type="text" name="name" id="" required>
                 </div>
                 <div class="sch">
                     <label for="">Address</label>
-                    <textarea name="address" id="" rows="2" cols="20"></textarea>
+                    <textarea name="address" id="" rows="2" cols="20" required></textarea>
                 </div>
                 <div class="sch">
                     <label for="">Email</label>
-                    <input type="text" name="email" id="">
+                    <input type="text" name="email" id="" required>
                 </div>
                 <div class="sch">
                     <label for="">Phone number</label>
-                    <input type="text" name="phone" id="">
+                    <input type="text" name="phone" id="" required>
                 </div>
                 <div class="sch">
                     <label for="">Semester</label>
-                    <select name="semester" id="" class="select">
+                    <select name="semester" id="" class="select" required>
                         {% for i in sem %}
                         <option value="{{i.id}}">{{i.Semester}}</option>
                         {% endfor %}
@@ -275,11 +275,12 @@ select option {
 
                 <div class="sch">
                     <label for="">Username</label>
-                    <input type="text" name="username" id="">
+                    <input type="text" name="username" id="" required>
                 </div>
                 <div class="sch">
-                    <label for="">Password</label>
-                    <input type="password" name="password" id="">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" required minlength="8" pattern="(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" title="Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character.">
+                    <span id="password-error" class="error-message"></span>
                 </div>
                 <div class="inp">
                     <b><input type="submit" value="REGISTER"></b>

@@ -67,15 +67,15 @@ urlpatterns = [
     # path('Staffreg/',Staffreg.as_view(),name='staffreg'),
 
 
-    path('updatestudent/<int:id>',Updatestudent.as_view(),name='updatestudent'),
+    # path('updatestudent/<int:id>',Updatestudent.as_view(),name='updatestudent'),
     path('Deletestudent/<int:id>',Deletestudent.as_view(),name='Deletestudent'),
 
 
     path('lab/<int:lab_id>/book/', LabBookingView.as_view(), name='lab_booking'),
     path('adminlab/<int:lab_id>/book/', AdminLabBookingView.as_view(), name='adminlab_booking'),
    
-    path('booking/<int:booking_id>/confirmation/', BookingConfirmationView.as_view(), name='booking_confirmation'),
-    path('booking/<int:booking_id>/edit/', EditBookingView.as_view(), name='edit_booking'),
+    # path('booking/<int:booking_id>/confirmation/', BookingConfirmationView.as_view(), name='booking_confirmation'),
+    # path('booking/<int:booking_id>/edit/', EditBookingView.as_view(), name='edit_booking'),
     path('bookingdelete/<int:booking_id>', DeleteBookingView.as_view(), name='delete_booking'),
 
     path('FacultyViewAddedlabs/',FacultyViewAddedlabs.as_view(),name='FacultyViewAddedlabs'),

@@ -29,15 +29,15 @@
 
 <h2>Timetable</h2>
 <!-- <div class="filter">
-    <!-- Dropdown for faculty filtering -->
-<!-- <label for="facultyFilter">Filter by faculty:</label>
+    Dropdown for faculty filtering --> -->
+<!-- <!-- <label for="facultyFilter">Filter by faculty:</label>
 <select id="facultyFilter">
     <option value="all">All faculties</option>
     {% for faculty in faculties %}
         <option value="{{ faculty.id }}">{{ faculty.name }}</option>
     {% endfor %}
 </select>
-</div> --> -->
+</div> -->
 
 
 {% for cls, days_data in timetable_data.items %}
@@ -101,6 +101,26 @@
 
 </script>
 
-
+<!-- <script>
+    document.getElementById('classFilter').addEventListener('change', function () {
+        const selectedClass = this.value;
+        const timetables = document.querySelectorAll('.timetable');
+    
+        timetables.forEach(table => {
+            // Get the preceding h3 element which displays the class name.
+            const classTitle = table.previousElementSibling; 
+            const className = classTitle.textContent.replace("Class: ", "").trim();
+    
+            // Show or hide timetable based on the selected class
+            if (selectedClass === "all" || className === selectedClass) {
+                table.style.display = "table"; // Show table
+                classTitle.style.display = "block"; // Show class heading
+            } else {
+                table.style.display = "none"; // Hide table
+                classTitle.style.display = "none"; // Hide class heading
+            }
+        });
+    });
+    </script> -->
 
 {% endblock %}

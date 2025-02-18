@@ -38,6 +38,15 @@
     {% endfor %}
 </select>
 </div>
+<div class="filter">
+    <label for="classFilter">Filter by Class:</label>
+    <select id="classFilter">
+        <option value="all">All Classes</option>
+        {% for cls in timetable_data.keys %}
+            <option value="{{ cls.Semester }}">{{ cls.Semester }}</option>
+        {% endfor %}
+    </select>
+</div>
 
 
 {% for cls, days_data in timetable_data.items %}
@@ -100,7 +109,27 @@
 });
 
 </script>
-
+<script>
+    document.getElementById('classFilter').addEventListener('change', function () {
+        const selectedClass = this.value;
+        const timetables = document.querySelectorAll('.timetable');
+    
+        timetables.forEach(table => {
+            // Get the preceding h3 element which displays the class name.
+            const classTitle = table.previousElementSibling; 
+            const className = classTitle.textContent.replace("Class: ", "").trim();
+    
+            // Show or hide timetable based on the selected class
+            if (selectedClass === "all" || className === selectedClass) {
+                table.style.display = "table"; // Show table
+                classTitle.style.display = "block"; // Show class heading
+            } else {
+                table.style.display = "none"; // Hide table
+                classTitle.style.display = "none"; // Hide class heading
+            }
+        });
+    });
+    </script>
 
 
 {% endblock %}

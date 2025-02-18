@@ -168,7 +168,10 @@
                                     </form> -->
                                 {% else %}
                                     <span class="occupied">Occupied</span>
-                                    <button disabled>Occupied</button>
+                                    {% if slot_status.purpose %}
+                                    <span>Purpose: {{ slot_status.purpose }}</span>
+                                {% endif %}
+                                    
                                 {% endif %}
                             </li>
                         {% endfor %}
