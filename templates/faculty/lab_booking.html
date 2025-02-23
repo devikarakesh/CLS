@@ -1,5 +1,7 @@
 {% extends 'faculty/facultydashboard.html' %}
 {% block body %}
+
+{% now "Y-m-d" as today %}
 <style>
     * {
         box-sizing: border-box;
@@ -162,6 +164,7 @@
                         <strong>{{ slot_status.slot.slot_start_time }} - {{ slot_status.slot.slot_end_time }}:</strong>
                         {% if slot_status.status == 'vacant' %}
                         <span class="vacant">Vacant</span>
+                        {% if day.date|date:"Y-m-d" >= today %}
                         <form method="POST" style="display:inline;">
                             {% csrf_token %}
                             <input type="hidden" name="slot_id" value="{{ slot_status.slot.id }}">
@@ -169,6 +172,9 @@
                             <textarea name="purpose" placeholder="Enter purpose" required></textarea>
                             <button type="submit">Book</button>
                         </form>
+                        {% else %}
+        <button disabled>Past Date</button>
+        {% endif %}
                         {% else %}
                         <span class="occupied">Occupied</span>
                         <!-- <button disabled>Occupied</button> -->

@@ -53,29 +53,70 @@
 
     </style>
 
-    <div class="lab">
-        <form action="" method="post">
-            {% csrf_token %}
-            <div class="sch">
-                <label for="class_name">Programme and Semester:</label>
-                <input type="text" id="class_name" name="Semester" required> 
-                </div>
-                <div class="sch">
-                    <label for="subjects">Assign Subjects:</label>
-                    <select id="subjects" name="subjects" multiple>
-                   {% for s in subjects %}
-                    <option value="{{ s.id }}">{{ s.name }}</option>
-                   {% endfor %}
-                </select>
-                </div>
-                <div class="inp">
-               <input type="submit" name="" id="" value="SUBMIT">
-            </div>
-            
-        </form>
-    </div>
-    {% endblock %}
-    
+<div class="lab">
+    <form action="" method="post" onsubmit="return validateForm()">
+        {% csrf_token %}
 
+        <!-- Programme and Semester Input -->
+        <div class="sch">
+            <label for="class_name">Semester:</label>
+            <input type="text" id="class_name" name="Semester" required value="{{ o.Semester|default:'' }}">
+            <span id="classError" style="color: red;"></span>
+        </div>
 
+        <!-- Assign Subjects -->
+        <div class="sch">
+            <label for="subjects">Assign Subjects:</label>
+            <select id="subjects" name="subjects" multiple required>
+                {% for s in subjects %}
+                    <option value="{{ s.id }}" {% if s.id in o.subjects %}selected{% endif %}>
+                        {{ s.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <span id="subjectsError" style="color: red;"></span>
+        </div>
 
+        <!-- Submit Button -->
+        <div class="inp">
+            <input type="submit" value="UPDATE">
+        </div>
+    </form>
+</div>
+
+<!-- Form Validation Script -->
+<script>
+    function validateForm() {
+        let isValid = true;
+
+        let className = document.getElementById("class_name").value.trim();
+        let subjects = document.getElementById("subjects").selectedOptions.length;
+
+        let classError = document.getElementById("classError");
+        let subjectsError = document.getElementById("subjectsError");
+
+        // Reset previous error messages
+        classError.innerText = "";
+        subjectsError.innerText = "";
+
+        // Programme and Semester Validation (only letters, numbers, and spaces)
+        let classPattern = /^[A-Za-z0-9\s]+$/;
+        if (className === "") {
+            classError.innerText = "Semester cannot be empty.";
+            isValid = false;
+        } else if (!classPattern.test(className)) {
+            classError.innerText = "Only letters, numbers, and spaces are allowed.";
+            isValid = false;
+        }
+
+        // Validate Subjects Selection (at least one must be selected)
+        if (subjects === 0) {
+            subjectsError.innerText = "Please select at least one subject.";
+            isValid = false;
+        }
+
+        return isValid;
+    }
+</script>
+
+{% endblock %}

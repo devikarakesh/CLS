@@ -680,7 +680,7 @@ class StaffViewnotifications(View):
 
 class notificationbystaff(View):
     def get(self,request):
-
+        
         return render(request,'staff/notificationstaff.html')
     def post(self,request):
         form=Addnotificationbystaffform(request.POST)
@@ -691,6 +691,7 @@ class notificationbystaff(View):
 class Updatenotificationbystaff(View):
     def get(self,request,id):
         n=Staffnotification.objects.get(id=id)
+    
         return render(request,'staff/updatenotifications.html',{'n':n})
     def post(self,request,id):
         n=Staffnotification.objects.get(id=id)

@@ -64,29 +64,92 @@
   
       </style>
 
-      <div class="lab">
-    <form method="POST" action="">
+<div class="lab">
+    <form method="POST" action="" onsubmit="return validateForm()">
         {% csrf_token %}
-        <div class="sch" >
-        <label for="name">Lab Name:</label>
-        <input type="text" id="name" name="name" value="{{day.lab.name}}" required>
-    </div>
-    <div class="sch">
-        <label for="capacity">Capacity:</label>
-        <input type="text" id="" name="" value="{{day.lab.capacity}}" required>
-        </div>
+        
         <div class="sch">
-        <label for="capacity">Slot Start time:</label>
-        <input type="time" id="" name="slot_start_time" required>
+            <label for="name">Lab Name:</label>
+            <input type="text" id="name" name="name" value="{{ day.lab.name }}" required readonly>
+            <span id="nameError" style="color: red;"></span>
         </div>
+
         <div class="sch">
-            <label for="capacity">Slot End time:</label>
-            <input type="time" id="" name="slot_end_time" required>
-            </div>
+            <label for="capacity">Capacity:</label>
+            <input type="text" id="capacity" name="capacity" value="{{ day.lab.capacity }}" required readonly>
+            <span id="capacityError" style="color: red;"></span>
+        </div>
+
+        <div class="sch">
+            <label for="slot_start_time">Slot Start Time:</label>
+            <input type="time" id="slot_start_time" name="slot_start_time" required>
+            <span id="startTimeError" style="color: red;"></span>
+        </div>
+
+        <div class="sch">
+            <label for="slot_end_time">Slot End Time:</label>
+            <input type="time" id="slot_end_time" name="slot_end_time" required>
+            <span id="endTimeError" style="color: red;"></span>
+        </div>
+
         <div class="inp">
-        <input type="submit" value="Submit">
+            <input type="submit" value="Submit">
+        </div>
     </form>
 </div>
+
+<script>
+    function validateForm() {
+        let isValid = true;
+
+        let name = document.getElementById("name").value.trim();
+        let capacity = document.getElementById("capacity").value.trim();
+        let startTime = document.getElementById("slot_start_time").value;
+        let endTime = document.getElementById("slot_end_time").value;
+
+        let nameError = document.getElementById("nameError");
+        let capacityError = document.getElementById("capacityError");
+        let startTimeError = document.getElementById("startTimeError");
+        let endTimeError = document.getElementById("endTimeError");
+
+        // Reset previous error messages
+        nameError.innerText = "";
+        capacityError.innerText = "";
+        startTimeError.innerText = "";
+        endTimeError.innerText = "";
+
+        // Validate Lab Name (should not be empty)
+        if (name === "") {
+            nameError.innerText = "Lab name cannot be empty.";
+            isValid = false;
+        }
+
+        // Validate Capacity (should be a positive integer)
+        if (!/^\d+$/.test(capacity) || parseInt(capacity) <= 0) {
+            capacityError.innerText = "Capacity must be a positive number.";
+            isValid = false;
+        }
+
+        // Validate Start & End Time
+        if (startTime === "") {
+            startTimeError.innerText = "Start time cannot be empty.";
+            isValid = false;
+        }
+
+        if (endTime === "") {
+            endTimeError.innerText = "End time cannot be empty.";
+            isValid = false;
+        }
+
+        if (startTime && endTime && startTime >= endTime) {
+            endTimeError.innerText = "End time must be later than start time.";
+            isValid = false;
+        }
+
+        return isValid;
+    }
+</script>
+
 
     
     {% endblock %}

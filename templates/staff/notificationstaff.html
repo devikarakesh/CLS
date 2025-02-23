@@ -72,17 +72,81 @@ font-size: 16px;
   {% csrf_token %}
 <div style="font-size: 25px;text-align: center;"><b>POST NOTIFICATIONS</b></div>
 <div class="sch">
-<label for="">POST</label>
-<textarea name="notification" id="" rows="2" cols="20"></textarea>
+  <div class="sch">
+    <label for="notification">POST</label>
+    <textarea name="notification" id="notification" rows="2" cols="20" required></textarea>
+    <span id="notificationError" style="color: red;"></span>
+</div>
 
-</div>
 <div class="sch">
-<label for="">Date</label>
-<input type="date" name="notificationdate">
+    <label for="notificationdate">Date</label>
+    <input type="date" id="notificationdate" name="notificationdate" required>
+    <span id="dateError" style="color: red;"></span>
 </div>
+
 <div class="inp">
-<b><input type="submit" value="SUBMIT"></b>
+    <b><input type="submit" id="submitBtn" value="SUBMIT" disabled></b>
 </div>
+</form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+let today = new Date().toISOString().split('T')[0];
+let dateInput = document.getElementById("notificationdate");
+dateInput.value = today;  // Set default value to today
+dateInput.min = today;    // Restrict past dates
+
+// Enable submit button only when the form is valid
+document.getElementById("notification").addEventListener("input", validateNotification);
+document.getElementById("notificationdate").addEventListener("input", validateNotification);
+});
+
+function validateNotification() {
+let isValid = true;
+
+let notification = document.getElementById("notification").value.trim();
+let notificationError = document.getElementById("notificationError");
+let dateInput = document.getElementById("notificationdate").value;
+let dateError = document.getElementById("dateError");
+let submitBtn = document.getElementById("submitBtn");
+
+// Reset previous error messages
+notificationError.innerText = "";
+dateError.innerText = "";
+
+// ✅ Notification Validations
+if (notification.length < 10) {
+    notificationError.innerText = "Notification must be at least 10 characters long.";
+    isValid = false;
+}
+
+if (notification.length > 500) {
+    notificationError.innerText = "Notification cannot exceed 500 characters.";
+    isValid = false;
+}
+
+// Block <, > characters (prevent XSS or SQL injection)
+let pattern = /[<>@#$%^&*]/g;
+if (pattern.test(notification)) {
+    notificationError.innerText = "Invalid characters detected. Avoid using < or > @#$%^&* .";
+    isValid = false;
+}
+
+// ✅ Date Validation
+let today = new Date().toISOString().split('T')[0];
+if (dateInput < today) {
+    dateError.innerText = "Date cannot be in the past.";
+    isValid = false;
+}
+
+// Enable or disable submit button based on validation
+submitBtn.disabled = !isValid;
+return isValid;
+}
+</script>
+
+
 
 
   

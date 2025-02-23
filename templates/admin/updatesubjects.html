@@ -64,32 +64,83 @@
 
     </style>
 
-    <div class="lab">
-        <form action="" method="post">
-            {% csrf_token %}
-            <div class="sch">
-            
-                    <label for="name">Subject Name</label>
-                    <input type="text" id=""  name="name" value="{{s.name}}">
-                </div>
-                <div class="sch">
-                    <label for="contact-hours">Contact Hours</label>
-                    <input type="number" id="" value="{{s.contact_hours}}" name="contact_hours" >
-                </div>
-                <div class="sch">
-                    <label for="teacher">Assign Faculty:</label>
-                    <select id="teacher" name="faculty">
-                      {% for f in faculties %}
-                    <option value="{{ f.id }}" {% if s.faculty.id == f.id %}selected {% endif %}>{{ f.name }}</option>
-                     {% endfor %}
-                    </select><br><br>
-                </div>
-                <div class="inp">
-           <b><input type="submit" value="UPDATE">
-           </b>
-            </div>
-            
-        </form>
-    </div>
-    {% endblock %}
-    
+<div class="lab">
+    <form action="" method="post" onsubmit="return validateForm()">
+        {% csrf_token %}
+        
+        <!-- Subject Name -->
+        <div class="sch">
+            <label for="name">Subject Name</label>
+            <input type="text" id="name" name="name" value="{{ s.name }}" required>
+            <span id="nameError" style="color: red;"></span>
+        </div>
+
+        <!-- Contact Hours -->
+        <div class="sch">
+            <label for="contact-hours">Contact Hours</label>
+            <input type="number" id="contact-hours" name="contact_hours" value="{{ s.contact_hours }}" required min="1">
+            <span id="contactHoursError" style="color: red;"></span>
+        </div>
+
+        <!-- Assign Faculty -->
+        <div class="sch">
+            <label for="teacher">Assign Faculty:</label>
+            <select id="teacher" name="faculty" required>
+                {% for f in faculties %}
+                <option value="{{ f.id }}" {% if s.faculty.id == f.id %}selected{% endif %}>{{ f.name }}</option>
+                {% endfor %}
+            </select>
+            <span id="facultyError" style="color: red;"></span>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="inp">
+            <b><input type="submit" value="UPDATE"></b>
+        </div>
+    </form>
+</div>
+
+<script>
+    function validateForm() {
+        let isValid = true;
+
+        let name = document.getElementById("name").value.trim();
+        let contactHours = document.getElementById("contact-hours").value;
+        let faculty = document.getElementById("teacher").value;
+
+        let nameError = document.getElementById("nameError");
+        let contactHoursError = document.getElementById("contactHoursError");
+        let facultyError = document.getElementById("facultyError");
+
+        // Reset previous error messages
+        nameError.innerText = "";
+        contactHoursError.innerText = "";
+        facultyError.innerText = "";
+
+        // Subject Name Validation (only letters and spaces)
+        let namePattern = /^[A-Za-z\s]+$/;
+        if (name === "") {
+            nameError.innerText = "Subject Name cannot be empty.";
+            isValid = false;
+        } else if (!namePattern.test(name)) {
+            nameError.innerText = "Only letters and spaces are allowed.";
+            isValid = false;
+        }
+
+        // Contact Hours Validation (must be a positive number)
+        if (contactHours === "" || contactHours <= 0) {
+            contactHoursError.innerText = "Contact Hours must be a positive number.";
+            isValid = false;
+        }
+
+        // Faculty Selection Validation (must be selected)
+        if (faculty === "") {
+            facultyError.innerText = "Please select a faculty.";
+            isValid = false;
+        }
+
+        return isValid;
+    }
+</script>
+
+{% endblock %}

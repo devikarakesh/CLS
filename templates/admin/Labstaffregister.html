@@ -78,53 +78,123 @@
   </style>
   
   <div class="lab">
-  <form action="" method="post">
-    {% csrf_token %}
-    <div style="font-size: 25px;text-align: center;"><h4>LABSTAFF REGISTRATION</h4></div>
-    <div class="sch">
-    <label for="">Name</label>
-    <input type="text" name="name" id="">
-</div>
-<div class="sch">
-    <label for="">Address</label>
-    <textarea name="address" id="" rows="2" cols="20"></textarea>
-</div>
-<div class="sch">
-    <label for="">Email</label>
-    <input type="text" name="email" id="">
-</div>
-<div class="sch">
-    <label for="">Phone number</label>
-    <input type="text" name="phone" id="" >
-</div>
-<div class="sch">
-    <label for="">Lab</label>
-    <select name="lab" id="">
-    {% for i in l %}
-    <option value="{{i.id}}">{{i.name}}</option>
-    {% endfor %}
-  </select>
-  </div>
-  
+    <form method="post" action="/register_labstaff/" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <div style="font-size: 25px; text-align: center;"><b>LAB STAFF REGISTRATION</b></div>
 
+        <div class="sch">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" required>
+        </div>
 
-<div class="sch">
-    <label for="">Username</label>
-    <input type="text" name="username" id="">
-</div>
-<div class="sch">
-    <label for="">Password</label>
-    <input type="password" name="password" id="">
-</div>
-<div class="inp">
-   <b><input type="submit" value="REGISTER"> </b>
-</div>
-</div>
-    {% endblock %}
+        <div class="sch">
+            <label for="labstaff_id">LabStaff ID</label>
+            <input type="text" name="labstaff_id" id="labstaff_id" required>
+            <span id="labstaff-error" class="error-message" style="color: rgb(237, 231, 231);"></span>
+        </div>
 
-    
-  
+        <div class="sch">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
+            <span id="email-error" class="error-message" style="color: rgb(255, 252, 252);"></span>
+        </div>
 
-  
+        <div class="sch">
+            <label for="phone">Phone number</label>
+            <input type="text" name="phone" id="phone" required pattern="[6-9]\d{9}" 
+                title="Enter a valid 10-digit phone number starting with 6, 7, 8, or 9.">
+            <span id="phone-error" class="error-message" style="color: rgb(250, 248, 248);"></span>
+        </div>
 
-  
+        <div class="sch">
+            <label for="lab">Lab</label>
+            <select name="lab" id="lab" required>
+                <option value="">Select Lab</option>
+                {% for i in l %}
+                <option value="{{i.id}}">{{i.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="sch">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" required>
+        </div>
+
+        <div class="sch">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required minlength="8"
+                pattern="(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+                title="Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character.">
+            <span id="password-error" class="error-message" style="color: rgb(240, 240, 240);"></span>
+        </div>
+
+        <div class="inp">
+            <b><input type="submit" id="submitBtn" value="REGISTER" disabled></b>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let inputs = document.querySelectorAll("input, select");
+    inputs.forEach(input => input.addEventListener("input", validateForm));
+});
+
+function validateForm() {
+    let isValid = true;
+
+    // Name Validation
+    let name = document.getElementById("name").value.trim();
+    if (name.length < 3) isValid = false;
+
+    // LabStaff ID Validation
+    let labstaffID = document.getElementById("labstaff_id").value.trim();
+    let labstaffError = document.getElementById("labstaff-error");
+    if (labstaffID.length < 3) {
+        labstaffError.textContent = "LabStaff ID must be at least 3 characters.";
+        isValid = false;
+    } else {
+        labstaffError.textContent = "";
+    }
+
+    // Email Validation
+    let email = document.getElementById("email").value.trim();
+    let emailError = document.getElementById("email-error");
+    let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+        emailError.textContent = "Enter a valid email.";
+        isValid = false;
+    } else {
+        emailError.textContent = "";
+    }
+
+    // Phone Number Validation
+    let phone = document.getElementById("phone").value.trim();
+    let phoneError = document.getElementById("phone-error");
+    let phonePattern = /^[6-9]\d{9}$/;
+    if (!phonePattern.test(phone)) {
+        phoneError.textContent = "Enter a valid 10-digit phone number.";
+        isValid = false;
+    } else {
+        phoneError.textContent = "";
+    }
+
+    // Password Validation
+    let password = document.getElementById("password").value.trim();
+    let passwordError = document.getElementById("password-error");
+    let passwordPattern = /(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/;
+    if (!passwordPattern.test(password)) {
+        passwordError.textContent = "Password must be 8+ chars, include uppercase, number & special character.";
+        isValid = false;
+    } else {
+        passwordError.textContent = "";
+    }
+
+    // Enable/Disable Submit Button
+    document.getElementById("submitBtn").disabled = !isValid;
+    return isValid;
+}
+</script>
+
+{% endblock %}

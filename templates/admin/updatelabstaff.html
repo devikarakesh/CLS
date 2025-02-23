@@ -76,45 +76,84 @@
   </style>
   
   <div class="lab">
-  <form action="" method="post">
-    {% csrf_token %}
-    <div style="font-size: 25px;text-align: center;">Update Labstaff</div>
-    <div class="sch">
-    <label for="">Name</label>
-    <input type="text" name="name" id="" value="{{ls.name}}">
+    <form action="" method="post" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <div style="font-size: 25px; text-align: center;"><b>Update Lab Staff</b></div>
+
+        <div class="sch">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" value="{{ ls.name }}" required>
+        </div>
+
+        <div class="sch">
+            <label for="address">Address</label>
+            <textarea name="address" id="address" rows="2" cols="20" required>{{ ls.address }}</textarea>
+        </div>
+
+        <div class="sch">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" value="{{ ls.email }}" required>
+            <span id="email-error" class="error-message" style="color: red;"></span>
+        </div>
+
+        <div class="sch">
+            <label for="phone">Phone number</label>
+            <input type="text" name="phone" id="phone" value="{{ ls.phone }}" required pattern="[6-9]\d{9}" 
+                title="Enter a valid 10-digit phone number starting with 6, 7, 8, or 9.">
+            <span id="phone-error" class="error-message" style="color: red;"></span>
+        </div>
+
+        <div class="sch">
+            <label for="lab">Lab</label>
+            <select name="lab" id="lab" required>
+                {% for i in r %}
+                <option value="{{ i.id }}" {% if i.id == ls.lab.id %} selected {% endif %}>{{ i.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="inp">
+            <b><input type="submit" value="UPDATE"></b>
+        </div>
+    </form>
 </div>
-<div class="sch">
-    <label for="">Address</label>
-    <textarea name="address" id="" rows="2" cols="20">{{ls.name}}</textarea>
-</div>
-<div class="sch">
-    <label for="">Email</label>
-    <input type="text" name="email" id="" value="{{ls.email}}">
-</div>
-<div class="sch">
-    <label for="">Phone number</label>
-    <input type="text" name="phone" id="" value="{{ls.phone}}">
-</div>
-<div class="sch">
-    <label for="">Lab</label>
-    <select name="lab" id="">
-        {% for i in r %}
-        <option value="{{i.id}}" {% if i.id == ls.lab.id %} selected {% endif %}>{{i.name}}</option>
-        {% endfor %}
-    </select>
-  </select>
-  </div>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let inputs = document.querySelectorAll("input, textarea, select");
+    inputs.forEach(input => input.addEventListener("input", validateForm));
+});
 
-<div class="inp" >
-    <b><input type="submit" name="" id="" value="UPDATE"></b>
-   </div>
-   
-    {% endblock %}
+function validateForm() {
+    let isValid = true;
 
-    
-  
+    // Name Validation
+    let name = document.getElementById("name").value.trim();
+    if (name.length < 3) isValid = false;
 
-  
+    // Email Validation
+    let email = document.getElementById("email").value.trim();
+    let emailError = document.getElementById("email-error");
+    let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+        emailError.textContent = "Enter a valid email.";
+        isValid = false;
+    } else {
+        emailError.textContent = "";
+    }
 
-  
+    // Phone Number Validation
+    let phone = document.getElementById("phone").value.trim();
+    let phoneError = document.getElementById("phone-error");
+    let phonePattern = /^[6-9]\d{9}$/;
+    if (!phonePattern.test(phone)) {
+        phoneError.textContent = "Enter a valid 10-digit phone number.";
+        isValid = false;
+    } else {
+        phoneError.textContent = "";
+    }
+
+    return isValid;
+}
+</script>
+{% endblock %}

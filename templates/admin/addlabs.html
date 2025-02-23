@@ -64,21 +64,53 @@
   
       </style>
 
-      <div class="lab">
-    <form method="POST" action="{% url 'lab_list' %}">
+<div class="lab">
+    <form method="POST" action="{% url 'lab_list' %}" onsubmit="return validateForm()">
         {% csrf_token %}
-        <div class="sch" >
-        <label for="name">Lab Name:</label>
-        <input type="text" id="name" name="name" required>
-    </div>
         <div class="sch">
-        <label for="capacity">Capacity:</label>
-        <input type="text" id="capacity" name="capacity" required>
+            <label for="name">Lab Name:</label>
+            <input type="text" id="name" name="name" required>
+            <span id="nameError" style="color: red;"></span>
         </div>
         <div class="sch">
-        <button type="submit">Add Lab</button>
+            <label for="capacity">Capacity:</label>
+            <input type="text" id="capacity" name="capacity" required>
+            <span id="capacityError" style="color: red;"></span>
+        </div>
+        <div class="sch">
+            <button type="submit">Add Lab</button>
+        </div>
     </form>
 </div>
+
+<script>
+    function validateForm() {
+        let name = document.getElementById("name").value.trim();
+        let capacity = document.getElementById("capacity").value.trim();
+        let nameError = document.getElementById("nameError");
+        let capacityError = document.getElementById("capacityError");
+        let isValid = true;
+
+        // Reset error messages
+        nameError.innerText = "";
+        capacityError.innerText = "";
+
+        // Validate Lab Name (should not be empty)
+        if (name === "") {
+            nameError.innerText = "Lab name cannot be empty.";
+            isValid = false;
+        }
+
+        // Validate Capacity (should be a positive integer)
+        if (!/^\d+$/.test(capacity) || parseInt(capacity) <= 0) {
+            capacityError.innerText = "Capacity must be a positive number.";
+            isValid = false;
+        }
+
+        return isValid;
+    }
+</script>
+
 
     <!-- <h2>Existing Labs</h2>
     <div>

@@ -247,39 +247,36 @@ select option {
                     <h4>Student Registration</h4>
                 </div>
                 <div class="sch">
-                    <label for="">Name</label>
-                    <input type="text" name="name" id="" required>
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" required pattern="^[A-Za-z\s]+$" title="Name must contain only letters and spaces.">
                 </div>
                 <div class="sch">
-                    <label for="">Address</label>
-                    <textarea name="address" id="" rows="2" cols="20" required></textarea>
+                    <label for="student_id">Student ID</label>
+                    <input type="text" name="student_id" id="student_id" required pattern="^[A-Za-z0-9]+$" title="Student ID must contain only letters and numbers.">
                 </div>
                 <div class="sch">
-                    <label for="">Email</label>
-                    <input type="text" name="email" id="" required>
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" required title="Enter a valid email address.">
                 </div>
                 <div class="sch">
-                    <label for="">Phone number</label>
-                    <input type="text" name="phone" id="" required>
+                    <label for="phone">Phone number</label>
+                    <input type="tel" name="phone" id="phone" required pattern="^[0-9]{10}$" title="Phone number must be exactly 10 digits.">
                 </div>
                 <div class="sch">
-                    <label for="">Semester</label>
-                    <select name="semester" id="" class="select" required>
+                    <label for="semester">Semester</label>
+                    <select name="semester" id="semester" class="select" required>
                         {% for i in sem %}
                         <option value="{{i.id}}">{{i.Semester}}</option>
                         {% endfor %}
                     </select>
-
-                    <!-- <input type="text" name="semester" id="" > -->
                 </div>
-
                 <div class="sch">
-                    <label for="">Username</label>
-                    <input type="text" name="username" id="" required>
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" required pattern="^[A-Za-z0-9_]+$" title="Username can contain letters, numbers, and underscores only.">
                 </div>
                 <div class="sch">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password" required minlength="8" pattern="(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" title="Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character.">
+                    <input type="password" name="password" id="password" required minlength="8" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" title="Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character.">
                     <span id="password-error" class="error-message"></span>
                 </div>
                 <div class="inp">
@@ -287,72 +284,87 @@ select option {
                 </div>
             </form>
 
-
             <!-- interviewer-form -->
             <form action="/administrator/addfaculty/" class="interviewer-form" id="interviewerForm" method="post">
                 {% csrf_token %}
                 <div style="font-size: 25px;text-align: center;"><b>Faculty Registration</b></div>
                 <div class="sch">
-                    <label for="">Name</label>
-                    <input type="text" name="name" id="">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" required pattern="[A-Za-z\s]{3,}" title="Name should contain only letters and at least 3 characters.">
                 </div>
                 <div class="sch">
-                    <label for="">Address</label>
-                    <textarea name="address" id="" rows="2" cols="20"></textarea>
+                    <label for="faculty_id">Faculty ID</label>
+                    <input type="text" name="faculty_id" id="faculty_id" required pattern="[A-Za-z0-9]+" title="Faculty ID should contain only letters and numbers.">
                 </div>
                 <div class="sch">
-                    <label for="">Email</label>
-                    <input type="text" name="email" id="">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" required title="Enter a valid email address.">
                 </div>
                 <div class="sch">
-                    <label for="">Phone number</label>
-                    <input type="text" name="phone" id="">
+                    <label for="phone">Phone number</label>
+                    <input type="tel" name="phone" id="phone" required pattern="[0-9]{10}" title="Enter a valid 10-digit phone number.">
                 </div>
                 <div class="sch">
-                    <label for="">Department</label>
-                    <select name="department" id="">
+                    <label for="department">Department</label>
+                    <select name="department" id="department" required>
+                        <option value="" disabled selected>Select Department</option>
                         <option value="Department Of Computer Science">Department Of Computer Science</option>        
-                        <option value="Department Of Economics">Department Of Economics </option>
-                        <option value="Department Of Functional and Applied English">Department Of Functional and Applied English </option>
-                        <option value="Department Of Language and Literature">Department Of Language and Literature </option>
-                        <option value="Department Of Mathematical Science">Department Of Mathematical Science </option>
-                        <option value="Department Of Media Studies">Department Of Media Studies </option>
-                        <option value="Department Of Statistics">Department Of Statistics </option>
-                        <option value="Department Of Commerce">Department Of Commerce </option>
-                        <option value="Department Of Business Management ">Department Of Business Management </option>
-                        <option value="Department Of Commerce And Management ">Department Of Commerce And Management </option>
-                        <option value="Department Of Professional Studies">Department Of Professional Studies </option>
+                        <option value="Department Of Economics">Department Of Economics</option>
+                        <option value="Department Of Functional and Applied English">Department Of Functional and Applied English</option>
+                        <option value="Department Of Language and Literature">Department Of Language and Literature</option>
+                        <option value="Department Of Mathematical Science">Department Of Mathematical Science</option>
+                        <option value="Department Of Media Studies">Department Of Media Studies</option>
+                        <option value="Department Of Statistics">Department Of Statistics</option>
+                        <option value="Department Of Commerce">Department Of Commerce</option>
+                        <option value="Department Of Business Management">Department Of Business Management</option>
+                        <option value="Department Of Commerce And Management">Department Of Commerce And Management</option>
+                        <option value="Department Of Professional Studies">Department Of Professional Studies</option>
                         <option value="Department Of Social Work">Department Of Social Work</option>
                         <option value="Department Of Second Languages">Department Of Second Languages</option>
-                        
                     </select>
                 </div>
                 <div class="sch">
-                    <label for="">Username</label>
-                    <input type="text" name="username" id="">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" required pattern=".{5,}" title="Username must be at least 5 characters long.">
                 </div>
                 <div class="sch">
-                    <label for="">Password</label>
-                    <input type="password" name="password" id="">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" required minlength="8" pattern="(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" title="Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character.">
+                    <span id="password-error" class="error-message"></span>
                 </div>
-
+            
                 <div class="inp">
-                    <b><input type="submit" name="" id="" value="REGISTER"></b>
+                    <b><input type="submit" value="REGISTER"></b>
                 </div>
             </form>
-        </div>
-
-    </div>
-    <script>
-        function toggleForms() {
-            const candidateForm = document.getElementById('candidateForm');
-            const interviewerForm = document.getElementById('interviewerForm');
-
-            candidateForm.classList.toggle('active-form');
-            interviewerForm.classList.toggle('active-form');
-        }
-
-    </script>
+            </div>
+            
+            </div>
+            <script>
+                function toggleForms() {
+                    const candidateForm = document.getElementById('candidateForm');
+                    const interviewerForm = document.getElementById('interviewerForm');
+            
+                    candidateForm.classList.toggle('active-form');
+                    interviewerForm.classList.toggle('active-form');
+                }
+            
+                document.getElementById('password').addEventListener('input', function() {
+                    var password = this.value;
+                    var error = document.getElementById('password-error');
+            
+                    var uppercase = /[A-Z]/.test(password);
+                    var number = /\d/.test(password);
+                    var specialChar = /[@$!%*?&]/.test(password);
+            
+                    if (password.length < 8 || !uppercase || !number || !specialChar) {
+                        error.textContent = "Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character.";
+                    } else {
+                        error.textContent = "";
+                    }
+                });
+            </script>
+            
 </body>
 
 </html>

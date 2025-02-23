@@ -77,44 +77,116 @@
   </style>
   
   <div class="lab">
-  <form action="" method="post">
-    {% csrf_token %}
-    <div style="font-size: 25px;text-align: center;"><h4>Update Working Day</h4></div>
-    <div class="sch">
-    <label for="">Lab Name</label>
-    <input type="text" name="" id="" value="{{a.lab.name}}">
-</div>
-
-<div class="sch">
-    <label for="">Capacity</label>
-    <input type="text" name="" id="" value="{{a.lab.capacity}}">
-</div>
-<div class="sch">
-    <label for="">Working day</label>
-  <select name="day" id="">
-  <option value="Monday" {% if a.day == 'Monday' %} selected {% endif %}>Monday</option>
-  <option value="Tuesday" {% if a.day == 'Tuesday' %}selected {% endif %}>Tuesday</option>
-  <option value="Wednesday" {% if a.day == 'Wednesday' %}selected {% endif %}>Wednesday</option>
-  <option value="Thursday" {% if a.day == 'Thursday' %}selected {% endif %}>Thursday</option>
-  <option value="Friday" {% if a.day == 'Friday' %}selected {% endif %}>Friday</option>
-  <option value="Saturday" {% if a.day == 'Saturday' %}selected {% endif %}>Saturday</option>
-  <option value="Sunday" {% if a.day == 'Sunday' %}selected {% endif %}>Sunday</option>
-</select>
-
-</div>
-
-<div class="sch">
-    <label for="">Start Time</label>
-    <input type="time" name="start_time" id="" value="{{ a.start_time|time:'H:i' }}">
-</div>
-<div class="sch">
-    <label for="">End Time</label>
-    <input type="time" name="end_time" id="" value="{{ a.start_time|time:'H:i' }}">
-</div>
-<div class="inp">
-   <b><input type="submit" value="UPDATE"></b>
-</div>
-</div>
+    <form action="" method="post" onsubmit="return validateForm()">
+      {% csrf_token %}
+      <div style="font-size: 25px; text-align: center;"><h4>Update Working Day</h4></div>
+  
+      <div class="sch">
+          <label for="labName">Lab Name</label>
+          <input type="text" name="lab_name" id="labName" value="{{ a.lab.name }}" readonly required>
+          <span id="labNameError" style="color: red;"></span>
+      </div>
+  
+      <div class="sch">
+          <label for="capacity">Capacity</label>
+          <input type="text" name="capacity" id="capacity" value="{{ a.lab.capacity }}" readonly required>
+          <span id="capacityError" style="color: red;"></span>
+      </div>
+  
+      <div class="sch">
+          <label for="day">Working Day</label>
+          <select name="day" id="day">
+              <option value="">Select a Day</option>
+              <option value="Monday" {% if a.day == 'Monday' %} selected {% endif %}>Monday</option>
+              <option value="Tuesday" {% if a.day == 'Tuesday' %}selected {% endif %}>Tuesday</option>
+              <option value="Wednesday" {% if a.day == 'Wednesday' %}selected {% endif %}>Wednesday</option>
+              <option value="Thursday" {% if a.day == 'Thursday' %}selected {% endif %}>Thursday</option>
+              <option value="Friday" {% if a.day == 'Friday' %}selected {% endif %}>Friday</option>
+              <option value="Saturday" {% if a.day == 'Saturday' %}selected {% endif %}>Saturday</option>
+              <option value="Sunday" {% if a.day == 'Sunday' %}selected {% endif %}>Sunday</option>
+          </select>
+          <span id="dayError" style="color: red;"></span>
+      </div>
+  
+      <div class="sch">
+          <label for="start_time">Start Time</label>
+          <input type="time" name="start_time" id="start_time" value="{{ a.start_time|time:'H:i' }}">
+          <span id="startTimeError" style="color: red;"></span>
+      </div>
+  
+      <div class="sch">
+          <label for="end_time">End Time</label>
+          <input type="time" name="end_time" id="end_time" value="{{ a.end_time|time:'H:i' }}">
+          <span id="endTimeError" style="color: red;"></span>
+      </div>
+  
+      <div class="inp">
+          <b><input type="submit" value="UPDATE"></b>
+      </div>
+    </form>
+  </div>
+  
+  <script>
+      function validateForm() {
+          let isValid = true;
+  
+          let labName = document.getElementById("labName").value.trim();
+          let capacity = document.getElementById("capacity").value.trim();
+          let day = document.getElementById("day").value;
+          let startTime = document.getElementById("start_time").value;
+          let endTime = document.getElementById("end_time").value;
+  
+          let labNameError = document.getElementById("labNameError");
+          let capacityError = document.getElementById("capacityError");
+          let dayError = document.getElementById("dayError");
+          let startTimeError = document.getElementById("startTimeError");
+          let endTimeError = document.getElementById("endTimeError");
+  
+          // Reset error messages
+          labNameError.innerText = "";
+          capacityError.innerText = "";
+          dayError.innerText = "";
+          startTimeError.innerText = "";
+          endTimeError.innerText = "";
+  
+          // Validate Lab Name (should not be empty)
+          if (labName === "") {
+              labNameError.innerText = "Lab name cannot be empty.";
+              isValid = false;
+          }
+  
+          // Validate Capacity (should be a positive integer)
+          if (!/^\d+$/.test(capacity) || parseInt(capacity) <= 0) {
+              capacityError.innerText = "Capacity must be a positive number.";
+              isValid = false;
+          }
+  
+          // Validate Working Day
+          if (day === "") {
+              dayError.innerText = "Please select a working day.";
+              isValid = false;
+          }
+  
+          // Validate Start and End Time
+          if (startTime === "") {
+              startTimeError.innerText = "Start time cannot be empty.";
+              isValid = false;
+          }
+  
+          if (endTime === "") {
+              endTimeError.innerText = "End time cannot be empty.";
+              isValid = false;
+          }
+  
+          if (startTime && endTime && startTime >= endTime) {
+              endTimeError.innerText = "End time must be later than start time.";
+              isValid = false;
+          }
+  
+          return isValid;
+      }
+  </script>
+  
     {% endblock %}
 
     
